@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:QuickSideBarView="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.MainActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/layout_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            style="@style/GlobalToolbarStyle">
+
+            <android.support.constraint.ConstraintLayout
+                style="@style/ToolBarLayoutStyle">
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/tv_toolbar_title"
+                    style="@style/ToolBarLayoutTitleStyle"
+                    android:text="@string/app_name"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <android.support.v7.widget.AppCompatImageView
+                    android:id="@+id/iv_search"
+                    style="@style/ToolBarLayoutImageButtonStyle"
+                    android:src="@mipmap/ic_search"
+                    app:layout_constraintEnd_toStartOf="@+id/iv_setting"/>
+
+                <android.support.v7.widget.AppCompatImageView
+                    android:id="@+id/iv_setting"
+                    style="@style/ToolBarLayoutImageButtonStyle"
+                    android:src="@mipmap/ic_setting"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+            </android.support.constraint.ConstraintLayout>
+
+        </android.support.v7.widget.Toolbar>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_password_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/layout_title"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        app:backgroundTint="@color/colorPrimary"
+        app:rippleColor="@color/colorPrimary"
+        app:srcCompat="@mipmap/ic_add"/>
+
+    <com.lizl.demo.passwordbox.customview.quicksearchbar.QuickSlideBarView
+        android:id="@+id/qsb_slide"
+        android:layout_width="20dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/layout_title"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        QuickSideBarView:sidebarTextColor="@color/colorSecondaryTextColor"
+        QuickSideBarView:sidebarTextColorChoose="@color/colorPrimary"
+        QuickSideBarView:sidebarTextSize="@dimen/quick_search_bar_text_size"
+        QuickSideBarView:sidebarTextSizeChoose="@dimen/quick_search_bar_choose_text_size"/>
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/tv_select_letter"
+        android:layout_width="@dimen/quick_search_bar_select_letter_bg_size"
+        android:layout_height="@dimen/quick_search_bar_select_letter_bg_size"
+        android:layout_centerInParent="true"
+        android:background="@drawable/bg_slidebar_select_letter"
+        android:gravity="center"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/quick_search_bar_select_letter_text_size"
+        android:visibility="gone"/>
+
+</RelativeLayout>

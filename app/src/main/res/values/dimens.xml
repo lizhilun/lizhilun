@@ -1,0 +1,38 @@
+<resources>
+    <dimen name="fab_margin">24dp</dimen>
+
+    <dimen name="global_text_size">16sp</dimen>
+    <dimen name="global_text_size_smaller">13sp</dimen>
+    <dimen name="global_list_item_height">60dp</dimen>
+    <dimen name="global_button_height">50dp</dimen>
+    <dimen name="global_text_item_height">50dp</dimen>
+    <dimen name="global_divide_line_padding_edge">20dp</dimen>
+    <dimen name="global_content_padding_edge">25dp</dimen>
+    <dimen name="global_content_padding_content">20dp</dimen>
+    <dimen name="global_text_line_spacing">5dp</dimen>
+    <dimen name="global_divider_line_size">1dp</dimen>
+    <dimen name="global_frame_line_size">1px</dimen>
+    <dimen name="global_toolbar_height">56dp</dimen>
+
+    <dimen name="number_key_height">70dp</dimen>
+
+    <dimen name="dialog_button_height">60dp</dimen>
+    <dimen name="dialog_button_width">60dp</dimen>
+
+    <dimen name="input_text_edit_padding_edge">10dp</dimen>
+
+    <dimen name="setting_item_padding_edge">20dp</dimen>
+    <dimen name="dialog_title_text_size">20sp</dimen>
+
+    <dimen name="toolbar_icon_padding">16dp</dimen>
+    <dimen name="toolbar_back_icon_padding">18dp</dimen>
+    <dimen name="toolbar_title_text_size">20sp</dimen>
+    <dimen name="toolbar_text_button_height">32dp</dimen>
+    <dimen name="toolbar_text_button_width">60dp</dimen>
+    <dimen name="toolbar_text_button_text_size">14sp</dimen>
+
+    <dimen name="quick_search_bar_text_size">10sp</dimen>
+    <dimen name="quick_search_bar_choose_text_size">16sp</dimen>
+    <dimen name="quick_search_bar_select_letter_bg_size">64dp</dimen>
+    <dimen name="quick_search_bar_select_letter_text_size">30sp</dimen>
+</resources>

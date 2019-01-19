@@ -1,0 +1,68 @@
+<resources>
+    <string name="app_name">passwordBox</string>
+
+    <string name="search">搜索</string>
+    <string name="setting">设置</string>
+    <string name="save">保存</string>
+    <string name="skip">跳过</string>
+    <string name="exit">退出</string>
+    <string name="cancel">取消</string>
+    <string name="confirm">确认</string>
+
+    <string name="account_description">账号描述</string>
+    <string name="account">账号</string>
+    <string name="password">密码</string>
+    <string name="account_">账号：%s</string>
+    <string name="password_">密码：%s</string>
+    <string name="notify_success_to_copy">复制成功</string>
+
+    <string name="modify_account_info">修改账号信息</string>
+    <string name="delete_account_item">删除该账号</string>
+
+    <string name="add_account">添加账号</string>
+    <string name="notify_account_info_not_complete">账号信息不完整，请检查输入</string>
+
+    <string name="setting_fingerprint">指纹解锁</string>
+    <string name="setting_modify_lock_password">修改解锁密码</string>
+    <string name="setting_set_lock_password">设置解锁密码</string>
+    <string name="setting_backup_data">备份数据</string>
+    <string name="setting_restore_data">还原数据</string>
+    <string name="notify_backup_data">确认备份数据到文件？</string>
+
+    <string name="current_password">当前密码</string>
+    <string name="new_password">新的密码</string>
+    <string name="confirm_password">确认密码</string>
+    <string name="notify_wrong_cur_password">当前密码错误，请重新输入</string>
+
+    <string name="set_lock_password">设置解锁密码</string>
+    <string name="notify_password_not_same">两次密码不一样，请重新输入</string>
+
+    <string name="modify_lock_password">修改解锁密码</string>
+
+    <string name="hint_input_password">请输入密码</string>
+    <string name="hint_verify_fingerprint_or_input_password">请验证指纹或输入密码</string>
+    <string name="notify_verify_fingerprint_to_unlock">请验证已有手机指纹</string>
+    <string name="notify_fingerprint_authentication_failed">指纹识别错误，请重试</string>
+    <string name="notify_fingerprint_authentication_error">指纹识别失败</string>
+    <string name="notify_fingerprint_authentication_success">指纹识别通过</string>
+
+    <string name="hint_search_account">请输入关键字进行搜索</string>
+
+    <string name="notify_success_to_backup">数据备份成功</string>
+    <string name="notify_success_to_restore">数据还原成功</string>
+    <string name="notify_no_data_to_backup">没有数据需要备份</string>
+    <string name="notify_failed_to_get_permission">权限获取失败</string>
+    <string name="notify_permission_be_refused">权限获取被拒绝，请重新授权</string>
+
+    <string name="select_backup_file">选择备份文件</string>
+    <string name="import_backup_file_overlay">覆盖导入备份文件</string>
+    <string name="import_backup_file_merge">合并导入备份文件</string>
+    <string name="delete_backup_file">删除备份文件</string>
+    <string name="rename_backup_file">重命名备份文件</string>
+    <string name="hint_rename_backup_file">请输入新的文件名</string>
+    <string name="notify_restore_data_overlay">覆盖导入将清空原有数据，是否继续操作？</string>
+    <string name="notify_restore_data_merge">合并导入将会把描述和账号都相同的账号进行合并，是否继续操作？</string>
+    <string name="notify_delete_backup_file">是否删除该备份文件？</string>
+    <string name="input_encrypt_password">密码错误，输入备份数据时使用的密码</string>
+    <string name="hint_input_encrypt_password">请输入备份数据时使用的密码</string>
+</resources>

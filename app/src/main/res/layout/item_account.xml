@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/tv_first_letter"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/global_list_item_height"
+        android:layout_marginStart="@dimen/global_content_padding_edge"
+        android:gravity="center"
+        android:maxLines="1"
+        android:textColor="@color/colorPrimary"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/tv_description"
+        style="@style/GlobalTextStyle"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/global_list_item_height"
+        android:layout_marginStart="@dimen/global_content_padding_edge"
+        android:gravity="start|center_vertical"
+        android:maxLines="1"
+        app:layout_constraintEnd_toStartOf="@+id/tv_account"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@+id/tv_first_letter"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/tv_account"
+        style="@style/GlobalSecondaryTextStyle"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/global_list_item_height"
+        android:layout_marginEnd="@dimen/global_content_padding_edge"
+        android:layout_marginStart="@dimen/global_content_padding_content"
+        android:gravity="start|center_vertical"
+        android:maxLines="1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintHorizontal_weight="2"
+        app:layout_constraintStart_toEndOf="@+id/tv_description"
+        app:layout_constraintTop_toTopOf="@+id/tv_description"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/global_divider_line_size"
+        android:layout_marginEnd="@dimen/global_divide_line_padding_edge"
+        android:layout_marginStart="@dimen/global_divide_line_padding_edge"
+        android:background="@color/colorDivideLine"
+        app:layout_constraintTop_toBottomOf="@+id/tv_description"/>
+
+</android.support.constraint.ConstraintLayout>

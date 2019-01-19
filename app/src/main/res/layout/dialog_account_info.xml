@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_dialog"
+    android:padding="@dimen/global_content_padding_edge">
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/tv_description"
+        style="@style/GlobalTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="start|center_vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/tv_account"
+        style="@style/GlobalTextStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:gravity="start|center_vertical"
+        android:lineSpacingExtra="5dp"
+        app:layout_constraintEnd_toStartOf="@+id/iv_copy_account"
+        app:layout_constraintStart_toStartOf="@+id/tv_description"
+        app:layout_constraintTop_toTopOf="@+id/iv_copy_account"/>
+
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/iv_copy_account"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="@dimen/global_content_padding_content"
+        android:gravity="start|center_vertical"
+        android:src="@mipmap/ic_copy"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_description"/>
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/tv_password"
+        style="@style/GlobalTextStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/global_content_padding_content"
+        android:gravity="start|center_vertical"
+        android:lineSpacingExtra="5dp"
+        app:layout_constraintEnd_toEndOf="@+id/tv_account"
+        app:layout_constraintStart_toStartOf="@+id/tv_account"
+        app:layout_constraintTop_toBottomOf="@+id/tv_account"/>
+
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/iv_copy_password"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@mipmap/ic_copy"
+        app:layout_constraintEnd_toEndOf="@+id/iv_copy_account"
+        app:layout_constraintTop_toTopOf="@+id/tv_password"/>
+
+</android.support.constraint.ConstraintLayout>
