@@ -10,7 +10,7 @@
     <dimen name="global_content_padding_edge">25dp</dimen>
     <dimen name="global_content_padding_content">20dp</dimen>
     <dimen name="global_text_line_spacing">5dp</dimen>
-    <dimen name="global_divider_line_size">1dp</dimen>
+    <dimen name="global_divider_line_size">1px</dimen>
     <dimen name="global_frame_line_size">1px</dimen>
     <dimen name="global_toolbar_height">56dp</dimen>
 
@@ -24,6 +24,7 @@
     <dimen name="setting_item_padding_edge">20dp</dimen>
     <dimen name="dialog_title_text_size">20sp</dimen>
 
+    <dimen name="toolbar_content_padding_edge">16dp</dimen>
     <dimen name="toolbar_icon_padding">16dp</dimen>
     <dimen name="toolbar_back_icon_padding">18dp</dimen>
     <dimen name="toolbar_title_text_size">20sp</dimen>

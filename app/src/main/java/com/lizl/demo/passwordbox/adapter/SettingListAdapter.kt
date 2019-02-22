@@ -75,14 +75,14 @@ class SettingListAdapter(context: Context, private val settingList: List<Setting
     {
         fun bindBooleanViewHolder(settingItem: SettingBooleanItem)
         {
-            val isChecked = UiApplication.getInstance().getConfigHelper().getBoolean(settingItem.settingKey!!, settingItem.checked)
+            val isChecked = UiApplication.instance.getConfigHelper().getBoolean(settingItem.settingKey!!, settingItem.checked)
             itemView.tv_boolean_setting_name.text = settingItem.settingName
             itemView.iv_boolean_setting_checked.isSelected = isChecked
 
             itemView.iv_boolean_setting_checked.setOnClickListener {
                 if (settingItem.needSave)
                 {
-                    UiApplication.getInstance().getConfigHelper().putBoolean(settingItem.settingKey!!, !isChecked)
+                    UiApplication.instance.getConfigHelper().putBoolean(settingItem.settingKey!!, !isChecked)
                     notifyDataSetChanged()
                 }
                 settingItem.settingItemCallBack?.onSettingItemCallBack(!isChecked)

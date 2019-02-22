@@ -8,42 +8,29 @@
     android:layout_height="match_parent"
     tools:context=".activity.MainActivity">
 
-    <android.support.design.widget.AppBarLayout
+    <android.support.constraint.ConstraintLayout
         android:id="@+id/layout_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        style="@style/ToolbarLayoutStyle"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            style="@style/GlobalToolbarStyle">
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/tv_toolbar_title"
+            style="@style/ToolbarLayoutTitleStyle"
+            android:text="@string/app_name"
+            app:layout_constraintStart_toStartOf="parent"/>
 
-            <android.support.constraint.ConstraintLayout
-                style="@style/ToolBarLayoutStyle">
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/iv_search"
+            style="@style/ToolbarLayoutImageButtonStyle"
+            android:src="@mipmap/ic_search"
+            app:layout_constraintEnd_toStartOf="@+id/iv_setting"/>
 
-                <android.support.v7.widget.AppCompatTextView
-                    android:id="@+id/tv_toolbar_title"
-                    style="@style/ToolBarLayoutTitleStyle"
-                    android:text="@string/app_name"
-                    app:layout_constraintStart_toStartOf="parent"/>
-
-                <android.support.v7.widget.AppCompatImageView
-                    android:id="@+id/iv_search"
-                    style="@style/ToolBarLayoutImageButtonStyle"
-                    android:src="@mipmap/ic_search"
-                    app:layout_constraintEnd_toStartOf="@+id/iv_setting"/>
-
-                <android.support.v7.widget.AppCompatImageView
-                    android:id="@+id/iv_setting"
-                    style="@style/ToolBarLayoutImageButtonStyle"
-                    android:src="@mipmap/ic_setting"
-                    app:layout_constraintEnd_toEndOf="parent"/>
-            </android.support.constraint.ConstraintLayout>
-
-        </android.support.v7.widget.Toolbar>
-
-    </android.support.design.widget.AppBarLayout>
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/iv_setting"
+            style="@style/ToolbarLayoutImageButtonStyle"
+            android:src="@mipmap/ic_setting"
+            app:layout_constraintEnd_toEndOf="parent"/>
+    </android.support.constraint.ConstraintLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_password_list"

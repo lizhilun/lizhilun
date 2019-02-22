@@ -37,7 +37,7 @@ class LockFragment : BaseFragment(), DialogFingerprint.FingerprintUnlockCallBack
     {
         super.onResume()
 
-        if (UiApplication.getInstance().getAppConfig().isAppFingerprintSupport() && UiApplication.getInstance().getAppConfig().isFingerPrintLockOn())
+        if (UiApplication.instance.getAppConfig().isAppFingerprintSupport() && UiApplication.instance.getAppConfig().isFingerPrintLockOn())
         {
             tv_hint.text = getString(R.string.hint_verify_fingerprint_or_input_password)
 
@@ -99,7 +99,7 @@ class LockFragment : BaseFragment(), DialogFingerprint.FingerprintUnlockCallBack
 
         tv_number.text = numberStr
 
-        if (inputPassword == UiApplication.getInstance().getAppConfig().getAppLockPassword())
+        if (inputPassword == UiApplication.instance.getAppConfig().getAppLockPassword())
         {
             onUnlockSuccess()
         }

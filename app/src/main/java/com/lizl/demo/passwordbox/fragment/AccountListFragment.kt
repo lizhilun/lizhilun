@@ -4,7 +4,6 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import com.lizl.demo.passwordbox.R
-import com.lizl.demo.passwordbox.activity.MainActivity
 import com.lizl.demo.passwordbox.adapter.AccountListAdapter
 import com.lizl.demo.passwordbox.customview.ScrollTopLayoutManager
 import com.lizl.demo.passwordbox.customview.dialog.DialogAccountInfo
@@ -32,8 +31,6 @@ class AccountListFragment : BaseFragment(), AccountListAdapter.OnItemClickListen
 
     override fun initView()
     {
-        (activity as MainActivity).setSupportActionBar(toolbar)
-
         fab_add.setOnClickListener { turnToFragment(AddAccountFragment()) }
         iv_search.setOnClickListener { onSearchButtonClick() }
         iv_setting.setOnClickListener { onSettingButtonClick() }
@@ -76,8 +73,6 @@ class AccountListFragment : BaseFragment(), AccountListAdapter.OnItemClickListen
         {
             override fun onOperationExecute()
             {
-                dialogOperationList?.dismiss()
-
                 val bundle = Bundle()
                 bundle.putParcelable(Constant.BUNDLE_DATA, accountModel)
                 turnToFragment(AddAccountFragment(), bundle)
@@ -89,8 +84,6 @@ class AccountListFragment : BaseFragment(), AccountListAdapter.OnItemClickListen
         {
             override fun onOperationExecute()
             {
-                dialogOperationList?.dismiss()
-
                 DataUtil.getInstance().deleteData(activity, accountModel)
                 getData()
             }

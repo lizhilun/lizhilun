@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity()
         setContentView(R.layout.activity_main)
 
         // Activity走onCreate()将上次应用停止时间置为0，保证onResume()会走是否显示锁定界面流程
-        UiApplication.getInstance().getAppConfig().setAppLastStopTime(0)
+        UiApplication.instance.getAppConfig().setAppLastStopTime(0)
     }
 
     override fun onResume()
@@ -31,10 +31,10 @@ class MainActivity : AppCompatActivity()
         super.onResume()
 
         // 应用超时并且密码保护打开的情况
-        if (System.currentTimeMillis() - UiApplication.getInstance().getAppConfig().getAppLastStopTime() >= ConfigConstant.APP_TIMEOUT_PERIOD && UiApplication.getInstance().getAppConfig().isAppLockPasswordOn())
+        if (System.currentTimeMillis() - UiApplication.instance.getAppConfig().getAppLastStopTime() >= ConfigConstant.APP_TIMEOUT_PERIOD && UiApplication.instance.getAppConfig().isAppLockPasswordOn())
         {
             // 密码为空的情况进入密码设置界面
-            if (TextUtils.isEmpty(UiApplication.getInstance().getAppConfig().getAppLockPassword()))
+            if (TextUtils.isEmpty(UiApplication.instance.getAppConfig().getAppLockPassword()))
             {
                 val bundle = Bundle()
                 bundle.putInt(Constant.BUNDLE_DATA, Constant.LOCK_PASSWORD_FRAGMENT_TYPE_FIRST_SET_PASSWORD)
@@ -57,7 +57,7 @@ class MainActivity : AppCompatActivity()
     {
         super.onStop()
 
-        UiApplication.getInstance().getAppConfig().setAppLastStopTime(System.currentTimeMillis())
+        UiApplication.instance.getAppConfig().setAppLastStopTime(System.currentTimeMillis())
     }
 
     /**

@@ -4,6 +4,7 @@ import android.content.Context
 import android.text.TextUtils
 import com.lizl.demo.passwordbox.db.DbManager
 import com.lizl.demo.passwordbox.model.AccountModel
+import java.util.regex.Pattern
 
 class DataUtil private constructor()
 {
@@ -11,7 +12,7 @@ class DataUtil private constructor()
 
     init
     {
-        queryAll(UiApplication.getInstance())
+        queryAll(UiApplication.instance)
     }
 
     private object Holder
@@ -133,16 +134,26 @@ class DataUtil private constructor()
      */
     fun searchByKeyword(keyWord: String): List<AccountModel>
     {
+        if (TextUtils.isEmpty(keyWord))
+        {
+            return emptyList()
+        }
+
         val resultList = mutableListOf<AccountModel>()
 
-        if (!TextUtils.isEmpty(keyWord))
+        val regStr = StringBuilder()
+        regStr.append(".*")
+        for (str in keyWord.toCharArray())
         {
-            for (accountModel in accountList)
+            regStr.append(str).append(".*")
+        }
+        val pattern = Pattern.compile(regStr.toString(), Pattern.CASE_INSENSITIVE)
+
+        for (accountModel in accountList)
+        {
+            if (pattern.matcher(accountModel.description).matches() || pattern.matcher(accountModel.account).matches() || pattern.matcher(accountModel.desPinyin).matches())
             {
-                if (accountModel.description.contains(keyWord) || accountModel.account.contains(keyWord) || accountModel.desPinyin.contains(keyWord))
-                {
-                    resultList.add(accountModel)
-                }
+                resultList.add(accountModel)
             }
         }
 

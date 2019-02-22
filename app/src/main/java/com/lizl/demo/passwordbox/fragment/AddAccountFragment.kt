@@ -2,7 +2,6 @@ package com.lizl.demo.passwordbox.fragment
 
 import android.text.TextUtils
 import com.lizl.demo.passwordbox.R
-import com.lizl.demo.passwordbox.activity.MainActivity
 import com.lizl.demo.passwordbox.model.AccountModel
 import com.lizl.demo.passwordbox.util.Constant
 import com.lizl.demo.passwordbox.util.DataUtil
@@ -24,8 +23,6 @@ class AddAccountFragment : BaseFragment()
 
     override fun initView()
     {
-        (activity as MainActivity).setSupportActionBar(toolbar)
-
         btn_confirm.setOnClickListener { onConfirmButtonClick() }
 
         accountModel = arguments?.getParcelable(Constant.BUNDLE_DATA)

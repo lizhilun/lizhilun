@@ -4,7 +4,9 @@ import android.content.Context
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.text.Editable
+import android.text.InputFilter
 import android.text.TextWatcher
+import android.view.KeyEvent
 import android.view.MenuItem
 import android.view.View
 import com.lizl.demo.passwordbox.R
@@ -15,6 +17,7 @@ import com.lizl.demo.passwordbox.model.AccountModel
 import com.lizl.demo.passwordbox.model.OperationItem
 import com.lizl.demo.passwordbox.util.Constant
 import com.lizl.demo.passwordbox.util.DataUtil
+import com.lizl.demo.passwordbox.util.UiUtil
 import kotlinx.android.synthetic.main.fragment_search.*
 
 /**
@@ -42,19 +45,16 @@ class SearchFragment : BaseFragment(), AccountListAdapter.OnItemClickListener
 
         iv_cancel.visibility = View.GONE
 
+        et_search.requestFocus()
+        UiUtil.showSoftKeyboard()
+        et_search.filters = arrayOf(InputFilter.LengthFilter(20), UiUtil.getNoWrapOrSpaceFilter())
+
         et_search.addTextChangedListener(object : TextWatcher
         {
             override fun afterTextChanged(s: Editable?)
             {
                 getSearchResult(s.toString())
-                if (s.toString().isNotEmpty())
-                {
-                    iv_cancel.visibility = View.VISIBLE
-                }
-                else
-                {
-                    iv_cancel.visibility = View.GONE
-                }
+                iv_cancel.visibility = if (s.toString().isNotEmpty()) View.VISIBLE else View.GONE
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int)
@@ -67,6 +67,18 @@ class SearchFragment : BaseFragment(), AccountListAdapter.OnItemClickListener
                 //do nothing
             }
         })
+
+        et_search.setOnKeyListener { v, keyCode, event ->
+            if (keyCode == KeyEvent.KEYCODE_ENTER)
+            {
+                if (event.action == KeyEvent.ACTION_DOWN)
+                {
+                    UiUtil.hideSoftKeyboard(et_search)
+                }
+                true
+            }
+            false
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean
@@ -104,8 +116,6 @@ class SearchFragment : BaseFragment(), AccountListAdapter.OnItemClickListener
         {
             override fun onOperationExecute()
             {
-                dialogOperationList?.dismiss()
-
                 val bundle = Bundle()
                 bundle.putParcelable(Constant.BUNDLE_DATA, accountModel)
                 turnToFragment(AddAccountFragment(), bundle)
@@ -116,8 +126,6 @@ class SearchFragment : BaseFragment(), AccountListAdapter.OnItemClickListener
         {
             override fun onOperationExecute()
             {
-                dialogOperationList?.dismiss()
-
                 DataUtil.getInstance().deleteData(activity, accountModel)
 
                 allAccountList = DataUtil.getInstance().queryAll(activity)!!
@@ -136,6 +144,13 @@ class SearchFragment : BaseFragment(), AccountListAdapter.OnItemClickListener
 
         dialogAccountInfo?.dismiss()
         dialogOperationList?.dismiss()
+    }
+
+    override fun onStop()
+    {
+        super.onStop()
+
+        UiUtil.hideInputKeyboard(et_search)
     }
 
     private fun onBackButtonClick()

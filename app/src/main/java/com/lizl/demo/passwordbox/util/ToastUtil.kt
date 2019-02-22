@@ -15,7 +15,7 @@ class ToastUtil
     {
         fun showToast(textResId: Int)
         {
-            val toastText = UiApplication.getInstance().getString(textResId)
+            val toastText = UiApplication.instance.getString(textResId)
             showToast(toastText)
         }
 
@@ -27,7 +27,7 @@ class ToastUtil
             }
 
             GlobalScope.launch(Dispatchers.Main) {
-                Toast.makeText(UiApplication.getInstance(), toastText, Toast.LENGTH_SHORT).show()
+                Toast.makeText(UiApplication.instance, toastText, Toast.LENGTH_SHORT).show()
             }
         }
 

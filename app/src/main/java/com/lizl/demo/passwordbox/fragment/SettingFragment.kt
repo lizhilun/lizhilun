@@ -11,7 +11,6 @@ import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
 import com.lizl.demo.passwordbox.R
-import com.lizl.demo.passwordbox.activity.MainActivity
 import com.lizl.demo.passwordbox.adapter.SettingListAdapter
 import com.lizl.demo.passwordbox.config.ConfigConstant
 import com.lizl.demo.passwordbox.customview.dialog.DialogOperationConfirm
@@ -38,8 +37,6 @@ class SettingFragment : BaseFragment()
 
     override fun initView()
     {
-        (activity as MainActivity).setSupportActionBar(toolbar)
-
         val settingAdapter = SettingListAdapter(activity as Context, getSettingData())
         rv_setting_list.layoutManager = LinearLayoutManager(activity)
         rv_setting_list.addItemDecoration(DividerItemDecoration(activity as Context, DividerItemDecoration.VERTICAL))
@@ -55,10 +52,10 @@ class SettingFragment : BaseFragment()
         settingList.add(SettingDivideItem())
 
         // 密码保护是否可用（密码保护为开且密码非空）
-        val isAppLockPasswordOn = UiApplication.getInstance().getAppConfig().isAppLockPasswordOn() && !TextUtils.isEmpty(UiApplication.getInstance().getAppConfig().getAppLockPassword())
+        val isAppLockPasswordOn = UiApplication.instance.getAppConfig().isAppLockPasswordOn() && !TextUtils.isEmpty(UiApplication.instance.getAppConfig().getAppLockPassword())
 
         // 支持指纹识别的情况显示指纹解锁设置
-        if (UiApplication.getInstance().getAppConfig().isAppFingerprintSupport())
+        if (UiApplication.instance.getAppConfig().isAppFingerprintSupport())
         {
             settingList.add(
                     SettingBooleanItem(getString(R.string.setting_fingerprint), ConfigConstant.IS_FINGERPRINT_LOCK_ON, ConfigConstant.DEFAULT_IS_FINGERPRINT_LOCK_ON, isAppLockPasswordOn, object : SettingBaseItem.SettingItemCallBack
@@ -174,7 +171,7 @@ class SettingFragment : BaseFragment()
     private fun checkReadStoragePermission(): Boolean
     {
         // 权限以获取直接返回
-        if (ContextCompat.checkSelfPermission(UiApplication.getInstance(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
+        if (ContextCompat.checkSelfPermission(UiApplication.instance, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
         {
             return true
         }

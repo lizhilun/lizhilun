@@ -33,12 +33,12 @@ class BackupUtil
                 var dataString = ""
                 val formatter = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault())
                 val backupFileName = formatter.format(System.currentTimeMillis()) + fileSuffixName
-                val accountList = DataUtil.getInstance().queryAll(UiApplication.getInstance())
+                val accountList = DataUtil.getInstance().queryAll(UiApplication.instance)
                 for (accountModel in accountList!!)
                 {
                     dataString += accountModel.description + infoSeparator + accountModel.account + infoSeparator + accountModel.password + "\r\n"
                 }
-                val encryptData = EncryptUtil.encrypt(dataString, UiApplication.getInstance().getAppConfig().getAppLockPassword())
+                val encryptData = EncryptUtil.encrypt(dataString, UiApplication.instance.getAppConfig().getAppLockPassword())
                 FileUtil.writeTxtFile(encryptData, "$backupFilePath/$backupFileName")
 
                 GlobalScope.launch(Dispatchers.Main) {
@@ -64,7 +64,7 @@ class BackupUtil
                 // 如果传入的密码为空，则使用当前App保护密码进行数据解密
                 val readResult: String? = if (TextUtils.isEmpty(password))
                 {
-                    EncryptUtil.decrypt(FileUtil.readTxtFile(filePath), UiApplication.getInstance().getAppConfig().getAppLockPassword())
+                    EncryptUtil.decrypt(FileUtil.readTxtFile(filePath), UiApplication.instance.getAppConfig().getAppLockPassword())
                 }
                 else
                 {
@@ -82,7 +82,7 @@ class BackupUtil
                 // 清空之前的数据
                 if (clearAllData)
                 {
-                    DataUtil.getInstance().deleteAllData(UiApplication.getInstance())
+                    DataUtil.getInstance().deleteAllData(UiApplication.instance)
                 }
 
                 val accountItemList = readResult.split("\r\n")
@@ -102,7 +102,7 @@ class BackupUtil
                     accountModel.account = accountInfo[1]
                     accountModel.password = accountInfo[2]
                     accountModel.desPinyin = PinyinUtil.getPinyin(accountInfo[0])
-                    DataUtil.getInstance().saveData(UiApplication.getInstance(), accountModel)
+                    DataUtil.getInstance().saveData(UiApplication.instance, accountModel)
                 }
 
                 GlobalScope.launch(Dispatchers.Main){

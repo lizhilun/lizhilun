@@ -7,32 +7,22 @@
     android:layout_height="match_parent"
     tools:context=".activity.MainActivity">
 
-    <android.support.design.widget.AppBarLayout
+    <android.support.constraint.ConstraintLayout
         android:id="@+id/layout_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        style="@style/ToolbarLayoutStyle"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            style="@style/GlobalToolbarStyle">
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/iv_back"
+            style="@style/ToolbarLayoutBackIconStyle"
+            app:layout_constraintStart_toStartOf="parent"/>
 
-            <android.support.constraint.ConstraintLayout
-                style="@style/ToolBarLayoutStyle">
-
-                <android.support.v7.widget.AppCompatImageView
-                    android:id="@+id/iv_back"
-                    style="@style/ToolBarLayoutBackIconStyle"
-                    app:layout_constraintStart_toStartOf="parent"/>
-
-                <android.support.v7.widget.AppCompatTextView
-                    android:id="@+id/tv_toolbar_title"
-                    style="@style/ToolBarLayoutTitleStyle"
-                    android:text="@string/select_backup_file"
-                    app:layout_constraintStart_toEndOf="@+id/iv_back"/>
-            </android.support.constraint.ConstraintLayout>
-        </android.support.v7.widget.Toolbar>
-    </android.support.design.widget.AppBarLayout>
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/tv_toolbar_title"
+            style="@style/ToolbarLayoutTitleStyle"
+            android:text="@string/select_backup_file"
+            app:layout_constraintStart_toEndOf="@+id/iv_back"/>
+    </android.support.constraint.ConstraintLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_file_list"

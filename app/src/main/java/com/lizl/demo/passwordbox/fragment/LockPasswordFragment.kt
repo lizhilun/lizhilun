@@ -3,7 +3,6 @@ package com.lizl.demo.passwordbox.fragment
 import android.text.TextUtils
 import android.view.View
 import com.lizl.demo.passwordbox.R
-import com.lizl.demo.passwordbox.activity.MainActivity
 import com.lizl.demo.passwordbox.util.Constant
 import com.lizl.demo.passwordbox.util.ToastUtil
 import com.lizl.demo.passwordbox.util.UiApplication
@@ -27,9 +26,6 @@ class LockPasswordFragment : BaseFragment()
 
     override fun initView()
     {
-        (activity as MainActivity).setSupportActionBar(toolbar)
-        setHasOptionsMenu(true)
-
         fragmentType = arguments?.getInt(Constant.BUNDLE_DATA)
 
         isNeedCurPassword = (fragmentType == Constant.LOCK_PASSWORD_FRAGMENT_TYPE_MODIFY_PASSWORD)
@@ -67,7 +63,7 @@ class LockPasswordFragment : BaseFragment()
         val newPassword = et_new_password.text.toString()
         val confirmPassword = et_confirm_password.text.toString()
 
-        if (isNeedCurPassword && curPassword != UiApplication.getInstance().getAppConfig().getAppLockPassword())
+        if (isNeedCurPassword && curPassword != UiApplication.instance.getAppConfig().getAppLockPassword())
         {
             ToastUtil.showToast(R.string.notify_wrong_cur_password)
             return
@@ -79,15 +75,15 @@ class LockPasswordFragment : BaseFragment()
             return
         }
 
-        UiApplication.getInstance().getAppConfig().setAppLockPasswordOn(true)
-        UiApplication.getInstance().getAppConfig().setAppLockPassword(newPassword)
+        UiApplication.instance.getAppConfig().setAppLockPasswordOn(true)
+        UiApplication.instance.getAppConfig().setAppLockPassword(newPassword)
 
         backToPreFragment()
     }
 
     private fun onSkipButtonClick()
     {
-        UiApplication.getInstance().getAppConfig().setAppLockPasswordOn(false)
+        UiApplication.instance.getAppConfig().setAppLockPasswordOn(false)
         turnToFragment(AccountListFragment())
     }
 

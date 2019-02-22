@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
+<android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -7,38 +7,28 @@
     android:layout_height="match_parent"
     tools:context=".activity.MainActivity">
 
-    <android.support.design.widget.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/layout_title"
+        style="@style/ToolbarLayoutStyle"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            style="@style/GlobalToolbarStyle">
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/iv_back"
+            style="@style/ToolbarLayoutBackIconStyle"
+            app:layout_constraintStart_toStartOf="parent"/>
 
-            <android.support.constraint.ConstraintLayout
-                style="@style/ToolBarLayoutStyle">
-
-                <android.support.v7.widget.AppCompatImageView
-                    android:id="@+id/iv_back"
-                    style="@style/ToolBarLayoutBackIconStyle"
-                    app:layout_constraintStart_toStartOf="parent"/>
-
-                <android.support.v7.widget.AppCompatTextView
-                    android:id="@+id/tv_toolbar_title"
-                    style="@style/ToolBarLayoutTitleStyle"
-                    android:text="@string/setting"
-                    app:layout_constraintStart_toEndOf="@+id/iv_back"/>
-            </android.support.constraint.ConstraintLayout>
-        </android.support.v7.widget.Toolbar>
-    </android.support.design.widget.AppBarLayout>
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/tv_toolbar_title"
+            style="@style/ToolbarLayoutTitleStyle"
+            android:text="@string/setting"
+            app:layout_constraintStart_toEndOf="@+id/iv_back"/>
+    </android.support.constraint.ConstraintLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_setting_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@+id/layout_title"/>
 
-</android.support.design.widget.CoordinatorLayout>
+</android.support.constraint.ConstraintLayout>

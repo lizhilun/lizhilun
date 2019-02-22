@@ -3,7 +3,6 @@ package com.lizl.demo.passwordbox.fragment
 import android.content.Context
 import android.support.v7.widget.LinearLayoutManager
 import com.lizl.demo.passwordbox.R
-import com.lizl.demo.passwordbox.activity.MainActivity
 import com.lizl.demo.passwordbox.adapter.BackupFileListAdapter
 import com.lizl.demo.passwordbox.customview.dialog.DialogInput
 import com.lizl.demo.passwordbox.customview.dialog.DialogOperationConfirm
@@ -32,8 +31,6 @@ class BackupFileListFragment : BaseFragment(), BackupFileListAdapter.OnBackFileI
 
     override fun initView()
     {
-        (activity as MainActivity).setSupportActionBar(toolbar)
-
         iv_back.setOnClickListener { onBackButtonClick() }
     }
 
@@ -65,8 +62,6 @@ class BackupFileListFragment : BaseFragment(), BackupFileListAdapter.OnBackFileI
         {
             override fun onOperationExecute()
             {
-                dialogOperationList?.dismiss()
-
                 dialogOperationConfirm = DialogOperationConfirm(activity as Context, getString(R.string.import_backup_file_overlay), getString(R.string.notify_restore_data_overlay), object : DialogOperationConfirm.OperationConfirmCallback
                 {
                     override fun onOperationConfirmed()
@@ -83,10 +78,6 @@ class BackupFileListFragment : BaseFragment(), BackupFileListAdapter.OnBackFileI
         {
             override fun onOperationExecute()
             {
-                dialogOperationList?.dismiss()
-
-                dialogOperationList?.dismiss()
-
                 dialogOperationConfirm = DialogOperationConfirm(activity as Context, getString(R.string.import_backup_file_merge), getString(R.string.notify_restore_data_merge), object : DialogOperationConfirm.OperationConfirmCallback
                 {
                     override fun onOperationConfirmed()
@@ -103,8 +94,6 @@ class BackupFileListFragment : BaseFragment(), BackupFileListAdapter.OnBackFileI
         {
             override fun onOperationExecute()
             {
-                dialogOperationList?.dismiss()
-
                 dialogOperationConfirm = DialogOperationConfirm(activity as Context, getString(R.string.delete_backup_file), getString(R.string.notify_delete_backup_file), object : DialogOperationConfirm.OperationConfirmCallback
                 {
                     override fun onOperationConfirmed()
@@ -124,8 +113,6 @@ class BackupFileListFragment : BaseFragment(), BackupFileListAdapter.OnBackFileI
         {
             override fun onOperationExecute()
             {
-                dialogOperationList?.dismiss()
-
                 dialogInput = DialogInput(activity as Context, getString(R.string.rename_backup_file), getString(R.string.hint_rename_backup_file), object : DialogInput.InputCompletedCallback
                 {
                     override fun onInputCompleted(inputValue: String)

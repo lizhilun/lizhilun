@@ -1,7 +1,9 @@
 package com.lizl.demo.passwordbox.util
 
 import android.app.Application
+import android.content.Context
 import android.support.v4.hardware.fingerprint.FingerprintManagerCompat
+import android.view.inputmethod.InputMethodManager
 import com.lizl.demo.passwordbox.config.AppConfig
 import com.lizl.demo.passwordbox.config.ConfigHelper
 import com.lizl.demo.passwordbox.fragment.BaseFragment
@@ -12,13 +14,13 @@ class UiApplication : Application()
 {
     val TAG = javaClass.simpleName
 
+    private var appConfig: AppConfig? = null
+    private var configHelper: ConfigHelper? = null
+
     init
     {
         instance = this
     }
-
-    private var appConfig: AppConfig? = null
-    private var configHelper: ConfigHelper? = null
 
     override fun onCreate()
     {
@@ -42,7 +44,7 @@ class UiApplication : Application()
 
         try
         {
-            val mFingerprintManager = FingerprintManagerCompat.from(getInstance())
+            val mFingerprintManager = FingerprintManagerCompat.from(instance)
             if (mFingerprintManager.isHardwareDetected)
             {
                 getAppConfig().setAppFingerprintStatus(Constant.APP_FINGERPRINT_STATUS_SUPPORT)
@@ -60,17 +62,9 @@ class UiApplication : Application()
 
     companion object
     {
-        private var instance: UiApplication? = null
+        lateinit var instance: UiApplication
+        val inputMethodManager: InputMethodManager by lazy { instance.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager }
         private val mFragmentStack = Stack<WeakReference<BaseFragment>>()
-
-        fun getInstance(): UiApplication
-        {
-            if (instance == null)
-            {
-                instance = UiApplication()
-            }
-            return instance as UiApplication
-        }
 
         /**
          * 判断Fragment是否在栈中
@@ -140,7 +134,7 @@ class UiApplication : Application()
     {
         if (configHelper == null)
         {
-            configHelper = ConfigHelper.getDefaultConfigHelper(getInstance())
+            configHelper = ConfigHelper.getDefaultConfigHelper(instance)
         }
         return configHelper as ConfigHelper
     }

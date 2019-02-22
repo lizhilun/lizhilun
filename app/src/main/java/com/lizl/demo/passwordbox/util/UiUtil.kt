@@ -5,6 +5,7 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.text.InputFilter
 import android.view.View
 import android.view.ViewTreeObserver
 import android.view.inputmethod.InputMethodManager
@@ -19,6 +20,8 @@ class UiUtil
 {
     companion object
     {
+        private var noWrapOrSpaceFilter: InputFilter? = null
+
         /**
          * 复制内容到剪切板
          */
@@ -51,7 +54,7 @@ class UiUtil
          */
         fun hideInputKeyboard(view: View)
         {
-            val manager = UiApplication.getInstance().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            val manager = UiApplication.instance.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             if (manager.isActive)
             {
                 manager.hideSoftInputFromWindow(view.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
@@ -66,7 +69,7 @@ class UiUtil
             val intent = Intent(Intent.ACTION_MAIN)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
             intent.addCategory(Intent.CATEGORY_HOME)
-            UiApplication.getInstance().startActivity(intent)
+            UiApplication.instance.startActivity(intent)
         }
 
         /**
@@ -77,8 +80,8 @@ class UiUtil
             val intent = Intent()
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             intent.action = "android.settings.APPLICATION_DETAILS_SETTINGS"
-            intent.data = Uri.fromParts("package", UiApplication.getInstance().packageName, null)
-            UiApplication.getInstance().startActivity(intent)
+            intent.data = Uri.fromParts("package", UiApplication.instance.packageName, null)
+            UiApplication.instance.startActivity(intent)
         }
 
         /**
@@ -147,6 +150,46 @@ class UiUtil
                 sb.deleteCharAt(sb.length - 1)
             }
             return sb.toString()
+        }
+
+        /**
+         * 获取限制空格和换行的inputFilter
+         */
+        fun getNoWrapOrSpaceFilter(): InputFilter
+        {
+            if (noWrapOrSpaceFilter == null)
+            {
+                noWrapOrSpaceFilter = InputFilter { source, start, end, dest, dstart, dend ->
+                    if (source == " " || source.toString().contentEquals("\n"))
+                    {
+                        ""
+                    }
+                    else
+                    {
+                        null
+                    }
+                }
+            }
+            return noWrapOrSpaceFilter!!
+        }
+
+        /**
+         *  显示键盘
+         */
+        fun showSoftKeyboard()
+        {
+            UiApplication.inputMethodManager.toggleSoftInput(InputMethodManager.RESULT_UNCHANGED_SHOWN, 0);
+        }
+
+        /**
+         *  隐藏键盘
+         */
+        fun hideSoftKeyboard(view: View)
+        {
+            if (UiApplication.inputMethodManager.isActive)
+            {
+                UiApplication.inputMethodManager.hideSoftInputFromWindow(view.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
+            }
         }
     }
 }

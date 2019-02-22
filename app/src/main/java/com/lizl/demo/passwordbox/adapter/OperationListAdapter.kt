@@ -13,6 +13,8 @@ class OperationListAdapter(context: Context, private var operationList: List<Ope
 {
     private var layoutInflater: LayoutInflater? = null
 
+    private var onOperationItemClickListener: OnOperationItemClickListener? = null
+
     init
     {
         layoutInflater = LayoutInflater.from(context)
@@ -36,7 +38,20 @@ class OperationListAdapter(context: Context, private var operationList: List<Ope
         {
             itemView.tv_operation_name.text = operationItem.operationName
 
-            itemView.setOnClickListener { operationItem.operationItemCallBack.onOperationExecute() }
+            itemView.setOnClickListener {
+                onOperationItemClickListener?.onOperationItemClick()
+                operationItem.operationItemCallBack.onOperationExecute()
+            }
         }
+    }
+
+    interface OnOperationItemClickListener
+    {
+        fun onOperationItemClick()
+    }
+
+    fun setOnOperationItemClickListener(onOperationItemClickListener: OnOperationItemClickListener)
+    {
+        this.onOperationItemClickListener = onOperationItemClickListener
     }
 }

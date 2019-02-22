@@ -9,7 +9,7 @@ class AppConfig
 
     init
     {
-        configHelper = UiApplication.getInstance().getConfigHelper()
+        configHelper = UiApplication.instance.getConfigHelper()
     }
 
     companion object

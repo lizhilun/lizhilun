@@ -24,5 +24,13 @@ class DialogOperationList(context: Context, private var operationList: List<Oper
         rv_operation_list.layoutManager = LinearLayoutManager(context)
         rv_operation_list.addItemDecoration(ListDividerItemDecoration(context))
         rv_operation_list.adapter = operationListAdapter
+
+        operationListAdapter.setOnOperationItemClickListener(object : OperationListAdapter.OnOperationItemClickListener
+        {
+            override fun onOperationItemClick()
+            {
+                dismiss()
+            }
+        })
     }
 }
