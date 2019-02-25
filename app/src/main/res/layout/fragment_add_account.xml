@@ -22,116 +22,30 @@
             app:layout_constraintStart_toEndOf="@+id/iv_back"/>
     </android.support.constraint.ConstraintLayout>
 
-    <View
-        android:id="@+id/h_divider_line1"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/global_frame_line_size"
-        android:layout_marginEnd="@dimen/input_text_edit_padding_edge"
-        android:layout_marginStart="@dimen/input_text_edit_padding_edge"
+    <com.lizl.demo.passwordbox.customview.EditTextWithDecText
+        android:id="@+id/et_account_description"
+        style="@style/EditTextWithDecTextStyle"
         android:layout_marginTop="@dimen/input_text_edit_padding_edge"
-        android:background="@color/colorDivideLine"
+        app:decText="@string/account_description"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/layout_title"/>
 
-    <android.support.v7.widget.AppCompatTextView
-        android:id="@+id/tv_description"
-        style="@style/TextViewWithEditText"
-        android:text="@string/account_description"
-        app:layout_constraintStart_toStartOf="@+id/h_divider_line1"
-        app:layout_constraintTop_toBottomOf="@+id/h_divider_line1"
-        />
-
-    <android.support.v7.widget.AppCompatEditText
-        android:id="@+id/et_description"
-        style="@style/EditTextWithTextView"
-        android:inputType="text"
-        app:layout_constraintEnd_toEndOf="@+id/h_divider_line1"
-        app:layout_constraintStart_toEndOf="@+id/tv_description"
-        app:layout_constraintTop_toTopOf="@+id/tv_description"/>
-
-    <View
-        android:id="@+id/h_divider_line2"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/global_frame_line_size"
-        android:background="@color/colorDivideLine"
-        app:layout_constraintEnd_toEndOf="@+id/h_divider_line1"
-        app:layout_constraintStart_toStartOf="@+id/h_divider_line1"
-        app:layout_constraintTop_toBottomOf="@+id/tv_description"/>
-
-    <android.support.v7.widget.AppCompatTextView
-        android:id="@+id/tv_account"
-        style="@style/TextViewWithEditText"
-        android:text="@string/account"
-        app:layout_constraintStart_toStartOf="@+id/tv_description"
-        app:layout_constraintTop_toBottomOf="@+id/tv_description"/>
-
-    <android.support.v7.widget.AppCompatEditText
+    <com.lizl.demo.passwordbox.customview.EditTextWithDecText
         android:id="@+id/et_account"
-        style="@style/EditTextWithTextView"
-        android:inputType="text"
-        app:layout_constraintEnd_toEndOf="@+id/et_description"
-        app:layout_constraintStart_toStartOf="@+id/et_description"
-        app:layout_constraintTop_toTopOf="@+id/tv_account"/>
-
-    <View
-        android:id="@+id/h_divider_line3"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/global_frame_line_size"
-        android:background="@color/colorDivideLine"
-        app:layout_constraintEnd_toEndOf="@+id/h_divider_line1"
-        app:layout_constraintStart_toStartOf="@+id/h_divider_line1"
-        app:layout_constraintTop_toBottomOf="@+id/tv_account"/>
-
-    <android.support.v7.widget.AppCompatTextView
-        android:id="@+id/tv_password"
-        style="@style/TextViewWithEditText"
-        android:text="@string/password"
-        app:layout_constraintEnd_toEndOf="@+id/tv_description"
-        app:layout_constraintStart_toStartOf="@+id/tv_description"
-        app:layout_constraintTop_toBottomOf="@+id/tv_account"/>
-
-    <android.support.v7.widget.AppCompatEditText
-        android:id="@+id/et_password"
-        style="@style/EditTextWithTextView"
-        android:inputType="textPassword"
-        app:layout_constraintEnd_toEndOf="@+id/et_description"
-        app:layout_constraintStart_toEndOf="@+id/tv_password"
-        app:layout_constraintTop_toTopOf="@+id/tv_password"/>
-
-    <View
-        android:id="@+id/h_divider_line4"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/global_frame_line_size"
-        android:background="@color/colorDivideLine"
+        style="@style/EditTextWithDecTextStyle"
+        app:decText="@string/account"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/h_divider_line1"
-        app:layout_constraintStart_toStartOf="@+id/h_divider_line1"
-        app:layout_constraintTop_toBottomOf="@+id/tv_password"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_account_description"/>
 
-    <View
-        android:layout_width="@dimen/global_frame_line_size"
-        android:layout_height="0dp"
-        android:background="@color/colorDivideLine"
-        app:layout_constraintBottom_toBottomOf="@+id/h_divider_line4"
-        app:layout_constraintStart_toStartOf="@+id/h_divider_line1"
-        app:layout_constraintTop_toTopOf="@+id/h_divider_line1"/>
-
-    <View
-        android:layout_width="@dimen/global_frame_line_size"
-        android:layout_height="0dp"
-        android:background="@color/colorDivideLine"
-        app:layout_constraintBottom_toBottomOf="@+id/h_divider_line4"
-        app:layout_constraintEnd_toEndOf="@+id/h_divider_line1"
-        app:layout_constraintTop_toTopOf="@+id/h_divider_line1"/>
-
-    <View
-        android:layout_width="@dimen/global_frame_line_size"
-        android:layout_height="0dp"
-        android:background="@color/colorDivideLine"
-        app:layout_constraintBottom_toBottomOf="@+id/h_divider_line4"
-        app:layout_constraintStart_toEndOf="@+id/tv_description"
-        app:layout_constraintTop_toTopOf="@+id/tv_description"/>
+    <com.lizl.demo.passwordbox.customview.EditTextWithDecText
+        android:id="@+id/et_password"
+        style="@style/EditTextWithDecTextStyle"
+        app:decText="@string/password"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_account"/>
 
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/btn_confirm"

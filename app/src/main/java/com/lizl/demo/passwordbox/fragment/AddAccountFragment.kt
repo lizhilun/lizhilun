@@ -27,7 +27,7 @@ class AddAccountFragment : BaseFragment()
 
         accountModel = arguments?.getParcelable(Constant.BUNDLE_DATA)
 
-        et_description.setText(accountModel?.description)
+        et_account_description.setText(accountModel?.description)
         et_account.setText(accountModel?.account)
         et_password.setText(accountModel?.password)
 
@@ -41,9 +41,9 @@ class AddAccountFragment : BaseFragment()
 
     private fun onConfirmButtonClick()
     {
-        val description = et_description.text.toString()
-        val account = et_account.text.toString()
-        val password = et_password.text.toString()
+        val description = et_account_description.getText()
+        val account = et_account.getText()
+        val password = et_password.getText()
 
         // 判断每个信息是否正确填入
         if (TextUtils.isEmpty(description) || TextUtils.isEmpty(account) || TextUtils.isEmpty(password))

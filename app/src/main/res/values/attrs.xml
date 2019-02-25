@@ -9,4 +9,22 @@
         <attr name="sidebarTextSizeChoose" format="dimension"/>
     </declare-styleable>
 
+    <declare-styleable name="EditTextWithDecText">
+
+        <attr name="editTextHit" format="string"/>
+        <attr name="editTextSize" format="dimension|reference"/>
+        <attr name="editTextColor" format="color|reference"/>
+        <attr name="editTextMaxEms" format="integer|reference"/>
+        <attr name="marginDecText" format="dimension|reference"/>
+        <attr name="exitTextInputType" format="enum">
+            <enum name="text" value="1"/>
+            <enum name="numberPassword" value="2"/>
+        </attr>
+
+        <attr name="decTextEmsSize" format="integer"/>
+        <attr name="decText" format="string"/>
+        <attr name="decTextSize" format="dimension|reference"/>
+        <attr name="decTextColor" format="color|reference"/>
+    </declare-styleable>
+
 </resources>

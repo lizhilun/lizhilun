@@ -28,23 +28,16 @@
         <item name="android:textColor">@color/colorSecondaryTextColor</item>
     </style>
 
-    <style name="EditTextWithTextView">
-        <item name="android:layout_height">50dp</item>
+    <style name="EditTextWithDecTextStyle">
+        <item name="android:layout_height">60dp</item>
         <item name="android:layout_width">0dp</item>
-        <item name="android:textSize">@dimen/global_text_size</item>
-        <item name="android:textColor">@color/colorTextColor</item>
-        <item name="android:gravity">start|center_vertical</item>
-        <item name="android:background">@null</item>
-        <item name="android:paddingLeft">20dp</item>
-        <item name="android:maxLines">1</item>
-    </style>
-
-    <style name="TextViewWithEditText">
-        <item name="android:layout_height">50dp</item>
-        <item name="android:layout_width">100dp</item>
-        <item name="android:textSize">@dimen/global_text_size</item>
-        <item name="android:textColor">@color/colorTextColor</item>
-        <item name="android:gravity">center</item>
+        <item name="android:layout_marginEnd">20dp</item>
+        <item name="android:layout_marginStart">20dp</item>
+        <item name="editTextSize">@dimen/global_text_size</item>
+        <item name="editTextColor">@color/colorTextColor</item>
+        <item name="decTextEmsSize">4</item>
+        <item name="decTextSize">@dimen/global_text_size</item>
+        <item name="decTextColor">@color/colorTextColor</item>
     </style>
 
     <style name="DialogButtonTextStyle">

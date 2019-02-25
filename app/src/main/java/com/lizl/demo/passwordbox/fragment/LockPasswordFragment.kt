@@ -38,12 +38,12 @@ class LockPasswordFragment : BaseFragment()
 
         if (isNeedCurPassword)
         {
-            group_current_password.visibility = View.VISIBLE
+            et_current_password.visibility = View.VISIBLE
             tv_toolbar_title.text = getString(R.string.modify_lock_password)
         }
         else
         {
-            group_current_password.visibility = View.GONE
+            et_current_password.visibility = View.GONE
             tv_toolbar_title.text = getString(R.string.set_lock_password)
         }
 
@@ -59,9 +59,9 @@ class LockPasswordFragment : BaseFragment()
 
     private fun onConfirmButtonClick()
     {
-        val curPassword = et_current_password.text.toString()
-        val newPassword = et_new_password.text.toString()
-        val confirmPassword = et_confirm_password.text.toString()
+        val curPassword = et_current_password.getText()
+        val newPassword = et_new_password.getText()
+        val confirmPassword = et_confirm_password.getText()
 
         if (isNeedCurPassword && curPassword != UiApplication.instance.getAppConfig().getAppLockPassword())
         {
