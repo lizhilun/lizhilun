@@ -51,6 +51,7 @@
     <string name="notify_success_to_backup">数据备份成功</string>
     <string name="notify_success_to_restore">数据还原成功</string>
     <string name="notify_no_data_to_backup">没有数据需要备份</string>
+    <string name="notify_success_to_get_permission">权限获取成功</string>
     <string name="notify_failed_to_get_permission">权限获取失败</string>
     <string name="notify_permission_be_refused">权限获取被拒绝，请重新授权</string>
 

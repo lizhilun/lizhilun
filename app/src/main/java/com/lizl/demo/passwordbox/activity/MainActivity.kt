@@ -16,6 +16,8 @@ import com.lizl.demo.passwordbox.util.UiUtil
 
 class MainActivity : AppCompatActivity()
 {
+    private val TAG = "MainActivity"
+
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
@@ -25,9 +27,9 @@ class MainActivity : AppCompatActivity()
         UiApplication.instance.getAppConfig().setAppLastStopTime(0)
     }
 
-    override fun onResume()
+    override fun onStart()
     {
-        super.onResume()
+        super.onStart()
 
         // 应用超时并且密码保护打开的情况
         if (System.currentTimeMillis() - UiApplication.instance.getAppConfig().getAppLastStopTime() >= ConfigConstant.APP_TIMEOUT_PERIOD && UiApplication.instance.getAppConfig().isAppLockPasswordOn())

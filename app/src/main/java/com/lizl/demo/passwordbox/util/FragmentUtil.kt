@@ -2,6 +2,7 @@ package com.lizl.demo.passwordbox.util
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import com.lizl.demo.passwordbox.R
 import com.lizl.demo.passwordbox.fragment.AccountListFragment
 import com.lizl.demo.passwordbox.fragment.BaseFragment
@@ -12,6 +13,7 @@ class FragmentUtil
 {
     companion object
     {
+        private val TAG = "FragmentUtil"
         private val mFragmentStack = Stack<WeakReference<BaseFragment>>()
 
         /**
@@ -19,6 +21,7 @@ class FragmentUtil
          */
         fun turnToFragment(activity: AppCompatActivity, fragment: BaseFragment)
         {
+            Log.d(TAG, "turnToFragment")
             turnToFragment(activity, fragment, null)
         }
 
@@ -27,6 +30,7 @@ class FragmentUtil
          */
         fun turnToFragment(activity: AppCompatActivity, fragment: BaseFragment, bundle: Bundle?)
         {
+            Log.d(TAG, "turnToFragment")
             if (bundle == null || bundle.isEmpty)
             {
                 fragment.arguments = null
@@ -46,6 +50,7 @@ class FragmentUtil
          */
         fun showTopFragment(activity: AppCompatActivity)
         {
+            Log.d(TAG, "showTopFragment")
             val topFragment = getTopFragment()
             if (topFragment == null)
             {
@@ -64,6 +69,7 @@ class FragmentUtil
          */
         fun backToPreFragment(activity: AppCompatActivity)
         {
+            Log.d(TAG, "backToPreFragment")
             removeFragmentFromStack(getTopFragment())
 
             val preFragment = getTopFragment()
