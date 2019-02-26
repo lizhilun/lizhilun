@@ -37,7 +37,7 @@ class SettingFragment : BaseFragment()
 
     override fun initView()
     {
-        val settingAdapter = SettingListAdapter(activity as Context, getSettingData())
+        val settingAdapter = SettingListAdapter(getSettingData())
         rv_setting_list.layoutManager = LinearLayoutManager(activity)
         rv_setting_list.addItemDecoration(DividerItemDecoration(activity as Context, DividerItemDecoration.VERTICAL))
         rv_setting_list.adapter = settingAdapter

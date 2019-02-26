@@ -27,6 +27,7 @@
         style="@style/EditTextWithDecTextStyle"
         android:layout_marginTop="@dimen/input_text_edit_padding_edge"
         app:decText="@string/account_description"
+        app:exitTextInputType="textMultiLine"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/layout_title"/>
@@ -35,6 +36,7 @@
         android:id="@+id/et_account"
         style="@style/EditTextWithDecTextStyle"
         app:decText="@string/account"
+        app:exitTextInputType="textMultiLine"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/et_account_description"/>
@@ -43,6 +45,7 @@
         android:id="@+id/et_password"
         style="@style/EditTextWithDecTextStyle"
         app:decText="@string/password"
+        app:exitTextInputType="textMultiLine"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/et_account"/>

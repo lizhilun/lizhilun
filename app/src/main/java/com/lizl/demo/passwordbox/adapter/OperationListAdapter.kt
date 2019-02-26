@@ -1,6 +1,5 @@
 package com.lizl.demo.passwordbox.adapter
 
-import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -9,22 +8,15 @@ import com.lizl.demo.passwordbox.R
 import com.lizl.demo.passwordbox.model.OperationItem
 import kotlinx.android.synthetic.main.item_operation.view.*
 
-class OperationListAdapter(context: Context, private var operationList: List<OperationItem>) : RecyclerView.Adapter<OperationListAdapter.ViewHolder>()
+class OperationListAdapter(private var operationList: List<OperationItem>) : RecyclerView.Adapter<OperationListAdapter.ViewHolder>()
 {
-    private var layoutInflater: LayoutInflater? = null
-
     private var onOperationItemClickListener: OnOperationItemClickListener? = null
-
-    init
-    {
-        layoutInflater = LayoutInflater.from(context)
-    }
 
     override fun getItemCount(): Int = operationList.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder
     {
-        return ViewHolder(layoutInflater!!.inflate(R.layout.item_operation, parent, false))
+        return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_operation, parent, false))
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int)

@@ -20,7 +20,7 @@ class DialogOperationList(context: Context, private var operationList: List<Oper
 
     override fun initView()
     {
-        val operationListAdapter = OperationListAdapter(context, operationList)
+        val operationListAdapter = OperationListAdapter(operationList)
         rv_operation_list.layoutManager = LinearLayoutManager(context)
         rv_operation_list.addItemDecoration(ListDividerItemDecoration(context))
         rv_operation_list.adapter = operationListAdapter

@@ -43,7 +43,7 @@ class AccountListFragment : BaseFragment(), AccountListAdapter.OnItemClickListen
     {
         val accountList: MutableList<AccountModel> = DataUtil.getInstance().queryAll(activity)!!
 
-        accountListAdapter = AccountListAdapter(activity as Context, accountList, this)
+        accountListAdapter = AccountListAdapter(accountList, this)
         rv_password_list.layoutManager = ScrollTopLayoutManager(activity as Context)
         rv_password_list.adapter = accountListAdapter
     }

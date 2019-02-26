@@ -97,7 +97,7 @@ class SearchFragment : BaseFragment(), AccountListAdapter.OnItemClickListener
             return
         }
         val resultList = DataUtil.getInstance().searchByKeyword(keyword)
-        accountListAdapter = AccountListAdapter(activity as Context, resultList, this)
+        accountListAdapter = AccountListAdapter(resultList, this)
         rv_result_list.layoutManager = LinearLayoutManager(activity)
         rv_result_list.adapter = accountListAdapter
     }

@@ -14,6 +14,7 @@ import android.view.View.OnFocusChangeListener
 import android.widget.FrameLayout
 import android.widget.RelativeLayout
 import com.lizl.demo.passwordbox.R
+import com.lizl.demo.passwordbox.util.UiUtil
 
 
 class EditTextWithDecText(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : FrameLayout(context, attrs, defStyleAttr)
@@ -82,19 +83,28 @@ class EditTextWithDecText(context: Context, attrs: AttributeSet?, defStyleAttr: 
         editText.background = null
         when (editTextInputType)
         {
-            1 ->
+            InputType.TYPE_CLASS_TEXT ->
             {
-                editText.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_MULTI_LINE
+                editText.inputType = InputType.TYPE_CLASS_TEXT
+                editText.setLines(2)
             }
-            2 ->
+            InputType.TYPE_NUMBER_VARIATION_PASSWORD ->
             {
                 editText.inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_VARIATION_PASSWORD
+                editText.setLines(2)
+            }
+            InputType.TYPE_TEXT_FLAG_MULTI_LINE ->
+            {
+                editText.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_MULTI_LINE
+                editText.minLines = 2
             }
             else ->
             {
-                editText.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_MULTI_LINE
+                editText.inputType = InputType.TYPE_CLASS_TEXT
+                editText.setLines(2)
             }
         }
+        editText.setLineSpacing(0F, 1.2F)
         editText.filters = arrayOf<InputFilter>(InputFilter.LengthFilter(editTextMaxEms))
 
         val decTextWidth = decEmsSize * editTextSize
@@ -102,19 +112,19 @@ class EditTextWithDecText(context: Context, attrs: AttributeSet?, defStyleAttr: 
         bottomLine.setBackgroundColor(ContextCompat.getColor(context, R.color.colorDivideLine))
 
         val relativeLayout = RelativeLayout(context)
-        val decTextLp = RelativeLayout.LayoutParams(decTextWidth, FrameLayout.LayoutParams.MATCH_PARENT)
-        val editTextLp = RelativeLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT)
-        val bottomLineLp = RelativeLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, 2)
+        val decTextLp = RelativeLayout.LayoutParams(decTextWidth, 0)
+        val editTextLp = RelativeLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT)
+        val bottomLineLp = RelativeLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, UiUtil.dpToPx(1))
 
-        bottomLineLp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM)
+        bottomLineLp.addRule(RelativeLayout.BELOW, editText.id)
 
-        decTextLp.addRule(RelativeLayout.ABOVE, bottomLine.id)
+        decTextLp.addRule(RelativeLayout.ALIGN_TOP, editText.id)
+        decTextLp.addRule(RelativeLayout.ALIGN_BOTTOM, editText.id)
         decTextLp.addRule(RelativeLayout.ALIGN_PARENT_START)
         textView.gravity = Gravity.CENTER
 
-        editTextLp.addRule(RelativeLayout.ABOVE, bottomLine.id)
         editTextLp.addRule(RelativeLayout.END_OF, textView.id)
-        editText.setPadding(marginDecText, 0, 0, 0)
+        editText.setPadding(marginDecText, UiUtil.dpToPx(5), 0, UiUtil.dpToPx(5))
         editText.gravity = Gravity.CENTER_VERTICAL
 
         relativeLayout.addView(bottomLine, bottomLineLp)

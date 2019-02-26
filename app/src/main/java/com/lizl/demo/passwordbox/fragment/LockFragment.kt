@@ -27,7 +27,7 @@ class LockFragment : BaseFragment(), DialogFingerprint.FingerprintUnlockCallBack
     override fun initView()
     {
         val numberKeyList: List<String> = listOf("1", "2", "3", "4", "5", "6", "7", "8", "9", "*", "0", "#")
-        val numberKeyGridAdapter = NumberKeyGridAdapter(activity as Context, numberKeyList, this)
+        val numberKeyGridAdapter = NumberKeyGridAdapter(numberKeyList, this)
         rv_number_key.layoutManager = GridLayoutManager(activity, 3)
         rv_number_key.addItemDecoration(GridDividerItemDecoration())
         rv_number_key.adapter = numberKeyGridAdapter
@@ -119,14 +119,7 @@ class LockFragment : BaseFragment(), DialogFingerprint.FingerprintUnlockCallBack
 
     private fun onUnlockSuccess()
     {
-        if (UiApplication.getTopFragment() == null)
-        {
-            turnToFragment(AccountListFragment())
-        }
-        else
-        {
-            backToPreFragment()
-        }
+        backToPreFragment()
     }
 
     override fun onBackPressed(): Boolean

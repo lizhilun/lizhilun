@@ -6,9 +6,6 @@ import android.support.v4.hardware.fingerprint.FingerprintManagerCompat
 import android.view.inputmethod.InputMethodManager
 import com.lizl.demo.passwordbox.config.AppConfig
 import com.lizl.demo.passwordbox.config.ConfigHelper
-import com.lizl.demo.passwordbox.fragment.BaseFragment
-import java.lang.ref.WeakReference
-import java.util.*
 
 class UiApplication : Application()
 {
@@ -64,61 +61,6 @@ class UiApplication : Application()
     {
         lateinit var instance: UiApplication
         val inputMethodManager: InputMethodManager by lazy { instance.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager }
-        private val mFragmentStack = Stack<WeakReference<BaseFragment>>()
-
-        /**
-         * 判断Fragment是否在栈中
-         */
-        fun isFragmentInStack(fragmentName: String): Boolean
-        {
-            for (task in mFragmentStack)
-            {
-                if (task.get() != null && task.get()!!.javaClass.simpleName == fragmentName)
-                {
-                    return true
-                }
-            }
-            return false
-        }
-
-        /**
-         * 将Fragment压入Application栈
-         */
-        fun pushFragmentToStack(fragment: BaseFragment)
-        {
-            removeFragmentFromStack(fragment)
-            val fragmentWeakReference = WeakReference<BaseFragment>(fragment)
-            mFragmentStack.push(fragmentWeakReference)
-        }
-
-        /**
-         * 将传入的fragment从栈中移除
-         */
-        fun removeFragmentFromStack(fragment: BaseFragment?)
-        {
-            var fragmentReference: WeakReference<BaseFragment>? = null
-            for (task in mFragmentStack)
-            {
-                if (task.get()?.javaClass?.simpleName.equals(fragment?.javaClass?.simpleName))
-                {
-                    fragmentReference = task
-                    break
-                }
-            }
-            mFragmentStack.remove(fragmentReference)
-        }
-
-        /**
-         * 获取栈顶Fragment
-         */
-        fun getTopFragment(): BaseFragment?
-        {
-            if (mFragmentStack.size < 1)
-            {
-                return null
-            }
-            return mFragmentStack.peek().get()
-        }
     }
 
     fun getAppConfig(): AppConfig

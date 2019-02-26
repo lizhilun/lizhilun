@@ -191,5 +191,14 @@ class UiUtil
                 UiApplication.inputMethodManager.hideSoftInputFromWindow(view.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
             }
         }
+
+        /**
+         *  dp转px
+         */
+        fun dpToPx(dpValue : Int) : Int
+        {
+            val scale = UiApplication.instance.resources.displayMetrics.density
+            return (dpValue * scale + 0.5f).toInt()
+        }
     }
 }

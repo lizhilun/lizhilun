@@ -1,6 +1,5 @@
 package com.lizl.demo.passwordbox.adapter
 
-import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -14,20 +13,13 @@ import com.lizl.demo.passwordbox.util.UiApplication
 import kotlinx.android.synthetic.main.item_setting_boolean.view.*
 import kotlinx.android.synthetic.main.item_setting_normal.view.*
 
-class SettingListAdapter(context: Context, private val settingList: List<SettingBaseItem>) : RecyclerView.Adapter<SettingListAdapter.ViewHolder>()
+class SettingListAdapter(private val settingList: List<SettingBaseItem>) : RecyclerView.Adapter<SettingListAdapter.ViewHolder>()
 {
     companion object
     {
         const val ITEM_TYPE_DIVIDE = 1
         const val ITEM_TYPE_BOOLEAN = 2
         const val ITEM_TYPE_NORMAL = 3
-    }
-
-    private var layoutInflater: LayoutInflater? = null
-
-    init
-    {
-        layoutInflater = LayoutInflater.from(context)
     }
 
     override fun getItemCount(): Int = settingList.size
@@ -51,11 +43,11 @@ class SettingListAdapter(context: Context, private val settingList: List<Setting
     {
         when (viewType)
         {
-            ITEM_TYPE_BOOLEAN -> return ViewHolder(layoutInflater!!.inflate(R.layout.item_setting_boolean, parent, false))
-            ITEM_TYPE_DIVIDE -> return ViewHolder(layoutInflater!!.inflate(R.layout.item_setting_divide, parent, false))
-            ITEM_TYPE_NORMAL -> return ViewHolder(layoutInflater!!.inflate(R.layout.item_setting_normal, parent, false))
+            ITEM_TYPE_BOOLEAN -> return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_setting_boolean, parent, false))
+            ITEM_TYPE_DIVIDE -> return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_setting_divide, parent, false))
+            ITEM_TYPE_NORMAL -> return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_setting_normal, parent, false))
         }
-        return ViewHolder(layoutInflater!!.inflate(R.layout.item_setting_divide, parent, false))
+        return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_setting_divide, parent, false))
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int)

@@ -1,6 +1,5 @@
 package com.lizl.demo.passwordbox.adapter
 
-import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -11,21 +10,15 @@ import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 
-class BackupFileListAdapter(context: Context, private val fileList: List<String>, private val onItemClickListener: OnBackFileItemClickListener?) : RecyclerView.Adapter<BackupFileListAdapter.ViewHolder>()
+class BackupFileListAdapter(private val fileList: List<String>, private val onItemClickListener: OnBackFileItemClickListener?) : RecyclerView.Adapter<BackupFileListAdapter.ViewHolder>()
 {
-    private var layoutInflater: LayoutInflater? = null
     private val formatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
-
-    init
-    {
-        layoutInflater = LayoutInflater.from(context)
-    }
 
     override fun getItemCount(): Int = fileList.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder
     {
-        return ViewHolder(layoutInflater!!.inflate(R.layout.item_backup_file, parent, false))
+        return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_backup_file, parent, false))
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int)

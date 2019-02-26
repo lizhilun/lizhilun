@@ -48,7 +48,7 @@ class BackupFileListFragment : BaseFragment(), BackupFileListAdapter.OnBackFileI
     private fun getData()
     {
         val backupFileList = BackupUtil.getBackupFileList()
-        val backupFileListAdapter = BackupFileListAdapter(activity as Context, backupFileList, this)
+        val backupFileListAdapter = BackupFileListAdapter(backupFileList, this)
         rv_file_list.layoutManager = LinearLayoutManager(activity)
         rv_file_list.adapter = backupFileListAdapter
     }

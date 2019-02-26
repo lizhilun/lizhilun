@@ -2,11 +2,12 @@ package com.lizl.demo.passwordbox.fragment
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.lizl.demo.passwordbox.activity.MainActivity
+import com.lizl.demo.passwordbox.util.FragmentUtil
 
 abstract class BaseFragment : Fragment()
 {
@@ -74,16 +75,16 @@ abstract class BaseFragment : Fragment()
 
     protected fun backToPreFragment()
     {
-        (activity as MainActivity).backToPreFragment()
+        FragmentUtil.backToPreFragment(activity as AppCompatActivity)
     }
 
     protected fun turnToFragment(fragment: BaseFragment)
     {
-        (activity as MainActivity).turnToFragment(fragment)
+        FragmentUtil.turnToFragment(activity as AppCompatActivity, fragment)
     }
 
     protected fun turnToFragment(fragment: BaseFragment, bundle: Bundle)
     {
-        (activity as MainActivity).turnToFragment(fragment, bundle)
+        FragmentUtil.turnToFragment(activity as AppCompatActivity, fragment, bundle)
     }
 }
