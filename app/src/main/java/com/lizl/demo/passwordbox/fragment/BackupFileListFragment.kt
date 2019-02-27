@@ -17,6 +17,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.io.File
 
 class BackupFileListFragment : BaseFragment(), BackupFileListAdapter.OnBackFileItemClickListener
 {
@@ -53,7 +54,7 @@ class BackupFileListFragment : BaseFragment(), BackupFileListAdapter.OnBackFileI
         rv_file_list.adapter = backupFileListAdapter
     }
 
-    override fun onBackupFileItemClick(filePath: String)
+    override fun onBackupFileItemClick(file: File)
     {
         val operationList = mutableListOf<OperationItem>()
 
@@ -66,7 +67,7 @@ class BackupFileListFragment : BaseFragment(), BackupFileListAdapter.OnBackFileI
                 {
                     override fun onOperationConfirmed()
                     {
-                        BackupUtil.restoreData(filePath, true, DataRestoreCallback())
+                        BackupUtil.restoreData(file.absolutePath, true, DataRestoreCallback())
                     }
                 })
                 dialogOperationConfirm?.show()
@@ -82,7 +83,7 @@ class BackupFileListFragment : BaseFragment(), BackupFileListAdapter.OnBackFileI
                 {
                     override fun onOperationConfirmed()
                     {
-                        BackupUtil.restoreData(filePath, false, DataRestoreCallback())
+                        BackupUtil.restoreData(file.absolutePath, false, DataRestoreCallback())
                     }
                 })
                 dialogOperationConfirm?.show()
@@ -98,7 +99,7 @@ class BackupFileListFragment : BaseFragment(), BackupFileListAdapter.OnBackFileI
                 {
                     override fun onOperationConfirmed()
                     {
-                        if (FileUtil.deleteFile(filePath))
+                        if (FileUtil.deleteFile(file.absolutePath))
                         {
                             getData()
                         }
@@ -117,7 +118,7 @@ class BackupFileListFragment : BaseFragment(), BackupFileListAdapter.OnBackFileI
                 {
                     override fun onInputCompleted(inputValue: String)
                     {
-                        if (FileUtil.renameFile(filePath, inputValue))
+                        if (FileUtil.renameFile(file.absolutePath, inputValue))
                         {
                             getData()
                         }

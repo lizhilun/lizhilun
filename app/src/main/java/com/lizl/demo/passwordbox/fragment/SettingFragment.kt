@@ -129,7 +129,7 @@ class SettingFragment : BaseFragment()
                     {
                         override fun onOperationConfirmed()
                         {
-                            if (checkWirteStoragePermission(REQUEST_CODE_READ_EX_PERMISSION_FOR_BACKUP))
+                            if (checkWriteStoragePermission(REQUEST_CODE_READ_EX_PERMISSION_FOR_BACKUP))
                             {
                                 backupData()
                             }
@@ -145,7 +145,7 @@ class SettingFragment : BaseFragment()
         {
             override fun onSettingItemCallBack(result: Boolean)
             {
-                if (checkWirteStoragePermission(REQUEST_CODE_READ_EX_PERMISSION_FOR_RESTORE))
+                if (checkWriteStoragePermission(REQUEST_CODE_READ_EX_PERMISSION_FOR_RESTORE))
                 {
                     turnToFragment(BackupFileListFragment())
                 }
@@ -174,9 +174,9 @@ class SettingFragment : BaseFragment()
     /**
      * 检查内部存储读取权限
      */
-    private fun checkWirteStoragePermission(requestCode: Int): Boolean
+    private fun checkWriteStoragePermission(requestCode: Int): Boolean
     {
-        // 权限以获取直接返回
+        // 权限已获取直接返回
         if (ContextCompat.checkSelfPermission(UiApplication.instance, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
         {
             return true

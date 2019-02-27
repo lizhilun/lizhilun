@@ -116,20 +116,20 @@ class BackupUtil
          *
          * @return 文件路径列表
          */
-        fun getBackupFileList(): List<String>
+        fun getBackupFileList(): List<File>
         {
-            val filePathList = mutableListOf<String>()
+            val fileList = mutableListOf<File>()
 
-            val files = File(backupFilePath).listFiles() ?: return filePathList
+            val files = File(backupFilePath).listFiles() ?: return fileList
             for (file in files)
             {
                 if (file.exists() && file.isFile && file.name.endsWith(fileSuffixName))
                 {
-                    filePathList.add(file.absolutePath)
+                    fileList.add(file)
                 }
             }
 
-            return filePathList
+            return fileList
         }
     }
 
