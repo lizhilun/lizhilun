@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.lizl.demo.passwordbox.util.DialogUtil
 import com.lizl.demo.passwordbox.util.FragmentUtil
 
 abstract class BaseFragment : Fragment()
@@ -51,6 +52,8 @@ abstract class BaseFragment : Fragment()
     {
         Log.d(TAG, "onPause")
         super.onPause()
+
+        DialogUtil.dismissDialog()
     }
 
     override fun onStop()

@@ -51,14 +51,7 @@ class BackupFileListAdapter(private val fileList: List<File>, private val onItem
     {
         override fun compare(file1: File, file2: File): Int
         {
-            return if (file1.lastModified() > file2.lastModified())
-            {
-                -1
-            }
-            else
-            {
-                1
-            }
+            return if (file1.lastModified() > file2.lastModified()) -1 else 1
         }
 
     }

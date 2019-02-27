@@ -31,8 +31,8 @@ class MainActivity : AppCompatActivity()
     {
         super.onStart()
 
-        // 应用超时并且密码保护打开的情况
-        if (System.currentTimeMillis() - UiApplication.instance.getAppConfig().getAppLastStopTime() >= ConfigConstant.APP_TIMEOUT_PERIOD && UiApplication.instance.getAppConfig().isAppLockPasswordOn())
+        // 密码保护打开并且应用超时的情况
+        if (UiApplication.instance.getAppConfig().isAppLockPasswordOn() && System.currentTimeMillis() - UiApplication.instance.getAppConfig().getAppLastStopTime() >= ConfigConstant.APP_TIMEOUT_PERIOD)
         {
             // 密码为空的情况进入密码设置界面
             if (TextUtils.isEmpty(UiApplication.instance.getAppConfig().getAppLockPassword()))

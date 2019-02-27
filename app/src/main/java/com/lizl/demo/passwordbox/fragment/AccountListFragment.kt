@@ -6,13 +6,12 @@ import android.view.View
 import com.lizl.demo.passwordbox.R
 import com.lizl.demo.passwordbox.adapter.AccountListAdapter
 import com.lizl.demo.passwordbox.customview.ScrollTopLayoutManager
-import com.lizl.demo.passwordbox.customview.dialog.DialogAccountInfo
-import com.lizl.demo.passwordbox.customview.dialog.DialogOperationList
 import com.lizl.demo.passwordbox.customview.quicksearchbar.OnQuickSideBarTouchListener
 import com.lizl.demo.passwordbox.model.AccountModel
 import com.lizl.demo.passwordbox.model.OperationItem
 import com.lizl.demo.passwordbox.util.Constant
 import com.lizl.demo.passwordbox.util.DataUtil
+import com.lizl.demo.passwordbox.util.DialogUtil
 import kotlinx.android.synthetic.main.fragment_account_list.*
 
 /**
@@ -20,8 +19,6 @@ import kotlinx.android.synthetic.main.fragment_account_list.*
  */
 class AccountListFragment : BaseFragment(), AccountListAdapter.OnItemClickListener, OnQuickSideBarTouchListener
 {
-    private var dialogAccountInfo: DialogAccountInfo? = null
-    private var dialogOperationList: DialogOperationList? = null
     private lateinit var accountListAdapter: AccountListAdapter
 
     override fun getLayoutResId(): Int
@@ -60,8 +57,7 @@ class AccountListFragment : BaseFragment(), AccountListAdapter.OnItemClickListen
 
     override fun onAccountItemClick(accountModel: AccountModel)
     {
-        dialogAccountInfo = DialogAccountInfo(activity as Context, accountModel)
-        dialogAccountInfo?.show()
+        DialogUtil.showAccountInfoDialog(activity as Context, accountModel)
     }
 
     override fun onAccountItemLongClick(accountModel: AccountModel): Boolean
@@ -89,17 +85,8 @@ class AccountListFragment : BaseFragment(), AccountListAdapter.OnItemClickListen
             }
         }))
 
-        dialogOperationList = DialogOperationList(activity as Context, operationList)
-        dialogOperationList?.show()
+        DialogUtil.showOperationListDialog(activity as Context, operationList)
         return true
-    }
-
-    override fun onPause()
-    {
-        super.onPause()
-
-        dialogAccountInfo?.dismiss()
-        dialogOperationList?.dismiss()
     }
 
     override fun onBackPressed(): Boolean

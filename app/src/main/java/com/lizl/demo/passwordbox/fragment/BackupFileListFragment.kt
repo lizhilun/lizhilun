@@ -6,12 +6,8 @@ import com.lizl.demo.passwordbox.R
 import com.lizl.demo.passwordbox.adapter.BackupFileListAdapter
 import com.lizl.demo.passwordbox.customview.dialog.DialogInput
 import com.lizl.demo.passwordbox.customview.dialog.DialogOperationConfirm
-import com.lizl.demo.passwordbox.customview.dialog.DialogOperationList
 import com.lizl.demo.passwordbox.model.OperationItem
-import com.lizl.demo.passwordbox.util.BackupUtil
-import com.lizl.demo.passwordbox.util.Constant
-import com.lizl.demo.passwordbox.util.FileUtil
-import com.lizl.demo.passwordbox.util.ToastUtil
+import com.lizl.demo.passwordbox.util.*
 import kotlinx.android.synthetic.main.fragment_backup_file_list.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -21,9 +17,6 @@ import java.io.File
 
 class BackupFileListFragment : BaseFragment(), BackupFileListAdapter.OnBackFileItemClickListener
 {
-    private var dialogOperationList: DialogOperationList? = null
-    private var dialogOperationConfirm: DialogOperationConfirm? = null
-    private var dialogInput: DialogInput? = null
 
     override fun getLayoutResId(): Int
     {
@@ -63,14 +56,13 @@ class BackupFileListFragment : BaseFragment(), BackupFileListAdapter.OnBackFileI
         {
             override fun onOperationExecute()
             {
-                dialogOperationConfirm = DialogOperationConfirm(activity as Context, getString(R.string.import_backup_file_overlay), getString(R.string.notify_restore_data_overlay), object : DialogOperationConfirm.OperationConfirmCallback
+                DialogUtil.showOperationConfirmDialog(activity as Context, getString(R.string.import_backup_file_overlay), getString(R.string.notify_restore_data_overlay), object : DialogOperationConfirm.OperationConfirmCallback
                 {
                     override fun onOperationConfirmed()
                     {
                         BackupUtil.restoreData(file.absolutePath, true, DataRestoreCallback())
                     }
                 })
-                dialogOperationConfirm?.show()
             }
         }))
 
@@ -79,14 +71,13 @@ class BackupFileListFragment : BaseFragment(), BackupFileListAdapter.OnBackFileI
         {
             override fun onOperationExecute()
             {
-                dialogOperationConfirm = DialogOperationConfirm(activity as Context, getString(R.string.import_backup_file_merge), getString(R.string.notify_restore_data_merge), object : DialogOperationConfirm.OperationConfirmCallback
+                DialogUtil.showOperationConfirmDialog(activity as Context, getString(R.string.import_backup_file_merge), getString(R.string.notify_restore_data_merge), object : DialogOperationConfirm.OperationConfirmCallback
                 {
                     override fun onOperationConfirmed()
                     {
                         BackupUtil.restoreData(file.absolutePath, false, DataRestoreCallback())
                     }
                 })
-                dialogOperationConfirm?.show()
             }
         }))
 
@@ -95,7 +86,7 @@ class BackupFileListFragment : BaseFragment(), BackupFileListAdapter.OnBackFileI
         {
             override fun onOperationExecute()
             {
-                dialogOperationConfirm = DialogOperationConfirm(activity as Context, getString(R.string.delete_backup_file), getString(R.string.notify_delete_backup_file), object : DialogOperationConfirm.OperationConfirmCallback
+                DialogUtil.showOperationConfirmDialog(activity as Context, getString(R.string.delete_backup_file), getString(R.string.notify_delete_backup_file), object : DialogOperationConfirm.OperationConfirmCallback
                 {
                     override fun onOperationConfirmed()
                     {
@@ -105,7 +96,6 @@ class BackupFileListFragment : BaseFragment(), BackupFileListAdapter.OnBackFileI
                         }
                     }
                 })
-                dialogOperationConfirm?.show()
             }
         }))
 
@@ -114,7 +104,7 @@ class BackupFileListFragment : BaseFragment(), BackupFileListAdapter.OnBackFileI
         {
             override fun onOperationExecute()
             {
-                dialogInput = DialogInput(activity as Context, getString(R.string.rename_backup_file), getString(R.string.hint_rename_backup_file), object : DialogInput.InputCompletedCallback
+                DialogUtil.showInputDialog(activity as Context, getString(R.string.rename_backup_file), getString(R.string.hint_rename_backup_file), object : DialogInput.InputCompletedCallback
                 {
                     override fun onInputCompleted(inputValue: String)
                     {
@@ -124,12 +114,10 @@ class BackupFileListFragment : BaseFragment(), BackupFileListAdapter.OnBackFileI
                         }
                     }
                 })
-                dialogInput?.show()
             }
         }))
 
-        dialogOperationList = DialogOperationList(activity as Context, operationList)
-        dialogOperationList?.show()
+        DialogUtil.showOperationListDialog(activity as Context, operationList)
     }
 
     inner class DataRestoreCallback : BackupUtil.DataRestoreCallback
@@ -144,24 +132,15 @@ class BackupFileListFragment : BaseFragment(), BackupFileListAdapter.OnBackFileI
         {
             if (reason == Constant.DATA_RESTORE_FAILED_WRONG_PASSWORD)
             {
-                dialogInput = DialogInput(activity as Context, getString(R.string.input_encrypt_password), getString(R.string.hint_input_encrypt_password), object : DialogInput.InputCompletedCallback
+                DialogUtil.showInputDialog(activity as Context, getString(R.string.input_encrypt_password), getString(R.string.hint_input_encrypt_password), object : DialogInput.InputCompletedCallback
                 {
                     override fun onInputCompleted(inputValue: String)
                     {
                         BackupUtil.restoreData(failedFilePath, inputValue, clearAllData, DataRestoreCallback())
                     }
                 })
-                dialogInput?.show()
             }
         }
-    }
-
-    override fun onPause()
-    {
-        super.onPause()
-
-        dialogOperationConfirm?.dismiss()
-        dialogOperationList?.dismiss()
     }
 
     private fun onBackButtonClick()

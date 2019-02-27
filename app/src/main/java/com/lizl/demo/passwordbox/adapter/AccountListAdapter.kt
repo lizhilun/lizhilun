@@ -46,7 +46,7 @@ class AccountListAdapter(accountList: List<AccountModel>, private val onItemClic
             itemView.tv_account.text = accountModel.account
             itemView.tv_first_letter.text = firstLetter.toString().toUpperCase()
 
-            if (showFirstLetter) itemView.tv_first_letter.visibility = View.VISIBLE else itemView.tv_first_letter.visibility = View.INVISIBLE
+            itemView.tv_first_letter.visibility = if(showFirstLetter) View.VISIBLE else View.INVISIBLE
 
             itemView.setOnClickListener { onItemClickListener?.onAccountItemClick(accountModel) }
             itemView.setOnLongClickListener { onItemClickListener?.onAccountItemLongClick(accountModel)!! }

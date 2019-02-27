@@ -7,6 +7,7 @@ import com.lizl.demo.passwordbox.R
 import com.lizl.demo.passwordbox.adapter.NumberKeyGridAdapter
 import com.lizl.demo.passwordbox.customview.dialog.DialogFingerprint
 import com.lizl.demo.passwordbox.customview.recylerviewitemdivider.GridDividerItemDecoration
+import com.lizl.demo.passwordbox.util.DialogUtil
 import com.lizl.demo.passwordbox.util.UiApplication
 import com.lizl.demo.passwordbox.util.UiUtil
 import kotlinx.android.synthetic.main.fragment_lock.*
@@ -16,7 +17,6 @@ import kotlinx.android.synthetic.main.fragment_lock.*
  */
 class LockFragment : BaseFragment(), DialogFingerprint.FingerprintUnlockCallBack, NumberKeyGridAdapter.OnNumberKeyClickListener
 {
-    private var dialogFingerprint: DialogFingerprint? = null
     private var inputPassword = ""
 
     override fun getLayoutResId(): Int
@@ -57,38 +57,24 @@ class LockFragment : BaseFragment(), DialogFingerprint.FingerprintUnlockCallBack
         inputPassword = ""
     }
 
-    override fun onPause()
-    {
-        super.onPause()
-
-        dialogFingerprint?.dismiss()
-    }
-
     private fun showFingerprintDialog()
     {
-        if (dialogFingerprint == null)
-        {
-            dialogFingerprint = DialogFingerprint(activity as Context, this)
-        }
-        dialogFingerprint?.show()
+        DialogUtil.showFingerprintDialog(activity as Context, this)
     }
 
     override fun onNumberKeyClick(keyValue: String)
     {
-        if (keyValue == "*")
+        when (keyValue)
         {
-            UiUtil.backToLauncher()
-        }
-        else if (keyValue == "#")
-        {
-            if (inputPassword.isNotEmpty())
+            "*" -> UiUtil.backToLauncher()
+            "#" ->
             {
-                inputPassword = inputPassword.substring(0, inputPassword.length - 1)
+                if (inputPassword.isNotEmpty())
+                {
+                    inputPassword = inputPassword.substring(0, inputPassword.length - 1)
+                }
             }
-        }
-        else
-        {
-            inputPassword += keyValue
+            else -> inputPassword += keyValue
         }
 
         var numberStr = ""
@@ -124,11 +110,6 @@ class LockFragment : BaseFragment(), DialogFingerprint.FingerprintUnlockCallBack
 
     override fun onBackPressed(): Boolean
     {
-        if (dialogFingerprint != null && dialogFingerprint!!.isShowing)
-        {
-            dialogFingerprint?.dismiss()
-            return true
-        }
         UiUtil.backToLauncher()
         return true
     }

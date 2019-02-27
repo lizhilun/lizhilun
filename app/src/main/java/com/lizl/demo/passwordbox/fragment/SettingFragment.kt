@@ -29,8 +29,6 @@ class SettingFragment : BaseFragment()
     private val REQUEST_CODE_READ_EX_PERMISSION_FOR_BACKUP = 1
     private val REQUEST_CODE_READ_EX_PERMISSION_FOR_RESTORE = 2
 
-    private var dialogOperationConfirm: DialogOperationConfirm? = null
-
     override fun getLayoutResId(): Int
     {
         return R.layout.fragment_setting
@@ -125,7 +123,7 @@ class SettingFragment : BaseFragment()
                 }
                 else
                 {
-                    dialogOperationConfirm = DialogOperationConfirm(activity as Context, getString(R.string.setting_backup_data), getString(R.string.notify_backup_data), object : DialogOperationConfirm.OperationConfirmCallback
+                    DialogUtil.showOperationConfirmDialog(activity as Context, getString(R.string.setting_backup_data), getString(R.string.notify_backup_data), object : DialogOperationConfirm.OperationConfirmCallback
                     {
                         override fun onOperationConfirmed()
                         {
@@ -135,7 +133,6 @@ class SettingFragment : BaseFragment()
                             }
                         }
                     })
-                    dialogOperationConfirm?.show()
                 }
             }
         }))
@@ -208,23 +205,15 @@ class SettingFragment : BaseFragment()
             }
             else
             {
-                dialogOperationConfirm = DialogOperationConfirm(activity as Context, getString(R.string.notify_failed_to_get_permission), getString(R.string.notify_permission_be_refused), object : DialogOperationConfirm.OperationConfirmCallback
+                DialogUtil.showOperationConfirmDialog(activity as Context, getString(R.string.notify_failed_to_get_permission), getString(R.string.notify_permission_be_refused), object : DialogOperationConfirm.OperationConfirmCallback
                 {
                     override fun onOperationConfirmed()
                     {
                         UiUtil.goToAppDetailPage()
                     }
                 })
-                dialogOperationConfirm?.show()
             }
         }
-    }
-
-    override fun onPause()
-    {
-        super.onPause()
-
-        dialogOperationConfirm?.dismiss()
     }
 
     private fun onBackButtonClick()

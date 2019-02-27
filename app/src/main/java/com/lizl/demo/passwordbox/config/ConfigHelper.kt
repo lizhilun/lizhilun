@@ -80,14 +80,14 @@ class ConfigHelper(context: Context)
             Log.e(TAG, "Settings are null")
             return defaultValue
         }
-        try
+        return try
         {
-            return mSettings!!.getString(entry, defaultValue)
+            mSettings!!.getString(entry, defaultValue)
         }
         catch (e: Exception)
         {
             Log.e(TAG, e.toString())
-            return defaultValue
+            defaultValue
         }
 
     }
