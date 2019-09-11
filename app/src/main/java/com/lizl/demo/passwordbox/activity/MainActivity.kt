@@ -9,6 +9,7 @@ import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
 import com.lizl.demo.passwordbox.R
 import com.lizl.demo.passwordbox.config.ConfigConstant
+import com.lizl.demo.passwordbox.fragment.BaseFragment
 import com.lizl.demo.passwordbox.util.Constant
 import com.lizl.demo.passwordbox.util.UiApplication
 import com.lizl.demo.passwordbox.util.UiUtil
@@ -38,17 +39,15 @@ class MainActivity : AppCompatActivity()
             {
                 val bundle = Bundle()
                 bundle.putInt(Constant.BUNDLE_DATA, Constant.LOCK_PASSWORD_FRAGMENT_TYPE_FIRST_SET_PASSWORD)
-                turnToFragment(R.id.lockPasswordFragment)
+                turnToFragment(R.id.lockPasswordFragment, bundle)
             }
             // 反之进入锁定界面
             else
             {
-                turnToFragment(R.id.lockFragment)
+                turnToFragment(R.id.lockFragment, null)
             }
         }
     }
-
-    override fun onSupportNavigateUp() = Navigation.findNavController(this, R.id.fragment_container).navigateUp()
 
     override fun onStop()
     {
@@ -80,10 +79,38 @@ class MainActivity : AppCompatActivity()
         return super.dispatchTouchEvent(ev)
     }
 
-    private fun turnToFragment(fragmentId: Int)
+    private fun turnToFragment(fragmentId: Int, bundle: Bundle?)
     {
         val options = NavOptions.Builder().setEnterAnim(R.anim.slide_right_in).setExitAnim(R.anim.slide_left_out).setPopEnterAnim(R.anim.slide_left_in)
                 .setPopExitAnim(R.anim.slide_right_out).build()
-        Navigation.findNavController(this, R.id.fragment_container).navigate(fragmentId, null, options)
+        Navigation.findNavController(this, R.id.fragment_container).navigate(fragmentId, bundle, options)
+    }
+
+    override fun onBackPressed()
+    {
+        val topFragment = getTopFragment()
+        if (topFragment != null && topFragment.onBackPressed())
+        {
+            return
+        }
+        if (!Navigation.findNavController(this, R.id.fragment_container).navigateUp())
+        {
+            super.onBackPressed()
+        }
+    }
+
+    private fun getTopFragment(): BaseFragment?
+    {
+        if (supportFragmentManager.primaryNavigationFragment == null)
+        {
+            return null
+        }
+
+        if (supportFragmentManager.primaryNavigationFragment!!.childFragmentManager.fragments.isEmpty())
+        {
+            return null
+        }
+
+        return supportFragmentManager.primaryNavigationFragment!!.childFragmentManager.fragments[0] as BaseFragment
     }
 }

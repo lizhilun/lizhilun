@@ -6,6 +6,7 @@ import com.lizl.demo.passwordbox.R
 import com.lizl.demo.passwordbox.util.Constant
 import com.lizl.demo.passwordbox.util.ToastUtil
 import com.lizl.demo.passwordbox.util.UiApplication
+import com.lizl.demo.passwordbox.util.UiUtil
 import kotlinx.android.synthetic.main.fragment_lock_password.*
 
 /**
@@ -91,9 +92,9 @@ class LockPasswordFragment : BaseFragment()
     {
         if (fragmentType == Constant.LOCK_PASSWORD_FRAGMENT_TYPE_FIRST_SET_PASSWORD)
         {
-            return false
+            UiUtil.backToLauncher()
+            return true
         }
-        onBackButtonClick()
-        return true
+        return false
     }
 }

@@ -224,7 +224,6 @@ class SettingFragment : BaseFragment()
 
     override fun onBackPressed(): Boolean
     {
-        onBackButtonClick()
-        return true
+        return false
     }
 }

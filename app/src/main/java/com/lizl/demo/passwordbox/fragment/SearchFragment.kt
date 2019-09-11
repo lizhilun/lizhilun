@@ -146,7 +146,6 @@ class SearchFragment : BaseFragment(), AccountListAdapter.OnItemClickListener
 
     override fun onBackPressed(): Boolean
     {
-        onBackButtonClick()
-        return true
+        return false
     }
 }

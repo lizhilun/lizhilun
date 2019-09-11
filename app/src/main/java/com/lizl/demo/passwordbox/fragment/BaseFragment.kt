@@ -73,8 +73,14 @@ abstract class BaseFragment : Fragment()
 
     protected fun backToPreFragment()
     {
-        Navigation.findNavController(view!!)
-                .navigateUp()
+        try
+        {
+            Navigation.findNavController(checkNotNull(view)).navigateUp()
+        }
+        catch (e: Exception)
+        {
+            Log.e(TAG, e.toString())
+        }
     }
 
     protected fun turnToFragment(fragmentId: Int)
@@ -84,13 +90,15 @@ abstract class BaseFragment : Fragment()
 
     protected fun turnToFragment(fragmentId: Int, bundle: Bundle?)
     {
-        val options = NavOptions.Builder()
-                .setEnterAnim(R.anim.slide_right_in)
-                .setExitAnim(R.anim.slide_left_out)
-                .setPopEnterAnim(R.anim.slide_left_in)
-                .setPopExitAnim(R.anim.slide_right_out)
-                .build()
-        Navigation.findNavController(view!!)
-                .navigate(fragmentId, bundle, options)
+        try
+        {
+            val options = NavOptions.Builder().setEnterAnim(R.anim.slide_right_in).setExitAnim(R.anim.slide_left_out).setPopEnterAnim(R.anim.slide_left_in)
+                    .setPopExitAnim(R.anim.slide_right_out).build()
+            Navigation.findNavController(checkNotNull(view)).navigate(fragmentId, bundle, options)
+        }
+        catch (e: Exception)
+        {
+            Log.e(TAG, e.toString())
+        }
     }
 }
