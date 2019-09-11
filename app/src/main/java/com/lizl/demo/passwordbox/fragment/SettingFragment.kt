@@ -5,10 +5,10 @@ import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.support.v4.app.ActivityCompat
-import android.support.v4.content.ContextCompat
-import android.support.v7.widget.DividerItemDecoration
-import android.support.v7.widget.LinearLayoutManager
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.text.TextUtils
 import com.lizl.demo.passwordbox.R
 import com.lizl.demo.passwordbox.adapter.SettingListAdapter
@@ -38,7 +38,8 @@ class SettingFragment : BaseFragment()
     {
         val settingAdapter = SettingListAdapter(getSettingData())
         rv_setting_list.layoutManager = LinearLayoutManager(activity)
-        rv_setting_list.addItemDecoration(DividerItemDecoration(activity as Context, DividerItemDecoration.VERTICAL))
+        rv_setting_list.addItemDecoration(
+                DividerItemDecoration(activity as Context, DividerItemDecoration.VERTICAL))
         rv_setting_list.adapter = settingAdapter
 
         iv_back.setOnClickListener { onBackButtonClick() }

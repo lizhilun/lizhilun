@@ -2,7 +2,7 @@ package com.lizl.demo.passwordbox.customview.dialog
 
 import android.content.Context
 import android.content.DialogInterface
-import android.support.v4.hardware.fingerprint.FingerprintManagerCompat
+import androidx.core.hardware.fingerprint.FingerprintManagerCompat
 import android.util.Log
 import com.lizl.demo.passwordbox.R
 import kotlinx.android.synthetic.main.dialog_fingerprint.*
@@ -17,7 +17,7 @@ import kotlinx.coroutines.launch
 class DialogFingerprint(context: Context, private val fingerprintUnlockCallBack: FingerprintUnlockCallBack) : BaseDialog(context), DialogInterface.OnDismissListener
 {
     private var mFingerprintManager: FingerprintManagerCompat = FingerprintManagerCompat.from(context)
-    private lateinit var cancellationSignal: android.support.v4.os.CancellationSignal
+    private lateinit var cancellationSignal: androidx.core.os.CancellationSignal
 
     override fun getDialogLayoutResId(): Int
     {
@@ -37,7 +37,7 @@ class DialogFingerprint(context: Context, private val fingerprintUnlockCallBack:
         iv_lock.isSelected = false
         tv_result.text = context.getString(R.string.notify_verify_fingerprint_to_unlock)
 
-        cancellationSignal = android.support.v4.os.CancellationSignal()
+        cancellationSignal = androidx.core.os.CancellationSignal()
         mFingerprintManager.authenticate(null, 0, cancellationSignal, MyCallBack(), null)
     }
 

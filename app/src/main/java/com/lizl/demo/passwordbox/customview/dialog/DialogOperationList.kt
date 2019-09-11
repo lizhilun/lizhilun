@@ -1,7 +1,7 @@
 package com.lizl.demo.passwordbox.customview.dialog
 
 import android.content.Context
-import android.support.v7.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.lizl.demo.passwordbox.R
 import com.lizl.demo.passwordbox.adapter.OperationListAdapter
 import com.lizl.demo.passwordbox.customview.recylerviewitemdivider.ListDividerItemDecoration

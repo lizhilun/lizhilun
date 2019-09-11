@@ -2,7 +2,7 @@ package com.lizl.demo.passwordbox.fragment
 
 import android.content.Context
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.text.Editable
 import android.text.InputFilter
 import android.text.TextWatcher
@@ -77,9 +77,9 @@ class SearchFragment : BaseFragment(), AccountListAdapter.OnItemClickListener
         }
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean
+    override fun onOptionsItemSelected(item: MenuItem): Boolean
     {
-        when (item?.itemId)
+        when (item.itemId)
         {
             android.R.id.home -> onBackButtonClick()
         }

@@ -2,7 +2,7 @@ package com.lizl.demo.passwordbox.util
 
 import android.app.Application
 import android.content.Context
-import android.support.v4.hardware.fingerprint.FingerprintManagerCompat
+import androidx.core.hardware.fingerprint.FingerprintManagerCompat
 import android.view.inputmethod.InputMethodManager
 import com.lizl.demo.passwordbox.config.AppConfig
 import com.lizl.demo.passwordbox.config.ConfigHelper

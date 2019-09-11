@@ -1,7 +1,7 @@
 package com.lizl.demo.passwordbox.fragment
 
 import android.content.Context
-import android.support.v7.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.lizl.demo.passwordbox.R
 import com.lizl.demo.passwordbox.adapter.BackupFileListAdapter
 import com.lizl.demo.passwordbox.customview.dialog.DialogInput

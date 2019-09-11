@@ -4,9 +4,9 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Rect
 import android.graphics.drawable.Drawable
-import android.support.v4.content.ContextCompat
-import android.support.v7.widget.DividerItemDecoration
-import android.support.v7.widget.RecyclerView
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.RecyclerView
 import com.lizl.demo.passwordbox.R
 
 class ListDividerItemDecoration(private val context: Context) : DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
@@ -19,12 +19,12 @@ class ListDividerItemDecoration(private val context: Context) : DividerItemDecor
         setDrawable(mDivider)
     }
 
-    override fun onDraw(canvas: Canvas?, parent: RecyclerView?, state: RecyclerView.State?)
+    override fun onDraw(canvas: Canvas, parent: RecyclerView, state: RecyclerView.State)
     {
-        canvas?.save()
+        canvas.save()
 
         val left: Int = context.resources.getDimensionPixelOffset(R.dimen.global_divide_line_padding_edge)
-        val right: Int = parent?.width!! - context.resources.getDimensionPixelOffset(R.dimen.global_divide_line_padding_edge)
+        val right: Int = parent.width - context.resources.getDimensionPixelOffset(R.dimen.global_divide_line_padding_edge)
 
         val childCount = parent.childCount
 
@@ -37,6 +37,6 @@ class ListDividerItemDecoration(private val context: Context) : DividerItemDecor
             mDivider.setBounds(left, top, right, bottom)
             mDivider.draw(canvas)
         }
-        canvas?.restore()
+        canvas.restore()
     }
 }

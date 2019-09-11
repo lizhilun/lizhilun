@@ -1,9 +1,9 @@
 package com.lizl.demo.passwordbox.customview
 
 import android.content.Context
-import android.support.v4.content.ContextCompat
-import android.support.v7.widget.AppCompatEditText
-import android.support.v7.widget.AppCompatTextView
+import androidx.core.content.ContextCompat
+import androidx.appcompat.widget.AppCompatEditText
+import androidx.appcompat.widget.AppCompatTextView
 import android.text.InputFilter
 import android.text.InputType
 import android.util.AttributeSet
