@@ -61,7 +61,7 @@ class AccountListFragment : BaseFragment(), AccountListAdapter.OnItemClickListen
             {
                 val bundle = Bundle()
                 bundle.putParcelable(Constant.BUNDLE_DATA, accountModel)
-                turnToFragment(R.id.lockPasswordFragment, bundle)
+                turnToFragment(R.id.addAccountFragment, bundle)
             }
         }))
 

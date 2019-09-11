@@ -2,7 +2,6 @@ package com.lizl.demo.passwordbox.fragment
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import androidx.appcompat.app.AppCompatActivity
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -16,14 +15,10 @@ abstract class BaseFragment : Fragment()
 {
     protected var TAG = this.javaClass.simpleName
 
-    var fragmentHasDestroyed = false
-
     override fun onCreate(savedInstanceState: Bundle?)
     {
         Log.d(TAG, "onCreate")
         super.onCreate(savedInstanceState)
-
-        fragmentHasDestroyed = false
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
@@ -68,8 +63,6 @@ abstract class BaseFragment : Fragment()
     {
         Log.d(TAG, "onDestroy")
         super.onDestroy()
-
-        fragmentHasDestroyed = true
     }
 
     abstract fun getLayoutResId(): Int

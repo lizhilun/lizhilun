@@ -39,10 +39,8 @@
 
     <string name="hint_input_password">请输入密码</string>
     <string name="hint_verify_fingerprint_or_input_password">请验证指纹或输入密码</string>
-    <string name="notify_verify_fingerprint_to_unlock">请验证已有手机指纹</string>
-    <string name="notify_fingerprint_authentication_failed">指纹识别错误，请重试</string>
-    <string name="notify_fingerprint_authentication_error">指纹识别失败</string>
-    <string name="notify_fingerprint_authentication_success">指纹识别通过</string>
+    <string name="fingerprint_authentication_dialog_title">指纹验证</string>
+    <string name="fingerprint_authentication_dialog_description"> </string>
 
     <string name="hint_search_account">请输入关键字进行搜索</string>
 
