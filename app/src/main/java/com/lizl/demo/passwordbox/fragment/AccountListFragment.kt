@@ -28,9 +28,9 @@ class AccountListFragment : BaseFragment(), AccountListAdapter.OnItemClickListen
 
     override fun initView()
     {
-        fab_add.setOnClickListener { turnToFragment(AddAccountFragment()) }
-        iv_search.setOnClickListener { onSearchButtonClick() }
-        iv_setting.setOnClickListener { onSettingButtonClick() }
+        fab_add.setOnClickListener { turnToFragment(R.id.addAccountFragment) }
+        iv_search.setOnClickListener { turnToFragment(R.id.searchFragment) }
+        iv_setting.setOnClickListener { turnToFragment(R.id.settingFragment) }
         qsb_slide.setOnQuickSideBarTouchListener(this)
 
         getData()
@@ -43,16 +43,6 @@ class AccountListFragment : BaseFragment(), AccountListAdapter.OnItemClickListen
         accountListAdapter = AccountListAdapter(accountList, this)
         rv_password_list.layoutManager = ScrollTopLayoutManager(activity as Context)
         rv_password_list.adapter = accountListAdapter
-    }
-
-    private fun onSearchButtonClick()
-    {
-        turnToFragment(SearchFragment())
-    }
-
-    private fun onSettingButtonClick()
-    {
-        turnToFragment(SettingFragment())
     }
 
     override fun onAccountItemClick(accountModel: AccountModel)
@@ -71,7 +61,7 @@ class AccountListFragment : BaseFragment(), AccountListAdapter.OnItemClickListen
             {
                 val bundle = Bundle()
                 bundle.putParcelable(Constant.BUNDLE_DATA, accountModel)
-                turnToFragment(AddAccountFragment(), bundle)
+                turnToFragment(R.id.lockPasswordFragment, bundle)
             }
         }))
 

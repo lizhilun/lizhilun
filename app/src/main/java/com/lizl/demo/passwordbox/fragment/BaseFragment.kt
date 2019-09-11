@@ -7,8 +7,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.NavOptions
+import androidx.navigation.Navigation
+import com.lizl.demo.passwordbox.R
 import com.lizl.demo.passwordbox.util.DialogUtil
-import com.lizl.demo.passwordbox.util.FragmentUtil
 
 abstract class BaseFragment : Fragment()
 {
@@ -78,16 +80,24 @@ abstract class BaseFragment : Fragment()
 
     protected fun backToPreFragment()
     {
-        FragmentUtil.backToPreFragment(activity as AppCompatActivity)
+        Navigation.findNavController(view!!)
+                .navigateUp()
     }
 
-    protected fun turnToFragment(fragment: BaseFragment)
+    protected fun turnToFragment(fragmentId: Int)
     {
-        FragmentUtil.turnToFragment(activity as AppCompatActivity, fragment)
+        turnToFragment(fragmentId, null)
     }
 
-    protected fun turnToFragment(fragment: BaseFragment, bundle: Bundle)
+    protected fun turnToFragment(fragmentId: Int, bundle: Bundle?)
     {
-        FragmentUtil.turnToFragment(activity as AppCompatActivity, fragment, bundle)
+        val options = NavOptions.Builder()
+                .setEnterAnim(R.anim.slide_right_in)
+                .setExitAnim(R.anim.slide_left_out)
+                .setPopEnterAnim(R.anim.slide_left_in)
+                .setPopExitAnim(R.anim.slide_right_out)
+                .build()
+        Navigation.findNavController(view!!)
+                .navigate(fragmentId, bundle, options)
     }
 }

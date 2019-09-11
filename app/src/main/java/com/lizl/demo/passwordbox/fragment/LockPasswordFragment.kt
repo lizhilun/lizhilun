@@ -84,7 +84,7 @@ class LockPasswordFragment : BaseFragment()
     private fun onSkipButtonClick()
     {
         UiApplication.instance.getAppConfig().setAppLockPasswordOn(false)
-        turnToFragment(AccountListFragment())
+        turnToFragment(R.id.accountListFragment)
     }
 
     override fun onBackPressed(): Boolean

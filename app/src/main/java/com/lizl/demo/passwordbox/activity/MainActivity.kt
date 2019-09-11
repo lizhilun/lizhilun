@@ -5,12 +5,11 @@ import androidx.appcompat.app.AppCompatActivity
 import android.text.TextUtils
 import android.view.MotionEvent
 import android.widget.EditText
+import androidx.navigation.NavOptions
+import androidx.navigation.Navigation
 import com.lizl.demo.passwordbox.R
 import com.lizl.demo.passwordbox.config.ConfigConstant
-import com.lizl.demo.passwordbox.fragment.LockFragment
-import com.lizl.demo.passwordbox.fragment.LockPasswordFragment
 import com.lizl.demo.passwordbox.util.Constant
-import com.lizl.demo.passwordbox.util.FragmentUtil
 import com.lizl.demo.passwordbox.util.UiApplication
 import com.lizl.demo.passwordbox.util.UiUtil
 
@@ -39,36 +38,23 @@ class MainActivity : AppCompatActivity()
             {
                 val bundle = Bundle()
                 bundle.putInt(Constant.BUNDLE_DATA, Constant.LOCK_PASSWORD_FRAGMENT_TYPE_FIRST_SET_PASSWORD)
-                FragmentUtil.turnToFragment(this, LockPasswordFragment(), bundle)
+                turnToFragment(R.id.lockPasswordFragment)
             }
             // 反之进入锁定界面
             else
             {
-                FragmentUtil.turnToFragment(this, LockFragment())
+                turnToFragment(R.id.lockFragment)
             }
         }
-        // 反之直接显示栈顶Fragment
-        else
-        {
-            FragmentUtil.showTopFragment(this)
-        }
     }
+
+    override fun onSupportNavigateUp() = Navigation.findNavController(this, R.id.fragment_container).navigateUp()
 
     override fun onStop()
     {
         super.onStop()
 
         UiApplication.instance.getAppConfig().setAppLastStopTime(System.currentTimeMillis())
-    }
-
-    override fun onBackPressed()
-    {
-        val topFragment = FragmentUtil.getTopFragment()
-        val result = topFragment?.onBackPressed()
-        if (result == null || !result)
-        {
-            super.onBackPressed()
-        }
     }
 
     /**
@@ -92,5 +78,12 @@ class MainActivity : AppCompatActivity()
         }
 
         return super.dispatchTouchEvent(ev)
+    }
+
+    public fun turnToFragment(fragmentId: Int)
+    {
+        val options = NavOptions.Builder().setEnterAnim(R.anim.slide_right_in).setExitAnim(R.anim.slide_left_out).setPopEnterAnim(R.anim.slide_left_in)
+                .setPopExitAnim(R.anim.slide_right_out).build()
+        Navigation.findNavController(this, R.id.fragment_container).navigate(fragmentId, null, options)
     }
 }

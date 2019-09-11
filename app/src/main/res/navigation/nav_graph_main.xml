@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation android:id="@+id/nav_graph_main"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:startDestination="@id/accountListFragment">
+
+    <fragment
+        android:id="@+id/accountListFragment"
+        android:name="com.lizl.demo.passwordbox.fragment.AccountListFragment" />
+
+    <fragment
+        android:id="@+id/addAccountFragment"
+        android:name="com.lizl.demo.passwordbox.fragment.AddAccountFragment" />
+
+    <fragment
+        android:id="@+id/backupFileListFragment"
+        android:name="com.lizl.demo.passwordbox.fragment.BackupFileListFragment" />
+
+    <fragment
+        android:id="@+id/lockFragment"
+        android:name="com.lizl.demo.passwordbox.fragment.LockFragment" />
+
+    <fragment
+        android:id="@+id/lockPasswordFragment"
+        android:name="com.lizl.demo.passwordbox.fragment.LockPasswordFragment" />
+
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.lizl.demo.passwordbox.fragment.SearchFragment" />
+
+    <fragment
+        android:id="@+id/settingFragment"
+        android:name="com.lizl.demo.passwordbox.fragment.SettingFragment" />
+
+</navigation>

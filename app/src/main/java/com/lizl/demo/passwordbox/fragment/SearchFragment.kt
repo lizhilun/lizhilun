@@ -113,7 +113,7 @@ class SearchFragment : BaseFragment(), AccountListAdapter.OnItemClickListener
             {
                 val bundle = Bundle()
                 bundle.putParcelable(Constant.BUNDLE_DATA, accountModel)
-                turnToFragment(AddAccountFragment(), bundle)
+                turnToFragment(R.id.addAccountFragment, bundle)
             }
         }))
 

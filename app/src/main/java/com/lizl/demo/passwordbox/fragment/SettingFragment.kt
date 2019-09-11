@@ -69,7 +69,7 @@ class SettingFragment : BaseFragment()
 
                             val bundle = Bundle()
                             bundle.putInt(Constant.BUNDLE_DATA, Constant.LOCK_PASSWORD_FRAGMENT_TYPE_SET_PASSWORD)
-                            turnToFragment(LockPasswordFragment(), bundle)
+                            turnToFragment(R.id.lockPasswordFragment, bundle)
                         }
                     })
             )
@@ -84,7 +84,7 @@ class SettingFragment : BaseFragment()
                 {
                     val bundle = Bundle()
                     bundle.putInt(Constant.BUNDLE_DATA, Constant.LOCK_PASSWORD_FRAGMENT_TYPE_MODIFY_PASSWORD)
-                    turnToFragment(LockPasswordFragment(), bundle)
+                    turnToFragment(R.id.lockPasswordFragment, bundle)
                 }
             }))
         }
@@ -97,7 +97,7 @@ class SettingFragment : BaseFragment()
                 {
                     val bundle = Bundle()
                     bundle.putInt(Constant.BUNDLE_DATA, Constant.LOCK_PASSWORD_FRAGMENT_TYPE_SET_PASSWORD)
-                    turnToFragment(LockPasswordFragment(), bundle)
+                    turnToFragment(R.id.lockPasswordFragment, bundle)
                 }
             }))
         }
@@ -120,7 +120,7 @@ class SettingFragment : BaseFragment()
                 {
                     val bundle = Bundle()
                     bundle.putInt(Constant.BUNDLE_DATA, Constant.LOCK_PASSWORD_FRAGMENT_TYPE_SET_PASSWORD)
-                    turnToFragment(LockPasswordFragment(), bundle)
+                    turnToFragment(R.id.lockPasswordFragment, bundle)
                 }
                 else
                 {
@@ -145,7 +145,7 @@ class SettingFragment : BaseFragment()
             {
                 if (checkWriteStoragePermission(REQUEST_CODE_READ_EX_PERMISSION_FOR_RESTORE))
                 {
-                    turnToFragment(BackupFileListFragment())
+                    turnToFragment(R.id.backupFileListFragment)
                 }
             }
         }))
@@ -195,7 +195,7 @@ class SettingFragment : BaseFragment()
             when (requestCode)
             {
                 REQUEST_CODE_READ_EX_PERMISSION_FOR_BACKUP -> backupData()
-                REQUEST_CODE_READ_EX_PERMISSION_FOR_RESTORE -> turnToFragment(BackupFileListFragment())
+                REQUEST_CODE_READ_EX_PERMISSION_FOR_RESTORE -> turnToFragment(R.id.backupFileListFragment)
             }
         }
         else if (grantResults[0] == PackageManager.PERMISSION_DENIED)

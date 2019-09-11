@@ -9,7 +9,6 @@
 
     <color name="transparent">#00000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="black">#000000</color>
 
     <color name="bg_button_disable">#aeaeae</color>
     <color name="color_number_key_text">@color/colorTextColor</color>
