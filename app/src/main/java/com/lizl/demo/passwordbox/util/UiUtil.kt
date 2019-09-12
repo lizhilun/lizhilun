@@ -28,25 +28,12 @@ class UiUtil
         fun copyTextToClipboard(context: Context, text: String)
         {
             val clipboardManager = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-            val clipData = ClipData.newPlainText("text", text)
-            clipboardManager.primaryClip = clipData
-
-            ToastUtil.showToast(R.string.notify_success_to_copy)
-        }
-
-        /**
-         * 根据Fragment显示方向获取对应的动画
-         */
-        fun getFragmentTransactionAnnotation(showFromDirection: Int): IntArray
-        {
-            return when (showFromDirection)
+            clipboardManager.setPrimaryClip(ClipData.newPlainText(null, text))
+            if (clipboardManager.hasPrimaryClip())
             {
-                Constant.FRAGMENT_SHOW_DIRECTION_RIGHT  -> intArrayOf(R.anim.slide_right_in, R.anim.slide_left_out, R.anim.slide_left_in, R.anim.slide_right_out)
-                Constant.FRAGMENT_SHOW_DIRECTION_LEFT   -> intArrayOf(R.anim.slide_left_in, R.anim.slide_right_out, R.anim.slide_right_in, R.anim.slide_left_out)
-                Constant.FRAGMENT_SHOW_DIRECTION_TOP    -> intArrayOf(R.anim.slide_top_in, R.anim.slide_bottom_out, R.anim.slide_bottom_in, R.anim.slide_top_out)
-                Constant.FRAGMENT_SHOW_DIRECTION_BOTTOM -> intArrayOf(R.anim.slide_bottom_in, R.anim.slide_top_out, R.anim.slide_top_in, R.anim.slide_top_out)
-                else                                    -> intArrayOf(R.anim.slide_right_in, R.anim.slide_left_out, R.anim.slide_left_in, R.anim.slide_right_out)
+                clipboardManager.primaryClip!!.getItemAt(0).text
             }
+            ToastUtil.showToast(R.string.notify_success_to_copy)
         }
 
         /**
@@ -195,7 +182,7 @@ class UiUtil
         /**
          *  dp转px
          */
-        fun dpToPx(dpValue : Int) : Int
+        fun dpToPx(dpValue: Int): Int
         {
             val scale = UiApplication.instance.resources.displayMetrics.density
             return (dpValue * scale + 0.5f).toInt()
