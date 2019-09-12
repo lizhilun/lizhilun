@@ -3,6 +3,8 @@ package com.lizl.demo.passwordbox.fragment
 import android.text.TextUtils
 import android.view.View
 import com.lizl.demo.passwordbox.R
+import com.lizl.demo.passwordbox.customview.CustomTitleBar
+import com.lizl.demo.passwordbox.model.TitleBarBtnItem
 import com.lizl.demo.passwordbox.util.Constant
 import com.lizl.demo.passwordbox.util.ToastUtil
 import com.lizl.demo.passwordbox.util.UiApplication
@@ -29,33 +31,47 @@ class LockPasswordFragment : BaseFragment()
     {
         fragmentType = arguments?.getInt(Constant.BUNDLE_DATA)
 
-        isNeedCurPassword = (fragmentType == Constant.LOCK_PASSWORD_FRAGMENT_TYPE_MODIFY_PASSWORD)
-        isNeedBackButton = (fragmentType != Constant.LOCK_PASSWORD_FRAGMENT_TYPE_FIRST_SET_PASSWORD)
-        isNeedSkipButton = (fragmentType == Constant.LOCK_PASSWORD_FRAGMENT_TYPE_FIRST_SET_PASSWORD)
-
-        if (isNeedBackButton) iv_back.visibility = View.VISIBLE else iv_back.visibility = View.GONE
-
-        if (isNeedSkipButton) tv_skip.visibility = View.VISIBLE else tv_skip.visibility = View.GONE
-
-        if (isNeedCurPassword)
+        ctb_title.setOnBackBtnClickListener(object : CustomTitleBar.OnBackBtnClickListener
         {
-            et_current_password.visibility = View.VISIBLE
-            tv_toolbar_title.text = getString(R.string.modify_lock_password)
-        }
-        else
+            override fun onBackBtnClick()
+            {
+                backToPreFragment()
+            }
+        })
+
+        when (fragmentType)
         {
-            et_current_password.visibility = View.GONE
-            tv_toolbar_title.text = getString(R.string.set_lock_password)
+            Constant.LOCK_PASSWORD_FRAGMENT_TYPE_SET_PASSWORD       ->
+            {
+                et_current_password.visibility = View.GONE
+                ctb_title.setTitleText(getString(R.string.set_lock_password))
+                ctb_title.setBackBtnVisible(true)
+            }
+            Constant.LOCK_PASSWORD_FRAGMENT_TYPE_FIRST_SET_PASSWORD ->
+            {
+                et_current_password.visibility = View.GONE
+                ctb_title.setTitleText(getString(R.string.set_lock_password))
+                ctb_title.setBackBtnVisible(false)
+                val titleBtnList = mutableListOf<TitleBarBtnItem.BaseItem>()
+                titleBtnList.add(TitleBarBtnItem.TextBtnItem(getString(R.string.skip), object : TitleBarBtnItem.OnBtnClickListener
+                {
+                    override fun onBtnClick()
+                    {
+                        UiApplication.instance.getAppConfig().setAppLockPasswordOn(false)
+                        turnToFragment(R.id.accountListFragment)
+                    }
+                }))
+                ctb_title.setBtnList(titleBtnList)
+            }
+            Constant.LOCK_PASSWORD_FRAGMENT_TYPE_MODIFY_PASSWORD    ->
+            {
+                et_current_password.visibility = View.VISIBLE
+                ctb_title.setTitleText(getString(R.string.modify_lock_password))
+                ctb_title.setBackBtnVisible(true)
+            }
         }
 
-        iv_back.setOnClickListener { onBackButtonClick() }
-        tv_skip.setOnClickListener { onSkipButtonClick() }
         btn_confirm.setOnClickListener { onConfirmButtonClick() }
-    }
-
-    private fun onBackButtonClick()
-    {
-        backToPreFragment()
     }
 
     private fun onConfirmButtonClick()
@@ -80,12 +96,6 @@ class LockPasswordFragment : BaseFragment()
         UiApplication.instance.getAppConfig().setAppLockPassword(newPassword)
 
         backToPreFragment()
-    }
-
-    private fun onSkipButtonClick()
-    {
-        UiApplication.instance.getAppConfig().setAppLockPasswordOn(false)
-        turnToFragment(R.id.accountListFragment)
     }
 
     override fun onBackPressed(): Boolean

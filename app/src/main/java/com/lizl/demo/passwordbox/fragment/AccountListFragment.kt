@@ -9,6 +9,7 @@ import com.lizl.demo.passwordbox.customview.ScrollTopLayoutManager
 import com.lizl.demo.passwordbox.customview.quicksearchbar.OnQuickSideBarTouchListener
 import com.lizl.demo.passwordbox.model.AccountModel
 import com.lizl.demo.passwordbox.model.OperationItem
+import com.lizl.demo.passwordbox.model.TitleBarBtnItem
 import com.lizl.demo.passwordbox.util.Constant
 import com.lizl.demo.passwordbox.util.DataUtil
 import com.lizl.demo.passwordbox.util.DialogUtil
@@ -29,8 +30,24 @@ class AccountListFragment : BaseFragment(), AccountListAdapter.OnItemClickListen
     override fun initView()
     {
         fab_add.setOnClickListener { turnToFragment(R.id.addAccountFragment) }
-        iv_search.setOnClickListener { turnToFragment(R.id.searchFragment) }
-        iv_setting.setOnClickListener { turnToFragment(R.id.settingFragment) }
+
+        val titleBtnList = mutableListOf<TitleBarBtnItem.BaseItem>()
+        titleBtnList.add(TitleBarBtnItem.ImageBtnItem(R.mipmap.ic_setting, object : TitleBarBtnItem.OnBtnClickListener
+        {
+            override fun onBtnClick()
+            {
+                turnToFragment(R.id.settingFragment)
+            }
+        }))
+        titleBtnList.add(TitleBarBtnItem.ImageBtnItem(R.mipmap.ic_search, object : TitleBarBtnItem.OnBtnClickListener
+        {
+            override fun onBtnClick()
+            {
+                turnToFragment(R.id.searchFragment)
+            }
+        }))
+        ctb_title.setBtnList(titleBtnList)
+
         qsb_slide.setOnQuickSideBarTouchListener(this)
 
         getData()

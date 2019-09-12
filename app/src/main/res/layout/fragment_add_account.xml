@@ -1,26 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:QuickSideBarView="http://schemas.android.com/apk/res-auto">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layout_title"
+    <com.lizl.demo.passwordbox.customview.CustomTitleBar
+        android:id="@+id/ctb_title"
         style="@style/ToolbarLayoutStyle"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/iv_back"
-            style="@style/ToolbarLayoutBackIconStyle"
-            app:layout_constraintStart_toStartOf="parent"/>
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_toolbar_title"
-            style="@style/ToolbarLayoutTitleStyle"
-            android:text="@string/add_account"
-            app:layout_constraintStart_toEndOf="@+id/iv_back"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_alignParentTop="true"
+        QuickSideBarView:backBtnVisible="true"
+        QuickSideBarView:titleText="@string/add_account"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.lizl.demo.passwordbox.customview.EditTextWithDecText
         android:id="@+id/et_account_description"
@@ -30,7 +22,7 @@
         app:exitTextInputType="textMultiLine"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/layout_title"/>
+        app:layout_constraintTop_toBottomOf="@+id/ctb_title"/>
 
     <com.lizl.demo.passwordbox.customview.EditTextWithDecText
         android:id="@+id/et_account"

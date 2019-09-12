@@ -43,14 +43,14 @@ class EditTextWithDecText(context: Context, attrs: AttributeSet?, defStyleAttr: 
         val bottomLine = View(context)
         bottomLine.id = View.generateViewId()
 
-        var editTextSize = context.resources.getDimensionPixelSize(com.lizl.demo.passwordbox.R.dimen.global_text_size)
-        var decTextSize = context.resources.getDimensionPixelSize(com.lizl.demo.passwordbox.R.dimen.global_text_size)
+        var editTextSize = context.resources.getDimensionPixelSize(R.dimen.global_text_size)
+        var decTextSize = context.resources.getDimensionPixelSize(R.dimen.global_text_size)
         var decEmsSize = 4
-        var marginDecText = context.resources.getDimensionPixelSize(com.lizl.demo.passwordbox.R.dimen.global_content_padding_content)
+        var marginDecText = context.resources.getDimensionPixelSize(R.dimen.global_content_padding_content)
         var editTextInputType = 0
         var editTextMaxEms = Int.MAX_VALUE
 
-        val typeArray = context.obtainStyledAttributes(attrs, com.lizl.demo.passwordbox.R.styleable.EditTextWithDecText)
+        val typeArray = context.obtainStyledAttributes(attrs, R.styleable.EditTextWithDecText)
         for (index in 0 until typeArray.indexCount)
         {
             val attr = typeArray.getIndex(index)
@@ -113,8 +113,8 @@ class EditTextWithDecText(context: Context, attrs: AttributeSet?, defStyleAttr: 
 
         val relativeLayout = RelativeLayout(context)
         val decTextLp = RelativeLayout.LayoutParams(decTextWidth, 0)
-        val editTextLp = RelativeLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT)
-        val bottomLineLp = RelativeLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, UiUtil.dpToPx(1))
+        val editTextLp = RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
+        val bottomLineLp = RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, UiUtil.dpToPx(1))
 
         bottomLineLp.addRule(RelativeLayout.BELOW, editText.id)
 

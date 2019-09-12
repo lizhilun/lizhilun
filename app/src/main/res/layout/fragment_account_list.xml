@@ -8,35 +8,18 @@
     android:layout_height="match_parent"
     tools:context=".activity.MainActivity">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layout_title"
+    <com.lizl.demo.passwordbox.customview.CustomTitleBar
+        android:id="@+id/ctb_title"
         style="@style/ToolbarLayoutStyle"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_toolbar_title"
-            style="@style/ToolbarLayoutTitleStyle"
-            android:text="@string/app_name"
-            app:layout_constraintStart_toStartOf="parent"/>
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/iv_search"
-            style="@style/ToolbarLayoutImageButtonStyle"
-            android:src="@mipmap/ic_search"
-            app:layout_constraintEnd_toStartOf="@+id/iv_setting"/>
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/iv_setting"
-            style="@style/ToolbarLayoutImageButtonStyle"
-            android:src="@mipmap/ic_setting"
-            app:layout_constraintEnd_toEndOf="parent"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_alignParentTop="true"
+        QuickSideBarView:backBtnVisible="false"
+        QuickSideBarView:titleText="@string/app_name" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_password_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/layout_title"
+        android:layout_below="@+id/ctb_title"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -56,7 +39,7 @@
         android:layout_width="20dp"
         android:layout_height="match_parent"
         android:layout_alignParentEnd="true"
-        android:layout_below="@+id/layout_title"
+        android:layout_below="@+id/ctb_title"
         android:layout_marginBottom="10dp"
         android:layout_marginTop="10dp"
         QuickSideBarView:sidebarTextColor="@color/colorSecondaryTextColor"

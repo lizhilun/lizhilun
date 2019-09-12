@@ -2,7 +2,9 @@ package com.lizl.demo.passwordbox.fragment
 
 import android.text.TextUtils
 import com.lizl.demo.passwordbox.R
+import com.lizl.demo.passwordbox.customview.CustomTitleBar
 import com.lizl.demo.passwordbox.model.AccountModel
+import com.lizl.demo.passwordbox.model.TitleBarBtnItem
 import com.lizl.demo.passwordbox.util.Constant
 import com.lizl.demo.passwordbox.util.DataUtil
 import com.lizl.demo.passwordbox.util.PinyinUtil
@@ -31,12 +33,13 @@ class AddAccountFragment : BaseFragment()
         et_account.setText(accountModel?.account)
         et_password.setText(accountModel?.password)
 
-        iv_back.setOnClickListener { onBackButtonClick() }
-    }
-
-    private fun onBackButtonClick()
-    {
-        backToPreFragment()
+        ctb_title.setOnBackBtnClickListener(object : CustomTitleBar.OnBackBtnClickListener
+        {
+            override fun onBackBtnClick()
+            {
+                backToPreFragment()
+            }
+        })
     }
 
     private fun onConfirmButtonClick()

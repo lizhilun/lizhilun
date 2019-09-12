@@ -28,4 +28,8 @@
         <attr name="decTextColor" format="color|reference"/>
     </declare-styleable>
 
+    <declare-styleable name="CustomTitleBar">
+        <attr name="backBtnVisible" format="boolean" />
+        <attr name="titleText" format="string|reference" />
+    </declare-styleable>
 </resources>

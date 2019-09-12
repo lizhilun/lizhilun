@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lizl.demo.passwordbox.R
 import com.lizl.demo.passwordbox.adapter.BackupFileListAdapter
+import com.lizl.demo.passwordbox.customview.CustomTitleBar
 import com.lizl.demo.passwordbox.customview.dialog.DialogInput
 import com.lizl.demo.passwordbox.customview.dialog.DialogOperationConfirm
 import com.lizl.demo.passwordbox.model.OperationItem
@@ -25,7 +26,13 @@ class BackupFileListFragment : BaseFragment(), BackupFileListAdapter.OnBackFileI
 
     override fun initView()
     {
-        iv_back.setOnClickListener { onBackButtonClick() }
+        ctb_title.setOnBackBtnClickListener(object : CustomTitleBar.OnBackBtnClickListener
+        {
+            override fun onBackBtnClick()
+            {
+                backToPreFragment()
+            }
+        })
     }
 
     override fun onResume()

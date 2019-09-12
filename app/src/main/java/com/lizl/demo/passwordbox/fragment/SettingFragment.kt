@@ -13,6 +13,7 @@ import android.text.TextUtils
 import com.lizl.demo.passwordbox.R
 import com.lizl.demo.passwordbox.adapter.SettingListAdapter
 import com.lizl.demo.passwordbox.config.ConfigConstant
+import com.lizl.demo.passwordbox.customview.CustomTitleBar
 import com.lizl.demo.passwordbox.customview.dialog.DialogOperationConfirm
 import com.lizl.demo.passwordbox.model.settingmodel.SettingBaseItem
 import com.lizl.demo.passwordbox.model.settingmodel.SettingBooleanItem
@@ -42,7 +43,13 @@ class SettingFragment : BaseFragment()
                 DividerItemDecoration(activity as Context, DividerItemDecoration.VERTICAL))
         rv_setting_list.adapter = settingAdapter
 
-        iv_back.setOnClickListener { onBackButtonClick() }
+        ctb_title.setOnBackBtnClickListener(object : CustomTitleBar.OnBackBtnClickListener
+        {
+            override fun onBackBtnClick()
+            {
+                backToPreFragment()
+            }
+        })
     }
 
     private fun getSettingData(): List<SettingBaseItem>
@@ -215,11 +222,6 @@ class SettingFragment : BaseFragment()
                 })
             }
         }
-    }
-
-    private fun onBackButtonClick()
-    {
-        backToPreFragment()
     }
 
     override fun onBackPressed(): Boolean
