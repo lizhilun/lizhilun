@@ -165,7 +165,7 @@ class UiUtil
          */
         fun showSoftKeyboard()
         {
-            UiApplication.inputMethodManager.toggleSoftInput(InputMethodManager.RESULT_UNCHANGED_SHOWN, 0);
+            UiApplication.inputMethodManager.toggleSoftInput(InputMethodManager.RESULT_UNCHANGED_SHOWN, 0)
         }
 
         /**

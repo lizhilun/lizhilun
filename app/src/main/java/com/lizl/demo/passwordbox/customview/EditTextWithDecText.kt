@@ -138,7 +138,7 @@ class EditTextWithDecText(context: Context, attrs: AttributeSet?, defStyleAttr: 
             }
         }
 
-        val layoutParams = FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT)
+        val layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
         addView(relativeLayout, layoutParams)
     }
 

@@ -6,7 +6,6 @@ import android.os.CancellationSignal
 import androidx.recyclerview.widget.GridLayoutManager
 import android.util.Log
 import androidx.core.content.ContextCompat
-import androidx.navigation.Navigation
 import com.lizl.demo.passwordbox.R
 import com.lizl.demo.passwordbox.adapter.NumberKeyGridAdapter
 import com.lizl.demo.passwordbox.customview.recylerviewitemdivider.GridDividerItemDecoration

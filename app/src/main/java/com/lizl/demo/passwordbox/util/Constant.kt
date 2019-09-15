@@ -7,12 +7,6 @@ class Constant
 {
     companion object StaticParams
     {
-        const val FRAGMENT_SHOW_NO_DIRECTION = -1 //Fragment显示的方向：无方向
-        const val FRAGMENT_SHOW_DIRECTION_LEFT = 0 //Fragment显示的方向：从左边出现
-        const val FRAGMENT_SHOW_DIRECTION_RIGHT = 1 //Fragment显示的方向：从右边出现
-        const val FRAGMENT_SHOW_DIRECTION_TOP = 2 //Fragment显示的方向：从顶部出现
-        const val FRAGMENT_SHOW_DIRECTION_BOTTOM = 3 //Fragment显示的方向：从底部出现
-
         const val BUNDLE_DATA = "BUNDLE_DATA" //Fragment间传递数据的Bundle key
 
         const val LOCK_PASSWORD_FRAGMENT_TYPE_SET_PASSWORD = 1 //保护密码设置界面类型：设置密码

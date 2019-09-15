@@ -27,7 +27,7 @@ class BackupUtil
         /**
          * 备份数据
          */
-        fun backupData(callback: BackupUtil.DataBackupCallback)
+        fun backupData(callback: DataBackupCallback)
         {
             GlobalScope.launch(Dispatchers.IO) {
                 var dataString = ""
@@ -50,7 +50,7 @@ class BackupUtil
         /**
          * 还原数据
          */
-        fun restoreData(filePath: String, clearAllData: Boolean, callback: BackupUtil.DataRestoreCallback)
+        fun restoreData(filePath: String, clearAllData: Boolean, callback: DataRestoreCallback)
         {
             restoreData(filePath, "", clearAllData, callback)
         }
@@ -58,7 +58,7 @@ class BackupUtil
         /**
          * 还原数据
          */
-        fun restoreData(filePath: String, password: String, clearAllData: Boolean, callback: BackupUtil.DataRestoreCallback)
+        fun restoreData(filePath: String, password: String, clearAllData: Boolean, callback: DataRestoreCallback)
         {
             GlobalScope.launch(Dispatchers.IO) {
                 // 如果传入的密码为空，则使用当前App保护密码进行数据解密

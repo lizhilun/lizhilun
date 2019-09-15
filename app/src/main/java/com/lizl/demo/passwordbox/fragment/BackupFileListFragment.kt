@@ -150,11 +150,6 @@ class BackupFileListFragment : BaseFragment(), BackupFileListAdapter.OnBackFileI
         }
     }
 
-    private fun onBackButtonClick()
-    {
-        backToPreFragment()
-    }
-
     override fun onBackPressed(): Boolean
     {
         return false

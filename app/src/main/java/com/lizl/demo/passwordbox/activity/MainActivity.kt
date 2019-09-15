@@ -3,6 +3,7 @@ package com.lizl.demo.passwordbox.activity
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import android.text.TextUtils
+import android.util.Log
 import android.view.MotionEvent
 import android.widget.EditText
 import androidx.navigation.NavOptions
@@ -20,6 +21,8 @@ class MainActivity : AppCompatActivity()
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
+        Log.d(TAG, "onCreate")
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
@@ -29,6 +32,8 @@ class MainActivity : AppCompatActivity()
 
     override fun onStart()
     {
+        Log.d(TAG, "onStart")
+
         super.onStart()
 
         // 密码保护打开并且应用超时的情况
@@ -51,6 +56,8 @@ class MainActivity : AppCompatActivity()
 
     override fun onStop()
     {
+        Log.d(TAG, "onStop")
+
         super.onStop()
 
         UiApplication.instance.getAppConfig().setAppLastStopTime(System.currentTimeMillis())

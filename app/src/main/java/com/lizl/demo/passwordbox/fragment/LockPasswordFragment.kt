@@ -16,10 +16,6 @@ import kotlinx.android.synthetic.main.fragment_lock_password.*
  */
 class LockPasswordFragment : BaseFragment()
 {
-    private var isNeedCurPassword = false
-    private var isNeedBackButton = false
-    private var isNeedSkipButton = false
-
     private var fragmentType: Int? = Constant.LOCK_PASSWORD_FRAGMENT_TYPE_MODIFY_PASSWORD
 
     override fun getLayoutResId(): Int
@@ -80,7 +76,7 @@ class LockPasswordFragment : BaseFragment()
         val newPassword = et_new_password.getText()
         val confirmPassword = et_confirm_password.getText()
 
-        if (isNeedCurPassword && curPassword != UiApplication.instance.getAppConfig().getAppLockPassword())
+        if (et_current_password.visibility == View.VISIBLE && curPassword != UiApplication.instance.getAppConfig().getAppLockPassword())
         {
             ToastUtil.showToast(R.string.notify_wrong_cur_password)
             return

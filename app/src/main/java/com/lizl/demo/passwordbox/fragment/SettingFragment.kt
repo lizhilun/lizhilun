@@ -39,8 +39,7 @@ class SettingFragment : BaseFragment()
     {
         val settingAdapter = SettingListAdapter(getSettingData())
         rv_setting_list.layoutManager = LinearLayoutManager(activity)
-        rv_setting_list.addItemDecoration(
-                DividerItemDecoration(activity as Context, DividerItemDecoration.VERTICAL))
+        rv_setting_list.addItemDecoration(DividerItemDecoration(activity as Context, DividerItemDecoration.VERTICAL))
         rv_setting_list.adapter = settingAdapter
 
         ctb_title.setOnBackBtnClickListener(object : CustomTitleBar.OnBackBtnClickListener
@@ -59,27 +58,27 @@ class SettingFragment : BaseFragment()
         settingList.add(SettingDivideItem())
 
         // 密码保护是否可用（密码保护为开且密码非空）
-        val isAppLockPasswordOn = UiApplication.instance.getAppConfig().isAppLockPasswordOn() && !TextUtils.isEmpty(UiApplication.instance.getAppConfig().getAppLockPassword())
+        val isAppLockPasswordOn =
+            UiApplication.instance.getAppConfig().isAppLockPasswordOn() && !TextUtils.isEmpty(UiApplication.instance.getAppConfig().getAppLockPassword())
 
         // 支持指纹识别的情况显示指纹解锁设置
         if (UiApplication.instance.getAppConfig().isAppFingerprintSupport())
         {
-            settingList.add(
-                    SettingBooleanItem(getString(R.string.setting_fingerprint), ConfigConstant.IS_FINGERPRINT_LOCK_ON, ConfigConstant.DEFAULT_IS_FINGERPRINT_LOCK_ON, isAppLockPasswordOn, object : SettingBaseItem.SettingItemCallBack
+            settingList.add(SettingBooleanItem(getString(R.string.setting_fingerprint), ConfigConstant.IS_FINGERPRINT_LOCK_ON,
+                    ConfigConstant.DEFAULT_IS_FINGERPRINT_LOCK_ON, isAppLockPasswordOn, object : SettingBaseItem.SettingItemCallBack
+            {
+                override fun onSettingItemCallBack(result: Boolean)
+                {
+                    if (isAppLockPasswordOn || !result)
                     {
-                        override fun onSettingItemCallBack(result: Boolean)
-                        {
-                            if (isAppLockPasswordOn || !result)
-                            {
-                                return
-                            }
+                        return
+                    }
 
-                            val bundle = Bundle()
-                            bundle.putInt(Constant.BUNDLE_DATA, Constant.LOCK_PASSWORD_FRAGMENT_TYPE_SET_PASSWORD)
-                            turnToFragment(R.id.lockPasswordFragment, bundle)
-                        }
-                    })
-            )
+                    val bundle = Bundle()
+                    bundle.putInt(Constant.BUNDLE_DATA, Constant.LOCK_PASSWORD_FRAGMENT_TYPE_SET_PASSWORD)
+                    turnToFragment(R.id.lockPasswordFragment, bundle)
+                }
+            }))
         }
 
         // 密码保护可用的情况显示修改密码界面
@@ -131,16 +130,17 @@ class SettingFragment : BaseFragment()
                 }
                 else
                 {
-                    DialogUtil.showOperationConfirmDialog(activity as Context, getString(R.string.setting_backup_data), getString(R.string.notify_backup_data), object : DialogOperationConfirm.OperationConfirmCallback
-                    {
-                        override fun onOperationConfirmed()
-                        {
-                            if (checkWriteStoragePermission(REQUEST_CODE_READ_EX_PERMISSION_FOR_BACKUP))
+                    DialogUtil.showOperationConfirmDialog(activity as Context, getString(R.string.setting_backup_data), getString(R.string.notify_backup_data),
+                            object : DialogOperationConfirm.OperationConfirmCallback
                             {
-                                backupData()
-                            }
-                        }
-                    })
+                                override fun onOperationConfirmed()
+                                {
+                                    if (checkWriteStoragePermission(REQUEST_CODE_READ_EX_PERMISSION_FOR_BACKUP))
+                                    {
+                                        backupData()
+                                    }
+                                }
+                            })
                 }
             }
         }))
@@ -201,7 +201,7 @@ class SettingFragment : BaseFragment()
         {
             when (requestCode)
             {
-                REQUEST_CODE_READ_EX_PERMISSION_FOR_BACKUP -> backupData()
+                REQUEST_CODE_READ_EX_PERMISSION_FOR_BACKUP  -> backupData()
                 REQUEST_CODE_READ_EX_PERMISSION_FOR_RESTORE -> turnToFragment(R.id.backupFileListFragment)
             }
         }
@@ -213,7 +213,8 @@ class SettingFragment : BaseFragment()
             }
             else
             {
-                DialogUtil.showOperationConfirmDialog(activity as Context, getString(R.string.notify_failed_to_get_permission), getString(R.string.notify_permission_be_refused), object : DialogOperationConfirm.OperationConfirmCallback
+                DialogUtil.showOperationConfirmDialog(activity as Context, getString(R.string.notify_failed_to_get_permission),
+                        getString(R.string.notify_permission_be_refused), object : DialogOperationConfirm.OperationConfirmCallback
                 {
                     override fun onOperationConfirmed()
                     {
