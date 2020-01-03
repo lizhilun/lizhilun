@@ -1,36 +1,19 @@
 package com.lizl.demo.passwordbox.util
 
-import android.text.TextUtils
-import android.widget.Toast
-import com.lizl.demo.passwordbox.UiApplication
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import com.blankj.utilcode.util.ToastUtils
 
 /**
  * Toast工具类
  */
-class ToastUtil
+object ToastUtil
 {
-    companion object
+    fun showToast(textResId: Int)
     {
-        fun showToast(textResId: Int)
-        {
-            val toastText = UiApplication.instance.getString(textResId)
-            showToast(toastText)
-        }
+        ToastUtils.showShort(textResId)
+    }
 
-        fun showToast(toastText: String)
-        {
-            if (TextUtils.isEmpty(toastText))
-            {
-                return
-            }
-
-            GlobalScope.launch(Dispatchers.Main) {
-                Toast.makeText(UiApplication.instance, toastText, Toast.LENGTH_SHORT).show()
-            }
-        }
-
+    fun showToast(toastText: String)
+    {
+        ToastUtils.showShort(toastText)
     }
 }

@@ -56,22 +56,22 @@ class EditTextWithDecText(context: Context, attrs: AttributeSet?, defStyleAttr: 
             val attr = typeArray.getIndex(index)
             when (attr)
             {
-                R.styleable.EditTextWithDecText_editTextHit -> editText.hint = typeArray.getString(attr)
-                R.styleable.EditTextWithDecText_editTextSize -> editTextSize = typeArray.getLayoutDimension(attr, editTextSize)
+                R.styleable.EditTextWithDecText_editTextHit       -> editText.hint = typeArray.getString(attr)
+                R.styleable.EditTextWithDecText_editTextSize      -> editTextSize = typeArray.getLayoutDimension(attr, editTextSize)
                 R.styleable.EditTextWithDecText_exitTextInputType -> editTextInputType = typeArray.getInt(attr, editTextInputType)
-                R.styleable.EditTextWithDecText_marginDecText -> marginDecText = typeArray.getLayoutDimension(attr, decTextSize)
-                R.styleable.EditTextWithDecText_editTextMaxEms -> editTextMaxEms = typeArray.getInteger(attr, editTextMaxEms)
-                R.styleable.EditTextWithDecText_editTextColor ->
+                R.styleable.EditTextWithDecText_marginDecText     -> marginDecText = typeArray.getLayoutDimension(attr, decTextSize)
+                R.styleable.EditTextWithDecText_editTextMaxEms    -> editTextMaxEms = typeArray.getInteger(attr, editTextMaxEms)
+                R.styleable.EditTextWithDecText_editTextColor     ->
                 {
                     textView.setTextColor(typeArray.getColorStateList(attr))
                 }
-                R.styleable.EditTextWithDecText_decText -> textView.text = typeArray.getString(attr)
-                R.styleable.EditTextWithDecText_decTextSize -> decTextSize = typeArray.getLayoutDimension(attr, decTextSize)
-                R.styleable.EditTextWithDecText_decTextColor ->
+                R.styleable.EditTextWithDecText_decText           -> textView.text = typeArray.getString(attr)
+                R.styleable.EditTextWithDecText_decTextSize       -> decTextSize = typeArray.getLayoutDimension(attr, decTextSize)
+                R.styleable.EditTextWithDecText_decTextColor      ->
                 {
                     textView.setTextColor(typeArray.getColorStateList(attr))
                 }
-                R.styleable.EditTextWithDecText_decTextEmsSize -> decEmsSize = typeArray.getInteger(attr, 4)
+                R.styleable.EditTextWithDecText_decTextEmsSize    -> decEmsSize = typeArray.getInteger(attr, 4)
             }
         }
         typeArray.recycle()
@@ -83,7 +83,7 @@ class EditTextWithDecText(context: Context, attrs: AttributeSet?, defStyleAttr: 
         editText.background = null
         when (editTextInputType)
         {
-            InputType.TYPE_CLASS_TEXT ->
+            InputType.TYPE_CLASS_TEXT                ->
             {
                 editText.inputType = InputType.TYPE_CLASS_TEXT
                 editText.setLines(2)
@@ -93,12 +93,12 @@ class EditTextWithDecText(context: Context, attrs: AttributeSet?, defStyleAttr: 
                 editText.inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_VARIATION_PASSWORD
                 editText.setLines(2)
             }
-            InputType.TYPE_TEXT_FLAG_MULTI_LINE ->
+            InputType.TYPE_TEXT_FLAG_MULTI_LINE      ->
             {
                 editText.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_MULTI_LINE
                 editText.minLines = 2
             }
-            else ->
+            else                                     ->
             {
                 editText.inputType = InputType.TYPE_CLASS_TEXT
                 editText.setLines(2)

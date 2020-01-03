@@ -110,7 +110,7 @@ class SearchFragment : BaseFragment<SearchPresenter>(), SearchContract.View
     {
         super.onStop()
 
-        UiUtil.hideInputKeyboard(et_search)
+        UiUtil.hideSoftKeyboard(et_search)
     }
 
     private fun onBackButtonClick()

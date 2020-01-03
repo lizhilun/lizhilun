@@ -79,7 +79,7 @@ class MainActivity : AppCompatActivity()
 
             if (ev.action == MotionEvent.ACTION_UP && (x < w.left || x >= w.right || y < w.top || y > w.bottom))
             {
-                UiUtil.hideInputKeyboard(view)
+                UiUtil.hideSoftKeyboard(view)
             }
         }
 
