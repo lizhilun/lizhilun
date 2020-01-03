@@ -9,7 +9,7 @@ import androidx.core.content.ContextCompat
 import com.lizl.demo.passwordbox.R
 import com.lizl.demo.passwordbox.adapter.NumberKeyGridAdapter
 import com.lizl.demo.passwordbox.customview.recylerviewitemdivider.GridDividerItemDecoration
-import com.lizl.demo.passwordbox.util.UiApplication
+import com.lizl.demo.passwordbox.UiApplication
 import com.lizl.demo.passwordbox.util.UiUtil
 import kotlinx.android.synthetic.main.fragment_lock.*
 

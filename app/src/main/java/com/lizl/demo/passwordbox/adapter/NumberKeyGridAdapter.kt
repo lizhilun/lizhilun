@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.lizl.demo.passwordbox.R
-import com.lizl.demo.passwordbox.util.UiApplication
+import com.lizl.demo.passwordbox.UiApplication
 import kotlinx.android.synthetic.main.item_number_key.view.*
 
 class NumberKeyGridAdapter(private val keyList: List<String>, private val onItemClickListener: OnNumberKeyClickListener) : RecyclerView.Adapter<NumberKeyGridAdapter.ViewHolder>()

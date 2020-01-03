@@ -9,7 +9,7 @@ import com.lizl.demo.passwordbox.model.settingmodel.SettingBaseItem
 import com.lizl.demo.passwordbox.model.settingmodel.SettingBooleanItem
 import com.lizl.demo.passwordbox.model.settingmodel.SettingDivideItem
 import com.lizl.demo.passwordbox.model.settingmodel.SettingNormalItem
-import com.lizl.demo.passwordbox.util.UiApplication
+import com.lizl.demo.passwordbox.UiApplication
 import kotlinx.android.synthetic.main.item_setting_boolean.view.*
 import kotlinx.android.synthetic.main.item_setting_normal.view.*
 

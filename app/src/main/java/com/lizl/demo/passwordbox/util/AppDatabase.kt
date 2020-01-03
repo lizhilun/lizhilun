@@ -3,6 +3,7 @@ package com.lizl.demo.passwordbox.util
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.lizl.demo.passwordbox.UiApplication
 import com.lizl.demo.passwordbox.dao.AccountDao
 import com.lizl.demo.passwordbox.model.AccountModel
 

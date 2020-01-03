@@ -12,7 +12,7 @@ import com.lizl.demo.passwordbox.R
 import com.lizl.demo.passwordbox.config.ConfigConstant
 import com.lizl.demo.passwordbox.fragment.BaseFragment
 import com.lizl.demo.passwordbox.util.Constant
-import com.lizl.demo.passwordbox.util.UiApplication
+import com.lizl.demo.passwordbox.UiApplication
 import com.lizl.demo.passwordbox.util.UiUtil
 
 class MainActivity : AppCompatActivity()

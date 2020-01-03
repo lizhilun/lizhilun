@@ -1,7 +1,7 @@
 package com.lizl.demo.passwordbox.config
 
 import com.lizl.demo.passwordbox.util.Constant
-import com.lizl.demo.passwordbox.util.UiApplication
+import com.lizl.demo.passwordbox.UiApplication
 
 class AppConfig
 {

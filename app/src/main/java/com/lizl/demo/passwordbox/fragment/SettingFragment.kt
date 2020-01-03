@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import android.text.TextUtils
 import com.lizl.demo.passwordbox.R
+import com.lizl.demo.passwordbox.UiApplication
 import com.lizl.demo.passwordbox.adapter.SettingListAdapter
 import com.lizl.demo.passwordbox.config.ConfigConstant
 import com.lizl.demo.passwordbox.customview.CustomTitleBar
@@ -59,7 +60,8 @@ class SettingFragment : BaseFragment()
 
         // 密码保护是否可用（密码保护为开且密码非空）
         val isAppLockPasswordOn =
-            UiApplication.instance.getAppConfig().isAppLockPasswordOn() && !TextUtils.isEmpty(UiApplication.instance.getAppConfig().getAppLockPassword())
+                UiApplication.instance.getAppConfig().isAppLockPasswordOn() && !TextUtils.isEmpty(
+                        UiApplication.instance.getAppConfig().getAppLockPassword())
 
         // 支持指纹识别的情况显示指纹解锁设置
         if (UiApplication.instance.getAppConfig().isAppFingerprintSupport())

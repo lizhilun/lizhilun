@@ -2,6 +2,7 @@ package com.lizl.demo.passwordbox.util
 
 import android.content.Context
 import android.text.TextUtils
+import com.lizl.demo.passwordbox.UiApplication
 import com.lizl.demo.passwordbox.model.AccountModel
 import java.util.regex.Pattern
 

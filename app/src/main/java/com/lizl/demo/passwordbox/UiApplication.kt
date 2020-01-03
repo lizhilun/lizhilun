@@ -1,4 +1,4 @@
-package com.lizl.demo.passwordbox.util
+package com.lizl.demo.passwordbox
 
 import android.app.Application
 import android.content.Context
@@ -6,6 +6,8 @@ import androidx.core.hardware.fingerprint.FingerprintManagerCompat
 import android.view.inputmethod.InputMethodManager
 import com.lizl.demo.passwordbox.config.AppConfig
 import com.lizl.demo.passwordbox.config.ConfigHelper
+import com.lizl.demo.passwordbox.util.Constant
+import com.lizl.demo.passwordbox.util.PinyinUtil
 
 class UiApplication : Application()
 {

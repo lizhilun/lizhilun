@@ -11,6 +11,7 @@ import android.view.ViewTreeObserver
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import com.lizl.demo.passwordbox.R
+import com.lizl.demo.passwordbox.UiApplication
 
 
 /**

@@ -7,7 +7,7 @@ import com.lizl.demo.passwordbox.customview.CustomTitleBar
 import com.lizl.demo.passwordbox.model.TitleBarBtnItem
 import com.lizl.demo.passwordbox.util.Constant
 import com.lizl.demo.passwordbox.util.ToastUtil
-import com.lizl.demo.passwordbox.util.UiApplication
+import com.lizl.demo.passwordbox.UiApplication
 import com.lizl.demo.passwordbox.util.UiUtil
 import kotlinx.android.synthetic.main.fragment_lock_password.*
 

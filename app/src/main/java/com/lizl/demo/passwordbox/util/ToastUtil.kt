@@ -2,6 +2,7 @@ package com.lizl.demo.passwordbox.util
 
 import android.text.TextUtils
 import android.widget.Toast
+import com.lizl.demo.passwordbox.UiApplication
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
