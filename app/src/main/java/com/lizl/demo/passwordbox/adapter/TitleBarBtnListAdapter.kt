@@ -57,13 +57,13 @@ class TitleBarBtnListAdapter(private val btnList: List<TitleBarBtnItem.BaseItem>
         fun bindImageHolder(imageBtnItem: TitleBarBtnItem.ImageBtnItem)
         {
             itemView.iv_image_btn.setImageResource(imageBtnItem.imageRedId)
-            itemView.setOnClickListener { imageBtnItem.onBtnClickListener.onBtnClick() }
+            itemView.setOnClickListener { imageBtnItem.onBtnClickListener.invoke() }
         }
 
         fun bindTextHolder(textBtnItem: TitleBarBtnItem.TextBtnItem)
         {
             itemView.tv_text_btn.text = textBtnItem.text
-            itemView.setOnClickListener { textBtnItem.onBtnClickListener.onBtnClick() }
+            itemView.setOnClickListener { textBtnItem.onBtnClickListener.invoke() }
         }
     }
 }

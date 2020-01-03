@@ -34,21 +34,10 @@ class AccountListFragment : BaseFragment<EmptyPresenter>(), AccountListAdapter.O
     {
         fab_add.setOnClickListener { turnToFragment(R.id.addAccountFragment) }
 
-        val titleBtnList = mutableListOf<TitleBarBtnItem.BaseItem>()
-        titleBtnList.add(TitleBarBtnItem.ImageBtnItem(R.mipmap.ic_setting, object : TitleBarBtnItem.OnBtnClickListener
-        {
-            override fun onBtnClick()
-            {
-                turnToFragment(R.id.settingFragment)
-            }
-        }))
-        titleBtnList.add(TitleBarBtnItem.ImageBtnItem(R.mipmap.ic_search, object : TitleBarBtnItem.OnBtnClickListener
-        {
-            override fun onBtnClick()
-            {
-                turnToFragment(R.id.searchFragment)
-            }
-        }))
+        val titleBtnList = mutableListOf<TitleBarBtnItem.BaseItem>().apply {
+            add(TitleBarBtnItem.ImageBtnItem(R.mipmap.ic_setting) { turnToFragment(R.id.settingFragment) })
+            add(TitleBarBtnItem.ImageBtnItem(R.mipmap.ic_search) { turnToFragment(R.id.searchFragment) })
+        }
         ctb_title.setBtnList(titleBtnList)
 
         qsb_slide.setOnQuickSideBarTouchListener(this)
@@ -58,7 +47,7 @@ class AccountListFragment : BaseFragment<EmptyPresenter>(), AccountListAdapter.O
 
     private fun getData()
     {
-        val accountList: MutableList<AccountModel> = DataUtil.getInstance().queryAll(activity)!!
+        val accountList: MutableList<AccountModel> = DataUtil.getInstance().queryAll()
 
         accountListAdapter = AccountListAdapter(accountList, this)
         rv_password_list.layoutManager = ScrollTopLayoutManager(activity as Context)
@@ -75,25 +64,17 @@ class AccountListFragment : BaseFragment<EmptyPresenter>(), AccountListAdapter.O
         val operationList = mutableListOf<OperationItem>()
 
         // 修改账号信息
-        operationList.add(OperationItem(getString(R.string.modify_account_info), object : OperationItem.OperationItemCallBack
-        {
-            override fun onOperationExecute()
-            {
-                val bundle = Bundle()
-                bundle.putSerializable(Constant.BUNDLE_DATA, accountModel)
-                turnToFragment(R.id.addAccountFragment, bundle)
-            }
-        }))
+        operationList.add(OperationItem(getString(R.string.modify_account_info)) {
+            val bundle = Bundle()
+            bundle.putSerializable(Constant.BUNDLE_DATA, accountModel)
+            turnToFragment(R.id.addAccountFragment, bundle)
+        })
 
         // 删除账号
-        operationList.add(OperationItem(getString(R.string.delete_account_item), object : OperationItem.OperationItemCallBack
-        {
-            override fun onOperationExecute()
-            {
-                DataUtil.getInstance().deleteData(accountModel)
-                getData()
-            }
-        }))
+        operationList.add(OperationItem(getString(R.string.delete_account_item)) {
+            DataUtil.getInstance().deleteData(accountModel)
+            getData()
+        })
 
         DialogUtil.showOperationListDialog(activity as Context, operationList)
         return true

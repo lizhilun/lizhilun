@@ -4,7 +4,6 @@ import android.text.TextUtils
 import android.view.View
 import com.lizl.demo.passwordbox.R
 import com.lizl.demo.passwordbox.config.AppConfig
-import com.lizl.demo.passwordbox.customview.CustomTitleBar
 import com.lizl.demo.passwordbox.model.TitleBarBtnItem
 import com.lizl.demo.passwordbox.mvp.presenter.EmptyPresenter
 import com.lizl.demo.passwordbox.util.Constant
@@ -30,13 +29,7 @@ class LockPasswordFragment : BaseFragment<EmptyPresenter>()
     {
         fragmentType = arguments?.getInt(Constant.BUNDLE_DATA)
 
-        ctb_title.setOnBackBtnClickListener(object : CustomTitleBar.OnBackBtnClickListener
-        {
-            override fun onBackBtnClick()
-            {
-                backToPreFragment()
-            }
-        })
+        ctb_title.setOnBackBtnClickListener { backToPreFragment() }
 
         when (fragmentType)
         {
@@ -51,15 +44,12 @@ class LockPasswordFragment : BaseFragment<EmptyPresenter>()
                 et_current_password.visibility = View.GONE
                 ctb_title.setTitleText(getString(R.string.set_lock_password))
                 ctb_title.setBackBtnVisible(false)
-                val titleBtnList = mutableListOf<TitleBarBtnItem.BaseItem>()
-                titleBtnList.add(TitleBarBtnItem.TextBtnItem(getString(R.string.skip), object : TitleBarBtnItem.OnBtnClickListener
-                {
-                    override fun onBtnClick()
-                    {
+                val titleBtnList = mutableListOf<TitleBarBtnItem.BaseItem>().apply {
+                    add(TitleBarBtnItem.TextBtnItem(getString(R.string.skip)) {
                         AppConfig.setAppLockPasswordOn(false)
                         turnToFragment(R.id.accountListFragment)
-                    }
-                }))
+                    })
+                }
                 ctb_title.setBtnList(titleBtnList)
             }
             Constant.LOCK_PASSWORD_FRAGMENT_TYPE_MODIFY_PASSWORD    ->

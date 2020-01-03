@@ -10,8 +10,6 @@ import com.lizl.demo.passwordbox.R
 import com.lizl.demo.passwordbox.adapter.SettingListAdapter
 import com.lizl.demo.passwordbox.config.AppConfig
 import com.lizl.demo.passwordbox.config.ConfigConstant
-import com.lizl.demo.passwordbox.customview.CustomTitleBar
-import com.lizl.demo.passwordbox.customview.dialog.DialogOperationConfirm
 import com.lizl.demo.passwordbox.model.settingmodel.SettingBaseItem
 import com.lizl.demo.passwordbox.model.settingmodel.SettingBooleanItem
 import com.lizl.demo.passwordbox.model.settingmodel.SettingDivideItem
@@ -31,10 +29,7 @@ import permissions.dispatcher.RuntimePermissions
 class SettingFragment : BaseFragment<EmptyPresenter>()
 {
 
-    override fun getLayoutResId(): Int
-    {
-        return R.layout.fragment_setting
-    }
+    override fun getLayoutResId() = R.layout.fragment_setting
 
     override fun initPresenter() = EmptyPresenter()
 
@@ -45,13 +40,7 @@ class SettingFragment : BaseFragment<EmptyPresenter>()
         rv_setting_list.addItemDecoration(DividerItemDecoration(activity as Context, DividerItemDecoration.VERTICAL))
         rv_setting_list.adapter = settingAdapter
 
-        ctb_title.setOnBackBtnClickListener(object : CustomTitleBar.OnBackBtnClickListener
-        {
-            override fun onBackBtnClick()
-            {
-                backToPreFragment()
-            }
-        })
+        ctb_title.setOnBackBtnClickListener { backToPreFragment() }
     }
 
     private fun getSettingData(): List<SettingBaseItem>
@@ -67,91 +56,63 @@ class SettingFragment : BaseFragment<EmptyPresenter>()
         if (AppConfig.isAppFingerprintSupport())
         {
             settingList.add(SettingBooleanItem(getString(R.string.setting_fingerprint), ConfigConstant.IS_FINGERPRINT_LOCK_ON,
-                    ConfigConstant.DEFAULT_IS_FINGERPRINT_LOCK_ON, isAppLockPasswordOn, object : SettingBaseItem.SettingItemCallBack
-            {
-                override fun onSettingItemCallBack(result: Boolean)
+                    ConfigConstant.DEFAULT_IS_FINGERPRINT_LOCK_ON, isAppLockPasswordOn) {
+                if (isAppLockPasswordOn || !it)
                 {
-                    if (isAppLockPasswordOn || !result)
-                    {
-                        return
-                    }
-
-                    val bundle = Bundle()
-                    bundle.putInt(Constant.BUNDLE_DATA, Constant.LOCK_PASSWORD_FRAGMENT_TYPE_SET_PASSWORD)
-                    turnToFragment(R.id.lockPasswordFragment, bundle)
+                    return@SettingBooleanItem
                 }
-            }))
+
+                val bundle = Bundle()
+                bundle.putInt(Constant.BUNDLE_DATA, Constant.LOCK_PASSWORD_FRAGMENT_TYPE_SET_PASSWORD)
+                turnToFragment(R.id.lockPasswordFragment, bundle)
+            })
         }
 
         // 密码保护可用的情况显示修改密码界面
         if (isAppLockPasswordOn)
         {
-            settingList.add(SettingNormalItem(getString(R.string.setting_modify_lock_password), object : SettingBaseItem.SettingItemCallBack
-            {
-                override fun onSettingItemCallBack(result: Boolean)
-                {
-                    val bundle = Bundle()
-                    bundle.putInt(Constant.BUNDLE_DATA, Constant.LOCK_PASSWORD_FRAGMENT_TYPE_MODIFY_PASSWORD)
-                    turnToFragment(R.id.lockPasswordFragment, bundle)
-                }
-            }))
+            settingList.add(SettingNormalItem(getString(R.string.setting_modify_lock_password)) {
+                val bundle = Bundle()
+                bundle.putInt(Constant.BUNDLE_DATA, Constant.LOCK_PASSWORD_FRAGMENT_TYPE_MODIFY_PASSWORD)
+                turnToFragment(R.id.lockPasswordFragment, bundle)
+            })
         }
         // 反之显示设置密码界面
         else
         {
-            settingList.add(SettingNormalItem(getString(R.string.setting_set_lock_password), object : SettingBaseItem.SettingItemCallBack
-            {
-                override fun onSettingItemCallBack(result: Boolean)
-                {
-                    val bundle = Bundle()
-                    bundle.putInt(Constant.BUNDLE_DATA, Constant.LOCK_PASSWORD_FRAGMENT_TYPE_SET_PASSWORD)
-                    turnToFragment(R.id.lockPasswordFragment, bundle)
-                }
-            }))
+            settingList.add(SettingNormalItem(getString(R.string.setting_set_lock_password)) {
+                val bundle = Bundle()
+                bundle.putInt(Constant.BUNDLE_DATA, Constant.LOCK_PASSWORD_FRAGMENT_TYPE_SET_PASSWORD)
+                turnToFragment(R.id.lockPasswordFragment, bundle)
+            })
         }
 
         settingList.add(SettingDivideItem())
 
         // 备份数据设置
-        settingList.add(SettingNormalItem(getString(R.string.setting_backup_data), object : SettingBaseItem.SettingItemCallBack
-        {
-            override fun onSettingItemCallBack(result: Boolean)
+        settingList.add(SettingNormalItem(getString(R.string.setting_backup_data)) {
+            if (DataUtil.getInstance().queryAll().isEmpty())
             {
-                if (DataUtil.getInstance().queryAll(activity as Context)?.isEmpty()!!)
-                {
-                    ToastUtil.showToast(R.string.notify_no_data_to_backup)
-                    return
-                }
-
-                // 保护密码不可用的情况下先设置密码
-                if (!isAppLockPasswordOn)
-                {
-                    val bundle = Bundle()
-                    bundle.putInt(Constant.BUNDLE_DATA, Constant.LOCK_PASSWORD_FRAGMENT_TYPE_SET_PASSWORD)
-                    turnToFragment(R.id.lockPasswordFragment, bundle)
-                }
-                else
-                {
-                    DialogUtil.showOperationConfirmDialog(activity as Context, getString(R.string.setting_backup_data), getString(R.string.notify_backup_data),
-                            object : DialogOperationConfirm.OperationConfirmCallback
-                            {
-                                override fun onOperationConfirmed()
-                                {
-                                    backupData()
-                                }
-                            })
-                }
+                ToastUtil.showToast(R.string.notify_no_data_to_backup)
+                return@SettingNormalItem
             }
-        }))
+
+            // 保护密码不可用的情况下先设置密码
+            if (!isAppLockPasswordOn)
+            {
+                val bundle = Bundle()
+                bundle.putInt(Constant.BUNDLE_DATA, Constant.LOCK_PASSWORD_FRAGMENT_TYPE_SET_PASSWORD)
+                turnToFragment(R.id.lockPasswordFragment, bundle)
+            }
+            else
+            {
+                DialogUtil.showOperationConfirmDialog(activity as Context, getString(R.string.setting_backup_data),
+                        getString(R.string.notify_backup_data)) { backupDataWithPermissionCheck() }
+            }
+        })
 
         // 还原数据设置
-        settingList.add(SettingNormalItem(getString(R.string.setting_restore_data), object : SettingBaseItem.SettingItemCallBack
-        {
-            override fun onSettingItemCallBack(result: Boolean)
-            {
-                turnToBackupFileFragment()
-            }
-        }))
+        settingList.add(SettingNormalItem(getString(R.string.setting_restore_data)) { turnToBackupFileFragmentWithPermissionCheck() })
 
         return settingList
     }
@@ -189,24 +150,14 @@ class SettingFragment : BaseFragment<EmptyPresenter>()
     fun onPermissionNeverAskAgain()
     {
         DialogUtil.showOperationConfirmDialog(activity as Context, getString(R.string.notify_failed_to_get_permission),
-                getString(R.string.notify_permission_be_refused), object : DialogOperationConfirm.OperationConfirmCallback
-        {
-            override fun onOperationConfirmed()
-            {
-                UiUtil.goToAppDetailPage()
-            }
-        })
+                getString(R.string.notify_permission_be_refused)) { UiUtil.goToAppDetailPage() }
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray)
     {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        // NOTE: delegate the permission handling to generated function
         onRequestPermissionsResult(requestCode, grantResults)
     }
 
-    override fun onBackPressed(): Boolean
-    {
-        return false
-    }
+    override fun onBackPressed() = false
 }

@@ -67,17 +67,17 @@ class SettingListAdapter(private val settingList: List<SettingBaseItem>) : Recyc
     {
         fun bindBooleanViewHolder(settingItem: SettingBooleanItem)
         {
-            val isChecked = SPUtils.getInstance().getBoolean(settingItem.settingKey!!, settingItem.checked)
+            val isChecked = SPUtils.getInstance().getBoolean(settingItem.settingKey, settingItem.checked)
             itemView.tv_boolean_setting_name.text = settingItem.settingName
             itemView.iv_boolean_setting_checked.isSelected = isChecked
 
             itemView.iv_boolean_setting_checked.setOnClickListener {
                 if (settingItem.needSave)
                 {
-                    SPUtils.getInstance().put(settingItem.settingKey!!, !isChecked)
+                    SPUtils.getInstance().put(settingItem.settingKey, !isChecked)
                     notifyDataSetChanged()
                 }
-                settingItem.settingItemCallBack?.onSettingItemCallBack(!isChecked)
+                settingItem.onItemClickListener.invoke(!isChecked)
             }
         }
 
@@ -85,7 +85,7 @@ class SettingListAdapter(private val settingList: List<SettingBaseItem>) : Recyc
         {
             itemView.tv_normal_setting_name.text = settingItem.settingName
 
-            itemView.setOnClickListener { settingItem.settingItemCallBack?.onSettingItemCallBack(true) }
+            itemView.setOnClickListener { settingItem.onItemClickListener.invoke() }
         }
     }
 }

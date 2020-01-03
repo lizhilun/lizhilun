@@ -1,8 +1,6 @@
 package com.lizl.demo.passwordbox.util
 
-import android.content.Context
 import android.text.TextUtils
-import com.lizl.demo.passwordbox.UiApplication
 import com.lizl.demo.passwordbox.model.AccountModel
 import java.util.regex.Pattern
 
@@ -12,7 +10,7 @@ class DataUtil private constructor()
 
     init
     {
-        queryAll(UiApplication.instance)
+        queryAll()
     }
 
     private object Holder
@@ -52,7 +50,7 @@ class DataUtil private constructor()
     /**
      * 查询所有数据
      */
-    fun queryAll(context: Context?): MutableList<AccountModel>?
+    fun queryAll(): MutableList<AccountModel>
     {
         if (accountList.isEmpty())
         {

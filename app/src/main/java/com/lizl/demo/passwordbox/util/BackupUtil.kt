@@ -2,7 +2,6 @@ package com.lizl.demo.passwordbox.util
 
 import android.os.Environment
 import android.text.TextUtils
-import com.lizl.demo.passwordbox.UiApplication
 import com.lizl.demo.passwordbox.config.AppConfig
 import com.lizl.demo.passwordbox.model.AccountModel
 import kotlinx.coroutines.Dispatchers
@@ -35,8 +34,8 @@ class BackupUtil
                 var dataString = ""
                 val formatter = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault())
                 val backupFileName = formatter.format(System.currentTimeMillis()) + fileSuffixName
-                val accountList = DataUtil.getInstance().queryAll(UiApplication.instance)
-                for (accountModel in accountList!!)
+                val accountList = DataUtil.getInstance().queryAll()
+                for (accountModel in accountList)
                 {
                     dataString += accountModel.description + infoSeparator + accountModel.account + infoSeparator + accountModel.password + "\r\n"
                 }

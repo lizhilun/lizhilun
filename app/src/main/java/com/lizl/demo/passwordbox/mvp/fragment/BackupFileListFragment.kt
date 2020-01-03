@@ -4,9 +4,6 @@ import android.content.Context
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lizl.demo.passwordbox.R
 import com.lizl.demo.passwordbox.adapter.BackupFileListAdapter
-import com.lizl.demo.passwordbox.customview.CustomTitleBar
-import com.lizl.demo.passwordbox.customview.dialog.DialogInput
-import com.lizl.demo.passwordbox.customview.dialog.DialogOperationConfirm
 import com.lizl.demo.passwordbox.model.OperationItem
 import com.lizl.demo.passwordbox.mvp.presenter.EmptyPresenter
 import com.lizl.demo.passwordbox.util.*
@@ -20,22 +17,13 @@ import java.io.File
 class BackupFileListFragment : BaseFragment<EmptyPresenter>(), BackupFileListAdapter.OnBackFileItemClickListener
 {
 
-    override fun getLayoutResId(): Int
-    {
-        return R.layout.fragment_backup_file_list
-    }
+    override fun getLayoutResId() = R.layout.fragment_backup_file_list
 
     override fun initPresenter() = EmptyPresenter()
 
     override fun initView()
     {
-        ctb_title.setOnBackBtnClickListener(object : CustomTitleBar.OnBackBtnClickListener
-        {
-            override fun onBackBtnClick()
-            {
-                backToPreFragment()
-            }
-        })
+        ctb_title.setOnBackBtnClickListener { backToPreFragment() }
     }
 
     override fun onResume()
@@ -59,77 +47,41 @@ class BackupFileListFragment : BaseFragment<EmptyPresenter>(), BackupFileListAda
 
     override fun onBackupFileItemClick(file: File)
     {
-        val operationList = mutableListOf<OperationItem>()
+        val operationList = mutableListOf<OperationItem>().apply {
 
-        // 覆盖导入备份
-        operationList.add(OperationItem(getString(R.string.import_backup_file_overlay), object : OperationItem.OperationItemCallBack
-        {
-            override fun onOperationExecute()
-            {
+            // 覆盖导入备份
+            add(OperationItem(getString(R.string.import_backup_file_overlay)) {
                 DialogUtil.showOperationConfirmDialog(activity as Context, getString(R.string.import_backup_file_overlay),
-                        getString(R.string.notify_restore_data_overlay), object : DialogOperationConfirm.OperationConfirmCallback
-                {
-                    override fun onOperationConfirmed()
-                    {
-                        BackupUtil.restoreData(file.absolutePath, true, DataRestoreCallback())
-                    }
-                })
-            }
-        }))
+                        getString(R.string.notify_restore_data_overlay)) { BackupUtil.restoreData(file.absolutePath, true, DataRestoreCallback()) }
+            })
 
-        // 合并导入备份
-        operationList.add(OperationItem(getString(R.string.import_backup_file_merge), object : OperationItem.OperationItemCallBack
-        {
-            override fun onOperationExecute()
-            {
+            // 合并导入备份
+            add(OperationItem(getString(R.string.import_backup_file_merge)) {
                 DialogUtil.showOperationConfirmDialog(activity as Context, getString(R.string.import_backup_file_merge),
-                        getString(R.string.notify_restore_data_merge), object : DialogOperationConfirm.OperationConfirmCallback
-                {
-                    override fun onOperationConfirmed()
-                    {
-                        BackupUtil.restoreData(file.absolutePath, false, DataRestoreCallback())
-                    }
-                })
-            }
-        }))
+                        getString(R.string.notify_restore_data_merge)) { BackupUtil.restoreData(file.absolutePath, false, DataRestoreCallback()) }
+            })
 
-        // 删除备份文件
-        operationList.add(OperationItem(getString(R.string.delete_backup_file), object : OperationItem.OperationItemCallBack
-        {
-            override fun onOperationExecute()
-            {
+            // 删除备份文件
+            add(OperationItem(getString(R.string.delete_backup_file)) {
                 DialogUtil.showOperationConfirmDialog(activity as Context, getString(R.string.delete_backup_file),
-                        getString(R.string.notify_delete_backup_file), object : DialogOperationConfirm.OperationConfirmCallback
-                {
-                    override fun onOperationConfirmed()
+                        getString(R.string.notify_delete_backup_file)) {
+                    if (FileUtil.deleteFile(file.absolutePath))
                     {
-                        if (FileUtil.deleteFile(file.absolutePath))
-                        {
-                            getData()
-                        }
+                        getData()
                     }
-                })
-            }
-        }))
+                }
+            })
 
-        // 重命名备份文件
-        operationList.add(OperationItem(getString(R.string.rename_backup_file), object : OperationItem.OperationItemCallBack
-        {
-            override fun onOperationExecute()
-            {
-                DialogUtil.showInputDialog(activity as Context, getString(R.string.rename_backup_file), getString(R.string.hint_rename_backup_file),
-                        object : DialogInput.InputCompletedCallback
-                        {
-                            override fun onInputCompleted(inputValue: String)
-                            {
-                                if (FileUtil.renameFile(file.absolutePath, inputValue))
-                                {
-                                    getData()
-                                }
-                            }
-                        })
-            }
-        }))
+            // 重命名备份文件
+            add(OperationItem(getString(R.string.rename_backup_file)) {
+                DialogUtil.showInputDialog(activity as Context, getString(R.string.rename_backup_file), getString(R.string.hint_rename_backup_file)) {
+                    if (FileUtil.renameFile(file.absolutePath, it))
+                    {
+                        getData()
+                    }
+                }
+            })
+        }
 
         DialogUtil.showOperationListDialog(activity as Context, operationList)
     }
@@ -146,20 +98,12 @@ class BackupFileListFragment : BaseFragment<EmptyPresenter>(), BackupFileListAda
         {
             if (reason == Constant.DATA_RESTORE_FAILED_WRONG_PASSWORD)
             {
-                DialogUtil.showInputDialog(activity as Context, getString(R.string.input_encrypt_password), getString(R.string.hint_input_encrypt_password),
-                        object : DialogInput.InputCompletedCallback
-                        {
-                            override fun onInputCompleted(inputValue: String)
-                            {
-                                BackupUtil.restoreData(failedFilePath, inputValue, clearAllData, DataRestoreCallback())
-                            }
-                        })
+                DialogUtil.showInputDialog(activity as Context, getString(R.string.input_encrypt_password), getString(R.string.hint_input_encrypt_password)) {
+                    BackupUtil.restoreData(failedFilePath, it, clearAllData, DataRestoreCallback())
+                }
             }
         }
     }
 
-    override fun onBackPressed(): Boolean
-    {
-        return false
-    }
+    override fun onBackPressed() = false
 }

@@ -18,14 +18,14 @@ class DialogUtil
             dialog?.show()
         }
 
-        fun showInputDialog(context: Context, title: String, editHint: String, inputCompletedCallback: DialogInput.InputCompletedCallback)
+        fun showInputDialog(context: Context, title: String, editHint: String, inputCompletedCallback: (String) -> Unit)
         {
             dialog?.dismiss()
             dialog = DialogInput(context, title, editHint, inputCompletedCallback)
             dialog?.show()
         }
 
-        fun showOperationConfirmDialog(context: Context, title: String, notify: String, operationConfirmCallback: DialogOperationConfirm.OperationConfirmCallback)
+        fun showOperationConfirmDialog(context: Context, title: String, notify: String, operationConfirmCallback: () -> Unit)
         {
             dialog?.dismiss()
             dialog = DialogOperationConfirm(context, title, notify, operationConfirmCallback)

@@ -4,13 +4,13 @@ import android.content.Context
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.Gravity
-import android.view.View
 import android.widget.ImageView
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.lizl.demo.passwordbox.R
@@ -23,7 +23,7 @@ class CustomTitleBar(context: Context, attrs: AttributeSet?, defStyleAttr: Int) 
     private lateinit var titleTextView: AppCompatTextView
     private lateinit var btnListView: RecyclerView
 
-    private var onBackBtnClickListener: OnBackBtnClickListener? = null
+    private var onBackBtnClickListener: (() -> Unit)? = null
 
     constructor(context: Context) : this(context, null)
 
@@ -56,14 +56,8 @@ class CustomTitleBar(context: Context, attrs: AttributeSet?, defStyleAttr: Int) 
         addView(btnListView)
 
         val typeArray = context.obtainStyledAttributes(attrs, R.styleable.CustomTitleBar)
-        for (index in 0 until typeArray.indexCount)
-        {
-            when (val attr = typeArray.getIndex(index))
-            {
-                R.styleable.CustomTitleBar_backBtnVisible -> backBtn.visibility = if (typeArray.getBoolean(attr, true)) View.VISIBLE else View.GONE
-                R.styleable.CustomTitleBar_titleText      -> titleTextView.text = typeArray.getString(attr)
-            }
-        }
+        backBtn.isVisible = typeArray.getBoolean(R.styleable.CustomTitleBar_backBtnVisible, true)
+        titleTextView.text = typeArray.getString(R.styleable.CustomTitleBar_titleText)
         typeArray.recycle()
 
         val constraintSet = ConstraintSet()
@@ -84,17 +78,12 @@ class CustomTitleBar(context: Context, attrs: AttributeSet?, defStyleAttr: Int) 
 
         constraintSet.applyTo(this)
 
-        backBtn.setOnClickListener { onBackBtnClickListener?.onBackBtnClick() }
+        backBtn.setOnClickListener { onBackBtnClickListener?.invoke() }
     }
 
-    fun setOnBackBtnClickListener(onBackBtnClickListener: OnBackBtnClickListener)
+    fun setOnBackBtnClickListener(onBackBtnClickListener: () -> Unit)
     {
         this.onBackBtnClickListener = onBackBtnClickListener
-    }
-
-    interface OnBackBtnClickListener
-    {
-        fun onBackBtnClick()
     }
 
     fun setBtnList(btnList: List<TitleBarBtnItem.BaseItem>)
@@ -105,10 +94,10 @@ class CustomTitleBar(context: Context, attrs: AttributeSet?, defStyleAttr: Int) 
 
     fun setBackBtnVisible(visible: Boolean)
     {
-        if (visible) View.VISIBLE else View.GONE
+        backBtn.isVisible = visible
     }
 
-    fun setTitleText(text : String)
+    fun setTitleText(text: String)
     {
         titleTextView.text = text
     }

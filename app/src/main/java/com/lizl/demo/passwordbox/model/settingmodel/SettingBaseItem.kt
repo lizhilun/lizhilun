@@ -1,13 +1,8 @@
 package com.lizl.demo.passwordbox.model.settingmodel
 
-open class SettingBaseItem
+open class SettingBaseItem(open val settingName: String?, open val settingKey: String? = null)
 {
-    var settingName: String? = null
-    var settingKey: String? = null
-    var settingItemCallBack: SettingItemCallBack? = null
+    constructor() : this(null, null)
 
-    public interface SettingItemCallBack
-    {
-        fun onSettingItemCallBack(result: Boolean)
-    }
+    constructor(settingName: String?) : this(settingName, null)
 }

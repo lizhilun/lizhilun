@@ -37,7 +37,7 @@ class SearchFragment : BaseFragment<EmptyPresenter>(), AccountListAdapter.OnItem
 
     override fun initView()
     {
-        allAccountList = DataUtil.getInstance().queryAll(activity)!!
+        allAccountList = DataUtil.getInstance().queryAll()
 
         iv_back.setOnClickListener { onBackButtonClick() }
         iv_cancel.setOnClickListener { et_search.setText("") }
@@ -109,26 +109,18 @@ class SearchFragment : BaseFragment<EmptyPresenter>(), AccountListAdapter.OnItem
     {
         val operationList = mutableListOf<OperationItem>()
 
-        operationList.add(OperationItem(getString(R.string.modify_account_info), object : OperationItem.OperationItemCallBack
-        {
-            override fun onOperationExecute()
-            {
-                val bundle = Bundle()
-                bundle.putSerializable(Constant.BUNDLE_DATA, accountModel)
-                turnToFragment(R.id.addAccountFragment, bundle)
-            }
-        }))
+        operationList.add(OperationItem(getString(R.string.modify_account_info)) {
+            val bundle = Bundle()
+            bundle.putSerializable(Constant.BUNDLE_DATA, accountModel)
+            turnToFragment(R.id.addAccountFragment, bundle)
+        })
 
-        operationList.add(OperationItem(getString(R.string.delete_account_item), object : OperationItem.OperationItemCallBack
-        {
-            override fun onOperationExecute()
-            {
-                DataUtil.getInstance().deleteData(accountModel)
+        operationList.add(OperationItem(getString(R.string.delete_account_item)) {
+            DataUtil.getInstance().deleteData(accountModel)
 
-                allAccountList = DataUtil.getInstance().queryAll(activity)!!
-                getSearchResult(et_search.text.toString())
-            }
-        }))
+            allAccountList = DataUtil.getInstance().queryAll()
+            getSearchResult(et_search.text.toString())
+        })
 
         DialogUtil.showOperationListDialog(activity as Context, operationList)
         return true
