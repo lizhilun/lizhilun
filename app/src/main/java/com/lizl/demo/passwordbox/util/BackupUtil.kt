@@ -82,7 +82,7 @@ class BackupUtil
                 // 清空之前的数据
                 if (clearAllData)
                 {
-                    DataUtil.getInstance().deleteAllData(UiApplication.instance)
+                    DataUtil.getInstance().deleteAllData()
                 }
 
                 val accountItemList = readResult.split("\r\n")
@@ -102,10 +102,10 @@ class BackupUtil
                     accountModel.account = accountInfo[1]
                     accountModel.password = accountInfo[2]
                     accountModel.desPinyin = PinyinUtil.getPinyin(accountInfo[0])
-                    DataUtil.getInstance().saveData(UiApplication.instance, accountModel)
+                    DataUtil.getInstance().saveData(accountModel)
                 }
 
-                GlobalScope.launch(Dispatchers.Main){
+                GlobalScope.launch(Dispatchers.Main) {
                     callback.onDataRestoreSuccess()
                 }
             }

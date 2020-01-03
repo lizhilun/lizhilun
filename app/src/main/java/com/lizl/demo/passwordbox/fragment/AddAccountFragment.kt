@@ -26,7 +26,7 @@ class AddAccountFragment : BaseFragment()
     {
         btn_confirm.setOnClickListener { onConfirmButtonClick() }
 
-        accountModel = arguments?.getParcelable(Constant.BUNDLE_DATA)
+        accountModel = arguments?.getSerializable(Constant.BUNDLE_DATA) as AccountModel?
 
         et_account_description.setText(accountModel?.description)
         et_account.setText(accountModel?.account)
@@ -63,7 +63,7 @@ class AddAccountFragment : BaseFragment()
         accountModel?.password = password
         accountModel?.desPinyin = PinyinUtil.getPinyin(description)
 
-        DataUtil.getInstance().saveData(activity, accountModel!!)
+        DataUtil.getInstance().saveData(accountModel!!)
 
         backToPreFragment()
     }

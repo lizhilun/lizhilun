@@ -2,13 +2,13 @@ package com.lizl.demo.passwordbox.fragment
 
 import android.content.Context
 import android.os.Bundle
-import androidx.recyclerview.widget.LinearLayoutManager
 import android.text.Editable
 import android.text.InputFilter
 import android.text.TextWatcher
 import android.view.KeyEvent
 import android.view.MenuItem
 import android.view.View
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.lizl.demo.passwordbox.R
 import com.lizl.demo.passwordbox.adapter.AccountListAdapter
 import com.lizl.demo.passwordbox.model.AccountModel
@@ -112,7 +112,7 @@ class SearchFragment : BaseFragment(), AccountListAdapter.OnItemClickListener
             override fun onOperationExecute()
             {
                 val bundle = Bundle()
-                bundle.putParcelable(Constant.BUNDLE_DATA, accountModel)
+                bundle.putSerializable(Constant.BUNDLE_DATA, accountModel)
                 turnToFragment(R.id.addAccountFragment, bundle)
             }
         }))
@@ -121,7 +121,7 @@ class SearchFragment : BaseFragment(), AccountListAdapter.OnItemClickListener
         {
             override fun onOperationExecute()
             {
-                DataUtil.getInstance().deleteData(activity, accountModel)
+                DataUtil.getInstance().deleteData(accountModel)
 
                 allAccountList = DataUtil.getInstance().queryAll(activity)!!
                 getSearchResult(et_search.text.toString())

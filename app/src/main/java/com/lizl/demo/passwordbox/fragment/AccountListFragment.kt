@@ -77,7 +77,7 @@ class AccountListFragment : BaseFragment(), AccountListAdapter.OnItemClickListen
             override fun onOperationExecute()
             {
                 val bundle = Bundle()
-                bundle.putParcelable(Constant.BUNDLE_DATA, accountModel)
+                bundle.putSerializable(Constant.BUNDLE_DATA, accountModel)
                 turnToFragment(R.id.addAccountFragment, bundle)
             }
         }))
@@ -87,7 +87,7 @@ class AccountListFragment : BaseFragment(), AccountListAdapter.OnItemClickListen
         {
             override fun onOperationExecute()
             {
-                DataUtil.getInstance().deleteData(activity, accountModel)
+                DataUtil.getInstance().deleteData(accountModel)
                 getData()
             }
         }))
