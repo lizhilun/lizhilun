@@ -26,18 +26,13 @@ abstract class BaseDialog(context: Context) : Dialog(context, R.style.GlobalDial
     {
         super.onStart()
 
-        if (window == null)
-        {
-            return
-        }
         // 设置Dialog宽度
-        val params = window!!.attributes
+        val params = window?.attributes ?: return
         val display = context.resources.displayMetrics
-        var min = display.heightPixels
+        val min = display.heightPixels.coerceAtMost(display.widthPixels)
         // 宽度设置为宽高最小值的80%（兼容横屏）
-        if (min > display.widthPixels) min = display.widthPixels
         params.width = (min * 0.8).toInt()
-        window!!.attributes = params
+        window?.attributes = params
     }
 
     abstract fun getDialogLayoutResId(): Int

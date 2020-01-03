@@ -101,7 +101,7 @@ class QuickSlideBarView(context: Context, private var attrs: AttributeSet?, defS
                 listener?.onLetterTouching(false)
                 invalidate()
             }
-            else ->
+            else                  ->
             {
                 if (oldChoose != newChoose)
                 {
@@ -122,7 +122,7 @@ class QuickSlideBarView(context: Context, private var attrs: AttributeSet?, defS
                     listener?.onLetterTouching(false)
                 }
                 else if (event.action == MotionEvent.ACTION_DOWN)
-                {//按下调用 onLetterDownListener
+                { //按下调用 onLetterDownListener
                     listener?.onLetterTouching(true)
                 }
             }

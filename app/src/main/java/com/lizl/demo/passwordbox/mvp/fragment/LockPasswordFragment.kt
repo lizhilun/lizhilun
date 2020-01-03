@@ -24,7 +24,7 @@ class LockPasswordFragment : BaseFragment<EmptyPresenter>()
 
     override fun initView()
     {
-        fragmentType = arguments?.getInt(Constant.BUNDLE_DATA)
+        fragmentType = arguments?.getInt(Constant.BUNDLE_DATA_INT)
 
         ctb_title.setOnBackBtnClickListener { backToPreFragment() }
 

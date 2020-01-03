@@ -19,9 +19,8 @@ class AccountListAdapter : RecyclerView.Adapter<AccountListAdapter.ViewHolder>()
 
     fun setData(accountList: List<AccountModel>)
     {
-        accountList.sorted()
         this.accountList.clear()
-        this.accountList.addAll(accountList)
+        this.accountList.addAll(accountList.sorted())
         notifyDataSetChanged()
     }
 
@@ -54,17 +53,21 @@ class AccountListAdapter : RecyclerView.Adapter<AccountListAdapter.ViewHolder>()
                     showFirstLetter = false
                 }
             }
-            itemView.tv_description.text = accountModel.description
-            itemView.tv_account.text = accountModel.account
-            itemView.tv_first_letter.text = firstLetter.toString().toUpperCase()
 
-            itemView.tv_first_letter.visibility = if (showFirstLetter) View.VISIBLE else View.INVISIBLE
+            with(itemView) {
+                tv_description.text = accountModel.description
+                tv_account.text = accountModel.account
+                tv_first_letter.text = firstLetter.toString().toUpperCase()
 
-            itemView.setOnClickListener { onAccountItemClickListener?.invoke(accountModel) }
-            itemView.setOnLongClickListener {
-                onAccountItemLongClickListener?.invoke(accountModel)
-                true
+                tv_first_letter.visibility = if (showFirstLetter) View.VISIBLE else View.INVISIBLE
+
+                setOnClickListener { onAccountItemClickListener?.invoke(accountModel) }
+                setOnLongClickListener {
+                    onAccountItemLongClickListener?.invoke(accountModel)
+                    true
+                }
             }
+
         }
     }
 

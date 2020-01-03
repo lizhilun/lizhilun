@@ -2,6 +2,7 @@ package com.lizl.demo.passwordbox.util
 
 import android.os.Environment
 import android.text.TextUtils
+import com.blankj.utilcode.util.GsonUtils
 import com.lizl.demo.passwordbox.config.AppConfig
 import com.lizl.demo.passwordbox.model.AccountModel
 import kotlinx.coroutines.Dispatchers
@@ -18,31 +19,24 @@ object BackupUtil
 {
     // 备份文件路径
     var backupFilePath = Environment.getExternalStorageDirectory().absolutePath + "/PasswordBoxBackup"
-    // 用于分隔描述/账号/密码的分隔字符
-    var infoSeparator = "-=-="
     // 备份文件后缀名
     var fileSuffixName = ".iu"
 
     /**
      * 备份数据
      */
-    fun backupData(callback: DataBackupCallback)
+    fun backupData(callback: (result: Int) -> Unit)
     {
         GlobalScope.launch(Dispatchers.IO) {
-            var dataString = ""
+
             val formatter = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault())
             val backupFileName = formatter.format(System.currentTimeMillis()) + fileSuffixName
             val accountList = DataUtil.getInstance().queryAll()
-            for (accountModel in accountList)
-            {
-                dataString += accountModel.description + infoSeparator + accountModel.account + infoSeparator + accountModel.password + "\r\n"
-            }
+            val dataString = GsonUtils.toJson(accountList)
             val encryptData = EncryptUtil.encrypt(dataString, AppConfig.getAppLockPassword())
             FileUtil.writeTxtFile(encryptData, "$backupFilePath/$backupFileName")
 
-            GlobalScope.launch(Dispatchers.Main) {
-                callback.onDataBackupSuccess()
-            }
+            GlobalScope.launch(Dispatchers.Main) { callback.invoke(Constant.RESULT_SUCCESS) }
         }
     }
 
@@ -84,23 +78,17 @@ object BackupUtil
                 DataUtil.getInstance().deleteAllData()
             }
 
-            val accountItemList = readResult.split("\r\n")
-            for (accountItem in accountItemList)
-            {
-                val accountInfo = accountItem.split(infoSeparator)
-                if (accountInfo.size < 3)
-                {
-                    continue
-                }
-                var accountModel = DataUtil.getInstance().getAccountByDesAndAccount(accountInfo[0], accountInfo[1])
+            val accountItemList = GsonUtils.fromJson<Array<AccountModel>>(readResult, Array<AccountModel>::class.java)
+            accountItemList.forEach {
+                var accountModel = DataUtil.getInstance().getAccountByDesAndAccount(it.description, it.account)
                 if (accountModel == null)
                 {
                     accountModel = AccountModel()
                 }
-                accountModel.description = accountInfo[0]
-                accountModel.account = accountInfo[1]
-                accountModel.password = accountInfo[2]
-                accountModel.desPinyin = PinyinUtil.getPinyin(accountInfo[0])
+                accountModel.description = it.description
+                accountModel.account = it.account
+                accountModel.password = it.password
+                accountModel.desPinyin = it.desPinyin
                 DataUtil.getInstance().saveData(accountModel)
             }
 
@@ -117,25 +105,7 @@ object BackupUtil
      */
     fun getBackupFileList(): List<File>
     {
-        val fileList = mutableListOf<File>()
-
-        val files = File(backupFilePath).listFiles() ?: return fileList
-        for (file in files)
-        {
-            if (file.exists() && file.isFile && file.name.endsWith(fileSuffixName))
-            {
-                fileList.add(file)
-            }
-        }
-
-        return fileList
-    }
-
-    interface DataBackupCallback
-    {
-        fun onDataBackupSuccess()
-
-        fun onDataBackupFailed(reason: String)
+        return File(backupFilePath).listFiles()?.filter { it.exists() && it.isFile && it.name.endsWith(fileSuffixName) } ?: emptyList()
     }
 
     interface DataRestoreCallback

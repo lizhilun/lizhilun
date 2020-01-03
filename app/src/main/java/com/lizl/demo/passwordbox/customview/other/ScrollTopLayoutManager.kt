@@ -36,7 +36,7 @@ class ScrollTopLayoutManager(context: Context) : LinearLayoutManager(context)
          */
         override fun calculateDtToFit(viewStart: Int, viewEnd: Int, boxStart: Int, boxEnd: Int, snapPreference: Int): Int
         {
-            return boxStart - viewStart// 这里是关键，得到的就是置顶的偏移量
+            return boxStart - viewStart // 这里是关键，得到的就是置顶的偏移量
         }
     }
 }

@@ -22,7 +22,7 @@
         app:exitTextInputType="textMultiLine"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ctb_title"/>
+        app:layout_constraintTop_toBottomOf="@+id/ctb_title" />
 
     <com.lizl.demo.passwordbox.customview.view.EditTextWithDecText
         android:id="@+id/et_account"
@@ -31,7 +31,7 @@
         app:exitTextInputType="textMultiLine"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_account_description"/>
+        app:layout_constraintTop_toBottomOf="@+id/et_account_description" />
 
     <com.lizl.demo.passwordbox.customview.view.EditTextWithDecText
         android:id="@+id/et_password"
@@ -40,7 +40,7 @@
         app:exitTextInputType="textMultiLine"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_account"/>
+        app:layout_constraintTop_toBottomOf="@+id/et_account" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_confirm"
@@ -54,6 +54,6 @@
         android:text="@string/confirm"
         android:textColor="@color/white"
         android:textSize="@dimen/global_text_size"
-        app:layout_constraintTop_toBottomOf="@+id/et_password"/>
+        app:layout_constraintTop_toBottomOf="@+id/et_password" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

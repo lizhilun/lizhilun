@@ -25,7 +25,7 @@ class AddAccountFragment : BaseFragment<EmptyPresenter>()
     {
         btn_confirm.setOnClickListener { onConfirmButtonClick() }
 
-        accountModel = arguments?.getSerializable(Constant.BUNDLE_DATA) as AccountModel?
+        accountModel = arguments?.getSerializable(Constant.BUNDLE_DATA_SERIALIZABLE) as AccountModel?
 
         et_account_description.setText(accountModel?.description)
         et_account.setText(accountModel?.account)

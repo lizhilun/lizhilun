@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.lizl.demo.passwordbox.R
 import kotlinx.android.synthetic.main.item_backup_file.view.*
 import java.io.File
 import java.text.SimpleDateFormat
@@ -29,7 +30,7 @@ class BackupFileListAdapter : RecyclerView.Adapter<BackupFileListAdapter.ViewHol
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder
     {
-        return ViewHolder(LayoutInflater.from(parent.context).inflate(com.lizl.demo.passwordbox.R.layout.item_backup_file, parent, false))
+        return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_backup_file, parent, false))
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int)

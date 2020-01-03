@@ -58,20 +58,17 @@ class AccountListFragment : BaseFragment<AccountListPresenter>(), AccountListCon
 
     private fun onAccountItemLongClick(accountModel: AccountModel): Boolean
     {
-        val operationList = mutableListOf<OperationItem>()
+        val operationList = mutableListOf<OperationItem>().apply {
 
-        // 修改账号信息
-        operationList.add(OperationItem(getString(R.string.modify_account_info)) {
-            val bundle = Bundle()
-            bundle.putSerializable(Constant.BUNDLE_DATA, accountModel)
-            turnToFragment(R.id.addAccountFragment, bundle)
-        })
+            // 修改账号信息
+            add(OperationItem(getString(R.string.modify_account_info)) { turnToFragment(R.id.addAccountFragment, accountModel) })
 
-        // 删除账号
-        operationList.add(OperationItem(getString(R.string.delete_account_item)) {
-            DataUtil.getInstance().deleteData(accountModel)
-            presenter.getAllAccounts()
-        })
+            // 删除账号
+            add(OperationItem(getString(R.string.delete_account_item)) {
+                DataUtil.getInstance().deleteData(accountModel)
+                presenter.getAllAccounts()
+            })
+        }
 
         DialogUtil.showOperationListDialog(activity as Context, operationList)
         return true

@@ -14,6 +14,7 @@ import com.lizl.demo.passwordbox.config.ConfigConstant
 import com.lizl.demo.passwordbox.mvp.fragment.BaseFragment
 import com.lizl.demo.passwordbox.util.Constant
 import com.lizl.demo.passwordbox.util.UiUtil
+import java.io.Serializable
 
 class MainActivity : AppCompatActivity()
 {
@@ -42,14 +43,12 @@ class MainActivity : AppCompatActivity()
             // 密码为空的情况进入密码设置界面
             if (TextUtils.isEmpty(AppConfig.getAppLockPassword()))
             {
-                val bundle = Bundle()
-                bundle.putInt(Constant.BUNDLE_DATA, Constant.LOCK_PASSWORD_FRAGMENT_TYPE_FIRST_SET_PASSWORD)
-                turnToFragment(R.id.lockPasswordFragment, bundle)
+                turnToFragment(R.id.lockPasswordFragment, Constant.LOCK_PASSWORD_FRAGMENT_TYPE_FIRST_SET_PASSWORD)
             }
             // 反之进入锁定界面
             else
             {
-                turnToFragment(R.id.lockFragment, null)
+                turnToFragment(R.id.lockFragment)
             }
         }
     }
@@ -86,17 +85,26 @@ class MainActivity : AppCompatActivity()
         return super.dispatchTouchEvent(ev)
     }
 
-    private fun turnToFragment(fragmentId: Int, bundle: Bundle?)
+    private fun turnToFragment(fragmentId: Int, vararg extraList: Any)
     {
         val options = NavOptions.Builder().setEnterAnim(R.anim.slide_right_in).setExitAnim(R.anim.slide_left_out).setPopEnterAnim(R.anim.slide_left_in)
-            .setPopExitAnim(R.anim.slide_right_out).build()
+                .setPopExitAnim(R.anim.slide_right_out).build()
+
+        val bundle = Bundle()
+        extraList.forEach {
+            when (it)
+            {
+                is Int          -> bundle.putInt(Constant.BUNDLE_DATA_INT, it)
+                is Serializable -> bundle.putSerializable(Constant.BUNDLE_DATA_SERIALIZABLE, it)
+            }
+        }
         Navigation.findNavController(this, R.id.fragment_container).navigate(fragmentId, bundle, options)
     }
 
     override fun onBackPressed()
     {
-        val topFragment = getTopFragment()
-        if (topFragment != null && topFragment.onBackPressed())
+        val topFragment = getTopFragment() ?: return
+        if (topFragment.onBackPressed())
         {
             return
         }
@@ -108,16 +116,8 @@ class MainActivity : AppCompatActivity()
 
     private fun getTopFragment(): BaseFragment<*>?
     {
-        if (supportFragmentManager.primaryNavigationFragment == null)
-        {
-            return null
-        }
-
-        if (supportFragmentManager.primaryNavigationFragment!!.childFragmentManager.fragments.isEmpty())
-        {
-            return null
-        }
-
+        supportFragmentManager.primaryNavigationFragment ?: return null
+        if (supportFragmentManager.primaryNavigationFragment!!.childFragmentManager.fragments.isEmpty()) return null
         return supportFragmentManager.primaryNavigationFragment!!.childFragmentManager.fragments[0] as BaseFragment<*>
     }
 }

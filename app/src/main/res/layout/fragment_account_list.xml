@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:QuickSideBarView="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:QuickSideBarView="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -20,7 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/ctb_title"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_add"
@@ -32,7 +31,7 @@
         android:layout_margin="@dimen/fab_margin"
         app:backgroundTint="@color/colorPrimary"
         app:rippleColor="@color/colorPrimary"
-        app:srcCompat="@mipmap/ic_add"/>
+        app:srcCompat="@mipmap/ic_add" />
 
     <com.lizl.demo.passwordbox.customview.quicksearchbar.QuickSlideBarView
         android:id="@+id/qsb_slide"
@@ -45,7 +44,7 @@
         QuickSideBarView:sidebarTextColor="@color/colorSecondaryTextColor"
         QuickSideBarView:sidebarTextColorChoose="@color/colorPrimary"
         QuickSideBarView:sidebarTextSize="@dimen/quick_search_bar_text_size"
-        QuickSideBarView:sidebarTextSizeChoose="@dimen/quick_search_bar_choose_text_size"/>
+        QuickSideBarView:sidebarTextSizeChoose="@dimen/quick_search_bar_choose_text_size" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_select_letter"
@@ -56,6 +55,6 @@
         android:gravity="center"
         android:textColor="@color/colorPrimary"
         android:textSize="@dimen/quick_search_bar_select_letter_text_size"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
 </RelativeLayout>

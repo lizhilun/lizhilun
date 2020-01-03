@@ -37,7 +37,6 @@ class SettingFragment : BaseFragment<EmptyPresenter>()
     {
         val settingAdapter = SettingListAdapter(getSettingData())
         rv_setting_list.layoutManager = LinearLayoutManager(activity)
-        rv_setting_list.addItemDecoration(DividerItemDecoration(activity as Context, DividerItemDecoration.VERTICAL))
         rv_setting_list.adapter = settingAdapter
 
         ctb_title.setOnBackBtnClickListener { backToPreFragment() }
@@ -62,9 +61,7 @@ class SettingFragment : BaseFragment<EmptyPresenter>()
                     return@SettingBooleanItem
                 }
 
-                val bundle = Bundle()
-                bundle.putInt(Constant.BUNDLE_DATA, Constant.LOCK_PASSWORD_FRAGMENT_TYPE_SET_PASSWORD)
-                turnToFragment(R.id.lockPasswordFragment, bundle)
+                turnToFragment(R.id.lockPasswordFragment, Constant.LOCK_PASSWORD_FRAGMENT_TYPE_SET_PASSWORD)
             })
         }
 
@@ -72,18 +69,14 @@ class SettingFragment : BaseFragment<EmptyPresenter>()
         if (isAppLockPasswordOn)
         {
             settingList.add(SettingNormalItem(getString(R.string.setting_modify_lock_password)) {
-                val bundle = Bundle()
-                bundle.putInt(Constant.BUNDLE_DATA, Constant.LOCK_PASSWORD_FRAGMENT_TYPE_MODIFY_PASSWORD)
-                turnToFragment(R.id.lockPasswordFragment, bundle)
+                turnToFragment(R.id.lockPasswordFragment, Constant.LOCK_PASSWORD_FRAGMENT_TYPE_MODIFY_PASSWORD)
             })
         }
         // 反之显示设置密码界面
         else
         {
             settingList.add(SettingNormalItem(getString(R.string.setting_set_lock_password)) {
-                val bundle = Bundle()
-                bundle.putInt(Constant.BUNDLE_DATA, Constant.LOCK_PASSWORD_FRAGMENT_TYPE_SET_PASSWORD)
-                turnToFragment(R.id.lockPasswordFragment, bundle)
+                turnToFragment(R.id.lockPasswordFragment, Constant.LOCK_PASSWORD_FRAGMENT_TYPE_SET_PASSWORD)
             })
         }
 
@@ -100,9 +93,7 @@ class SettingFragment : BaseFragment<EmptyPresenter>()
             // 保护密码不可用的情况下先设置密码
             if (!isAppLockPasswordOn)
             {
-                val bundle = Bundle()
-                bundle.putInt(Constant.BUNDLE_DATA, Constant.LOCK_PASSWORD_FRAGMENT_TYPE_SET_PASSWORD)
-                turnToFragment(R.id.lockPasswordFragment, bundle)
+                turnToFragment(R.id.lockPasswordFragment, Constant.LOCK_PASSWORD_FRAGMENT_TYPE_SET_PASSWORD)
             }
             else
             {
@@ -120,18 +111,7 @@ class SettingFragment : BaseFragment<EmptyPresenter>()
     @NeedsPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
     fun backupData()
     {
-        BackupUtil.backupData(object : BackupUtil.DataBackupCallback
-        {
-            override fun onDataBackupSuccess()
-            {
-                ToastUtil.showToast(R.string.notify_success_to_backup)
-            }
-
-            override fun onDataBackupFailed(reason: String)
-            {
-                //do nothing
-            }
-        })
+        BackupUtil.backupData { ToastUtil.showToast(R.string.notify_success_to_backup) }
     }
 
     @NeedsPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)

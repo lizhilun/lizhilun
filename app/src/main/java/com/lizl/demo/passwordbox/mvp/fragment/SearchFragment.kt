@@ -91,9 +91,7 @@ class SearchFragment : BaseFragment<SearchPresenter>(), SearchContract.View
         val operationList = mutableListOf<OperationItem>()
 
         operationList.add(OperationItem(getString(R.string.modify_account_info)) {
-            val bundle = Bundle()
-            bundle.putSerializable(Constant.BUNDLE_DATA, accountModel)
-            turnToFragment(R.id.addAccountFragment, bundle)
+            turnToFragment(R.id.addAccountFragment, accountModel)
         })
 
         operationList.add(OperationItem(getString(R.string.delete_account_item)) {

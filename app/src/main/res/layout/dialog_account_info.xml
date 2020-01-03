@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -14,7 +13,7 @@
         android:layout_height="wrap_content"
         android:gravity="start|center_vertical"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_account"
@@ -26,7 +25,7 @@
         android:lineSpacingExtra="5dp"
         app:layout_constraintEnd_toStartOf="@+id/iv_copy_account"
         app:layout_constraintStart_toStartOf="@+id/tv_description"
-        app:layout_constraintTop_toTopOf="@+id/iv_copy_account"/>
+        app:layout_constraintTop_toTopOf="@+id/iv_copy_account" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/iv_copy_account"
@@ -36,7 +35,7 @@
         android:gravity="start|center_vertical"
         android:src="@mipmap/ic_copy"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_description"/>
+        app:layout_constraintTop_toBottomOf="@+id/tv_description" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_password"
@@ -48,7 +47,7 @@
         android:lineSpacingExtra="5dp"
         app:layout_constraintEnd_toEndOf="@+id/tv_account"
         app:layout_constraintStart_toStartOf="@+id/tv_account"
-        app:layout_constraintTop_toBottomOf="@+id/tv_account"/>
+        app:layout_constraintTop_toBottomOf="@+id/tv_account" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/iv_copy_password"
@@ -56,6 +55,6 @@
         android:layout_height="24dp"
         android:src="@mipmap/ic_copy"
         app:layout_constraintEnd_toEndOf="@+id/iv_copy_account"
-        app:layout_constraintTop_toTopOf="@+id/tv_password"/>
+        app:layout_constraintTop_toTopOf="@+id/tv_password" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
