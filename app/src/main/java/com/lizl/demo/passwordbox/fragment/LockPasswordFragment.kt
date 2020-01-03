@@ -3,11 +3,11 @@ package com.lizl.demo.passwordbox.fragment
 import android.text.TextUtils
 import android.view.View
 import com.lizl.demo.passwordbox.R
+import com.lizl.demo.passwordbox.config.AppConfig
 import com.lizl.demo.passwordbox.customview.CustomTitleBar
 import com.lizl.demo.passwordbox.model.TitleBarBtnItem
 import com.lizl.demo.passwordbox.util.Constant
 import com.lizl.demo.passwordbox.util.ToastUtil
-import com.lizl.demo.passwordbox.UiApplication
 import com.lizl.demo.passwordbox.util.UiUtil
 import kotlinx.android.synthetic.main.fragment_lock_password.*
 
@@ -53,7 +53,7 @@ class LockPasswordFragment : BaseFragment()
                 {
                     override fun onBtnClick()
                     {
-                        UiApplication.instance.getAppConfig().setAppLockPasswordOn(false)
+                        AppConfig.setAppLockPasswordOn(false)
                         turnToFragment(R.id.accountListFragment)
                     }
                 }))
@@ -76,7 +76,7 @@ class LockPasswordFragment : BaseFragment()
         val newPassword = et_new_password.getText()
         val confirmPassword = et_confirm_password.getText()
 
-        if (et_current_password.visibility == View.VISIBLE && curPassword != UiApplication.instance.getAppConfig().getAppLockPassword())
+        if (et_current_password.visibility == View.VISIBLE && curPassword != AppConfig.getAppLockPassword())
         {
             ToastUtil.showToast(R.string.notify_wrong_cur_password)
             return
@@ -88,8 +88,8 @@ class LockPasswordFragment : BaseFragment()
             return
         }
 
-        UiApplication.instance.getAppConfig().setAppLockPasswordOn(true)
-        UiApplication.instance.getAppConfig().setAppLockPassword(newPassword)
+        AppConfig.setAppLockPasswordOn(true)
+        AppConfig.setAppLockPassword(newPassword)
 
         backToPreFragment()
     }

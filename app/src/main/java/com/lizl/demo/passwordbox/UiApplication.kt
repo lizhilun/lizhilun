@@ -1,21 +1,14 @@
 package com.lizl.demo.passwordbox
 
 import android.app.Application
-import android.content.Context
 import androidx.core.hardware.fingerprint.FingerprintManagerCompat
-import android.view.inputmethod.InputMethodManager
+import com.blankj.utilcode.util.Utils
 import com.lizl.demo.passwordbox.config.AppConfig
-import com.lizl.demo.passwordbox.config.ConfigHelper
 import com.lizl.demo.passwordbox.util.Constant
 import com.lizl.demo.passwordbox.util.PinyinUtil
 
 class UiApplication : Application()
 {
-    val TAG = javaClass.simpleName
-
-    private var appConfig: AppConfig? = null
-    private var configHelper: ConfigHelper? = null
-
     init
     {
         instance = this
@@ -24,6 +17,8 @@ class UiApplication : Application()
     override fun onCreate()
     {
         super.onCreate()
+
+        Utils.init(this)
 
         PinyinUtil.initResource()
 
@@ -36,7 +31,7 @@ class UiApplication : Application()
     private fun checkFingerprintStatus()
     {
         // 只有在未检测过情况下才检测
-        if (getAppConfig().getAppFingerprintStatus() != Constant.APP_FINGERPRINT_STATUS_NOT_DETECT)
+        if (AppConfig.getAppFingerprintStatus() != Constant.APP_FINGERPRINT_STATUS_NOT_DETECT)
         {
             return
         }
@@ -46,40 +41,21 @@ class UiApplication : Application()
             val mFingerprintManager = FingerprintManagerCompat.from(instance)
             if (mFingerprintManager.isHardwareDetected)
             {
-                getAppConfig().setAppFingerprintStatus(Constant.APP_FINGERPRINT_STATUS_SUPPORT)
+                AppConfig.setAppFingerprintStatus(Constant.APP_FINGERPRINT_STATUS_SUPPORT)
             }
             else
             {
-                getAppConfig().setAppFingerprintStatus(Constant.APP_FINGERPRINT_STATUS_NOT_SUPPORT)
+                AppConfig.setAppFingerprintStatus(Constant.APP_FINGERPRINT_STATUS_NOT_SUPPORT)
             }
         }
         catch (e: ClassNotFoundException)
         {
-            getAppConfig().setAppFingerprintStatus(Constant.APP_FINGERPRINT_STATUS_NOT_SUPPORT)
+            AppConfig.setAppFingerprintStatus(Constant.APP_FINGERPRINT_STATUS_NOT_SUPPORT)
         }
     }
 
     companion object
     {
         lateinit var instance: UiApplication
-        val inputMethodManager: InputMethodManager by lazy { instance.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager }
-    }
-
-    fun getAppConfig(): AppConfig
-    {
-        if (appConfig == null)
-        {
-            appConfig = AppConfig.getInstance()
-        }
-        return appConfig as AppConfig
-    }
-
-    fun getConfigHelper(): ConfigHelper
-    {
-        if (configHelper == null)
-        {
-            configHelper = ConfigHelper.getDefaultConfigHelper(instance)
-        }
-        return configHelper as ConfigHelper
     }
 }

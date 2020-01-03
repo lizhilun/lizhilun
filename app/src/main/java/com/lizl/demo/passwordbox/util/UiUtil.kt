@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewTreeObserver
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
+import com.blankj.utilcode.util.KeyboardUtils
 import com.lizl.demo.passwordbox.R
 import com.lizl.demo.passwordbox.UiApplication
 
@@ -164,9 +165,9 @@ class UiUtil
         /**
          *  显示键盘
          */
-        fun showSoftKeyboard()
+        fun showSoftKeyboard(view: View)
         {
-            UiApplication.inputMethodManager.toggleSoftInput(InputMethodManager.RESULT_UNCHANGED_SHOWN, 0)
+            KeyboardUtils.showSoftInput(view)
         }
 
         /**
@@ -174,10 +175,7 @@ class UiUtil
          */
         fun hideSoftKeyboard(view: View)
         {
-            if (UiApplication.inputMethodManager.isActive)
-            {
-                UiApplication.inputMethodManager.hideSoftInputFromWindow(view.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
-            }
+            KeyboardUtils.hideSoftInput(view)
         }
 
         /**

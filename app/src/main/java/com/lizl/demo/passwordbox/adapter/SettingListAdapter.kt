@@ -1,15 +1,15 @@
 package com.lizl.demo.passwordbox.adapter
 
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
+import com.blankj.utilcode.util.SPUtils
 import com.lizl.demo.passwordbox.R
 import com.lizl.demo.passwordbox.model.settingmodel.SettingBaseItem
 import com.lizl.demo.passwordbox.model.settingmodel.SettingBooleanItem
 import com.lizl.demo.passwordbox.model.settingmodel.SettingDivideItem
 import com.lizl.demo.passwordbox.model.settingmodel.SettingNormalItem
-import com.lizl.demo.passwordbox.UiApplication
 import kotlinx.android.synthetic.main.item_setting_boolean.view.*
 import kotlinx.android.synthetic.main.item_setting_normal.view.*
 
@@ -44,8 +44,8 @@ class SettingListAdapter(private val settingList: List<SettingBaseItem>) : Recyc
         when (viewType)
         {
             ITEM_TYPE_BOOLEAN -> return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_setting_boolean, parent, false))
-            ITEM_TYPE_DIVIDE -> return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_setting_divide, parent, false))
-            ITEM_TYPE_NORMAL -> return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_setting_normal, parent, false))
+            ITEM_TYPE_DIVIDE  -> return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_setting_divide, parent, false))
+            ITEM_TYPE_NORMAL  -> return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_setting_normal, parent, false))
         }
         return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_setting_divide, parent, false))
     }
@@ -67,14 +67,14 @@ class SettingListAdapter(private val settingList: List<SettingBaseItem>) : Recyc
     {
         fun bindBooleanViewHolder(settingItem: SettingBooleanItem)
         {
-            val isChecked = UiApplication.instance.getConfigHelper().getBoolean(settingItem.settingKey!!, settingItem.checked)
+            val isChecked = SPUtils.getInstance().getBoolean(settingItem.settingKey!!, settingItem.checked)
             itemView.tv_boolean_setting_name.text = settingItem.settingName
             itemView.iv_boolean_setting_checked.isSelected = isChecked
 
             itemView.iv_boolean_setting_checked.setOnClickListener {
                 if (settingItem.needSave)
                 {
-                    UiApplication.instance.getConfigHelper().putBoolean(settingItem.settingKey!!, !isChecked)
+                    SPUtils.getInstance().put(settingItem.settingKey!!, !isChecked)
                     notifyDataSetChanged()
                 }
                 settingItem.settingItemCallBack?.onSettingItemCallBack(!isChecked)

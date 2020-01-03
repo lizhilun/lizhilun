@@ -10,6 +10,7 @@ import com.lizl.demo.passwordbox.R
 import com.lizl.demo.passwordbox.adapter.NumberKeyGridAdapter
 import com.lizl.demo.passwordbox.customview.recylerviewitemdivider.GridDividerItemDecoration
 import com.lizl.demo.passwordbox.UiApplication
+import com.lizl.demo.passwordbox.config.AppConfig
 import com.lizl.demo.passwordbox.util.UiUtil
 import kotlinx.android.synthetic.main.fragment_lock.*
 
@@ -47,7 +48,7 @@ class LockFragment : BaseFragment(), NumberKeyGridAdapter.OnNumberKeyClickListen
     {
         super.onResume()
 
-        if (UiApplication.instance.getAppConfig().isAppFingerprintSupport() && UiApplication.instance.getAppConfig().isFingerPrintLockOn())
+        if (AppConfig.isAppFingerprintSupport() && AppConfig.isFingerPrintLockOn())
         {
             tv_hint.text = getString(R.string.hint_verify_fingerprint_or_input_password)
 
@@ -121,7 +122,7 @@ class LockFragment : BaseFragment(), NumberKeyGridAdapter.OnNumberKeyClickListen
 
         tv_number.text = numberStr
 
-        if (inputPassword == UiApplication.instance.getAppConfig().getAppLockPassword())
+        if (inputPassword == AppConfig.getAppLockPassword())
         {
             onUnlockSuccess()
         }

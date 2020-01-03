@@ -3,6 +3,7 @@ package com.lizl.demo.passwordbox.util
 import android.os.Environment
 import android.text.TextUtils
 import com.lizl.demo.passwordbox.UiApplication
+import com.lizl.demo.passwordbox.config.AppConfig
 import com.lizl.demo.passwordbox.model.AccountModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -39,7 +40,7 @@ class BackupUtil
                 {
                     dataString += accountModel.description + infoSeparator + accountModel.account + infoSeparator + accountModel.password + "\r\n"
                 }
-                val encryptData = EncryptUtil.encrypt(dataString, UiApplication.instance.getAppConfig().getAppLockPassword())
+                val encryptData = EncryptUtil.encrypt(dataString, AppConfig.getAppLockPassword())
                 FileUtil.writeTxtFile(encryptData, "$backupFilePath/$backupFileName")
 
                 GlobalScope.launch(Dispatchers.Main) {
@@ -65,7 +66,7 @@ class BackupUtil
                 // 如果传入的密码为空，则使用当前App保护密码进行数据解密
                 val readResult: String? = if (TextUtils.isEmpty(password))
                 {
-                    EncryptUtil.decrypt(FileUtil.readTxtFile(filePath), UiApplication.instance.getAppConfig().getAppLockPassword())
+                    EncryptUtil.decrypt(FileUtil.readTxtFile(filePath), AppConfig.getAppLockPassword())
                 }
                 else
                 {

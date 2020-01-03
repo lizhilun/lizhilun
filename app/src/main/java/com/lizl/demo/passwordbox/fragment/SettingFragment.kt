@@ -5,14 +5,15 @@ import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.text.TextUtils
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import android.text.TextUtils
 import com.lizl.demo.passwordbox.R
 import com.lizl.demo.passwordbox.UiApplication
 import com.lizl.demo.passwordbox.adapter.SettingListAdapter
+import com.lizl.demo.passwordbox.config.AppConfig
 import com.lizl.demo.passwordbox.config.ConfigConstant
 import com.lizl.demo.passwordbox.customview.CustomTitleBar
 import com.lizl.demo.passwordbox.customview.dialog.DialogOperationConfirm
@@ -59,12 +60,10 @@ class SettingFragment : BaseFragment()
         settingList.add(SettingDivideItem())
 
         // 密码保护是否可用（密码保护为开且密码非空）
-        val isAppLockPasswordOn =
-                UiApplication.instance.getAppConfig().isAppLockPasswordOn() && !TextUtils.isEmpty(
-                        UiApplication.instance.getAppConfig().getAppLockPassword())
+        val isAppLockPasswordOn = AppConfig.isAppLockPasswordOn() && !TextUtils.isEmpty(AppConfig.getAppLockPassword())
 
         // 支持指纹识别的情况显示指纹解锁设置
-        if (UiApplication.instance.getAppConfig().isAppFingerprintSupport())
+        if (AppConfig.isAppFingerprintSupport())
         {
             settingList.add(SettingBooleanItem(getString(R.string.setting_fingerprint), ConfigConstant.IS_FINGERPRINT_LOCK_ON,
                     ConfigConstant.DEFAULT_IS_FINGERPRINT_LOCK_ON, isAppLockPasswordOn, object : SettingBaseItem.SettingItemCallBack

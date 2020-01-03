@@ -41,8 +41,7 @@ class SearchFragment : BaseFragment(), AccountListAdapter.OnItemClickListener
 
         iv_cancel.visibility = View.GONE
 
-        et_search.requestFocus()
-        UiUtil.showSoftKeyboard()
+        UiUtil.showSoftKeyboard(et_search)
         et_search.filters = arrayOf(InputFilter.LengthFilter(20), UiUtil.getNoWrapOrSpaceFilter())
 
         et_search.addTextChangedListener(object : TextWatcher

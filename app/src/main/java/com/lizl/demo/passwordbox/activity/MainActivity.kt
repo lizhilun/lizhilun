@@ -1,18 +1,18 @@
 package com.lizl.demo.passwordbox.activity
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import android.text.TextUtils
 import android.util.Log
 import android.view.MotionEvent
 import android.widget.EditText
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
 import com.lizl.demo.passwordbox.R
+import com.lizl.demo.passwordbox.config.AppConfig
 import com.lizl.demo.passwordbox.config.ConfigConstant
 import com.lizl.demo.passwordbox.fragment.BaseFragment
 import com.lizl.demo.passwordbox.util.Constant
-import com.lizl.demo.passwordbox.UiApplication
 import com.lizl.demo.passwordbox.util.UiUtil
 
 class MainActivity : AppCompatActivity()
@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity()
         setContentView(R.layout.activity_main)
 
         // Activity走onCreate()将上次应用停止时间置为0，保证onResume()会走是否显示锁定界面流程
-        UiApplication.instance.getAppConfig().setAppLastStopTime(0)
+        AppConfig.setAppLastStopTime(0)
     }
 
     override fun onStart()
@@ -37,10 +37,10 @@ class MainActivity : AppCompatActivity()
         super.onStart()
 
         // 密码保护打开并且应用超时的情况
-        if (UiApplication.instance.getAppConfig().isAppLockPasswordOn() && System.currentTimeMillis() - UiApplication.instance.getAppConfig().getAppLastStopTime() >= ConfigConstant.APP_TIMEOUT_PERIOD)
+        if (AppConfig.isAppLockPasswordOn() && System.currentTimeMillis() - AppConfig.getAppLastStopTime() >= ConfigConstant.APP_TIMEOUT_PERIOD)
         {
             // 密码为空的情况进入密码设置界面
-            if (TextUtils.isEmpty(UiApplication.instance.getAppConfig().getAppLockPassword()))
+            if (TextUtils.isEmpty(AppConfig.getAppLockPassword()))
             {
                 val bundle = Bundle()
                 bundle.putInt(Constant.BUNDLE_DATA, Constant.LOCK_PASSWORD_FRAGMENT_TYPE_FIRST_SET_PASSWORD)
@@ -60,7 +60,7 @@ class MainActivity : AppCompatActivity()
 
         super.onStop()
 
-        UiApplication.instance.getAppConfig().setAppLastStopTime(System.currentTimeMillis())
+        AppConfig.setAppLastStopTime(System.currentTimeMillis())
     }
 
     /**
@@ -89,7 +89,7 @@ class MainActivity : AppCompatActivity()
     private fun turnToFragment(fragmentId: Int, bundle: Bundle?)
     {
         val options = NavOptions.Builder().setEnterAnim(R.anim.slide_right_in).setExitAnim(R.anim.slide_left_out).setPopEnterAnim(R.anim.slide_left_in)
-                .setPopExitAnim(R.anim.slide_right_out).build()
+            .setPopExitAnim(R.anim.slide_right_out).build()
         Navigation.findNavController(this, R.id.fragment_container).navigate(fragmentId, bundle, options)
     }
 
