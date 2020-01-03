@@ -1,17 +1,29 @@
 package com.lizl.demo.passwordbox.adapter
 
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 import com.lizl.demo.passwordbox.R
 import com.lizl.demo.passwordbox.model.AccountModel
 import com.lizl.demo.passwordbox.util.PinyinUtil
 import kotlinx.android.synthetic.main.item_account.view.*
 
-class AccountListAdapter(accountList: List<AccountModel>, private val onItemClickListener: OnItemClickListener?) : RecyclerView.Adapter<AccountListAdapter.ViewHolder>()
+class AccountListAdapter : RecyclerView.Adapter<AccountListAdapter.ViewHolder>()
 {
-    private var accountList: List<AccountModel> = accountList.sorted()
+
+    private var accountList: MutableList<AccountModel> = mutableListOf()
+
+    private var onAccountItemClickListener: ((AccountModel) -> Unit)? = null
+    private var onAccountItemLongClickListener: ((AccountModel) -> Unit)? = null
+
+    fun setData(accountList: List<AccountModel>)
+    {
+        accountList.sorted()
+        this.accountList.clear()
+        this.accountList.addAll(accountList)
+        notifyDataSetChanged()
+    }
 
     override fun getItemCount(): Int = accountList.size
 
@@ -46,10 +58,13 @@ class AccountListAdapter(accountList: List<AccountModel>, private val onItemClic
             itemView.tv_account.text = accountModel.account
             itemView.tv_first_letter.text = firstLetter.toString().toUpperCase()
 
-            itemView.tv_first_letter.visibility = if(showFirstLetter) View.VISIBLE else View.INVISIBLE
+            itemView.tv_first_letter.visibility = if (showFirstLetter) View.VISIBLE else View.INVISIBLE
 
-            itemView.setOnClickListener { onItemClickListener?.onAccountItemClick(accountModel) }
-            itemView.setOnLongClickListener { onItemClickListener?.onAccountItemLongClick(accountModel)!! }
+            itemView.setOnClickListener { onAccountItemClickListener?.invoke(accountModel) }
+            itemView.setOnLongClickListener {
+                onAccountItemLongClickListener?.invoke(accountModel)
+                true
+            }
         }
     }
 
@@ -58,20 +73,16 @@ class AccountListAdapter(accountList: List<AccountModel>, private val onItemClic
      */
     fun getFirstLetterPosition(letter: Char): Int
     {
-        for (i in 0 until itemCount)
-        {
-            if (PinyinUtil.getSortFirstLetter(accountList[i].desPinyin) == letter.toLowerCase())
-            {
-                return i
-            }
-        }
-        return -1
+        return accountList.indexOfFirst { PinyinUtil.getSortFirstLetter(it.desPinyin) == letter.toLowerCase() }
     }
 
-    interface OnItemClickListener
+    fun setOnAccountItemClickListener(onAccountItemClickListener: (AccountModel) -> Unit)
     {
-        fun onAccountItemClick(accountModel: AccountModel)
+        this.onAccountItemClickListener = onAccountItemClickListener
+    }
 
-        fun onAccountItemLongClick(accountModel: AccountModel): Boolean
+    fun setOnAccountItemLongClickListener(onAccountItemLongClickListener: (AccountModel) -> Unit)
+    {
+        this.onAccountItemLongClickListener = onAccountItemLongClickListener
     }
 }

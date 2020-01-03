@@ -5,47 +5,40 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.lizl.demo.passwordbox.R
 import com.lizl.demo.passwordbox.adapter.BackupFileListAdapter
 import com.lizl.demo.passwordbox.model.OperationItem
-import com.lizl.demo.passwordbox.mvp.presenter.EmptyPresenter
+import com.lizl.demo.passwordbox.mvp.contract.BackupFileListContract
+import com.lizl.demo.passwordbox.mvp.presenter.BackupFileListPresenter
 import com.lizl.demo.passwordbox.util.*
 import kotlinx.android.synthetic.main.fragment_backup_file_list.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import java.io.File
 
-class BackupFileListFragment : BaseFragment<EmptyPresenter>(), BackupFileListAdapter.OnBackFileItemClickListener
+class BackupFileListFragment : BaseFragment<BackupFileListPresenter>(), BackupFileListContract.View
 {
+
+    private lateinit var backupFileListAdapter: BackupFileListAdapter
 
     override fun getLayoutResId() = R.layout.fragment_backup_file_list
 
-    override fun initPresenter() = EmptyPresenter()
+    override fun initPresenter() = BackupFileListPresenter(this)
 
     override fun initView()
     {
         ctb_title.setOnBackBtnClickListener { backToPreFragment() }
-    }
 
-    override fun onResume()
-    {
-        super.onResume()
-
-        //TODO:延时300ms加载数据，防止界面切换卡顿
-        GlobalScope.launch(Dispatchers.Main) {
-            delay(300)
-            getData()
-        }
-    }
-
-    private fun getData()
-    {
-        val backupFileList = BackupUtil.getBackupFileList()
-        val backupFileListAdapter = BackupFileListAdapter(backupFileList, this)
+        backupFileListAdapter = BackupFileListAdapter()
         rv_file_list.layoutManager = LinearLayoutManager(activity)
         rv_file_list.adapter = backupFileListAdapter
+
+        backupFileListAdapter.setOnItemClickListener { onBackupFileItemClick(it) }
+
+        presenter.getAllBackupFiles()
     }
 
-    override fun onBackupFileItemClick(file: File)
+    override fun showBackupFiles(fileList: List<File>)
+    {
+        backupFileListAdapter.setData(fileList)
+    }
+
+    private fun onBackupFileItemClick(file: File)
     {
         val operationList = mutableListOf<OperationItem>().apply {
 
@@ -67,7 +60,7 @@ class BackupFileListFragment : BaseFragment<EmptyPresenter>(), BackupFileListAda
                         getString(R.string.notify_delete_backup_file)) {
                     if (FileUtil.deleteFile(file.absolutePath))
                     {
-                        getData()
+                        presenter.getAllBackupFiles()
                     }
                 }
             })
@@ -77,7 +70,7 @@ class BackupFileListFragment : BaseFragment<EmptyPresenter>(), BackupFileListAda
                 DialogUtil.showInputDialog(activity as Context, getString(R.string.rename_backup_file), getString(R.string.hint_rename_backup_file)) {
                     if (FileUtil.renameFile(file.absolutePath, it))
                     {
-                        getData()
+                        presenter.getAllBackupFiles()
                     }
                 }
             })

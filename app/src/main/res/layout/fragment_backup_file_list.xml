@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
     tools:context=".mvp.activity.MainActivity">
 
-    <com.lizl.demo.passwordbox.customview.CustomTitleBar
+    <com.lizl.demo.passwordbox.customview.view.CustomTitleBar
         android:id="@+id/ctb_title"
         style="@style/ToolbarLayoutStyle"
         android:layout_alignParentTop="true"

@@ -2,15 +2,16 @@ package com.lizl.demo.passwordbox.mvp.fragment
 
 import android.content.Context
 import android.os.Bundle
-import android.view.View
+import androidx.core.view.isVisible
 import com.lizl.demo.passwordbox.R
 import com.lizl.demo.passwordbox.adapter.AccountListAdapter
-import com.lizl.demo.passwordbox.customview.ScrollTopLayoutManager
+import com.lizl.demo.passwordbox.customview.other.ScrollTopLayoutManager
 import com.lizl.demo.passwordbox.customview.quicksearchbar.OnQuickSideBarTouchListener
 import com.lizl.demo.passwordbox.model.AccountModel
 import com.lizl.demo.passwordbox.model.OperationItem
 import com.lizl.demo.passwordbox.model.TitleBarBtnItem
-import com.lizl.demo.passwordbox.mvp.presenter.EmptyPresenter
+import com.lizl.demo.passwordbox.mvp.contract.AccountListContract
+import com.lizl.demo.passwordbox.mvp.presenter.AccountListPresenter
 import com.lizl.demo.passwordbox.util.Constant
 import com.lizl.demo.passwordbox.util.DataUtil
 import com.lizl.demo.passwordbox.util.DialogUtil
@@ -19,16 +20,13 @@ import kotlinx.android.synthetic.main.fragment_account_list.*
 /**
  * 账号列表界面
  */
-class AccountListFragment : BaseFragment<EmptyPresenter>(), AccountListAdapter.OnItemClickListener, OnQuickSideBarTouchListener
+class AccountListFragment : BaseFragment<AccountListPresenter>(), AccountListContract.View, OnQuickSideBarTouchListener
 {
     private lateinit var accountListAdapter: AccountListAdapter
 
-    override fun getLayoutResId(): Int
-    {
-        return R.layout.fragment_account_list
-    }
+    override fun getLayoutResId() = R.layout.fragment_account_list
 
-    override fun initPresenter() = EmptyPresenter()
+    override fun initPresenter() = AccountListPresenter(this)
 
     override fun initView()
     {
@@ -40,26 +38,25 @@ class AccountListFragment : BaseFragment<EmptyPresenter>(), AccountListAdapter.O
         }
         ctb_title.setBtnList(titleBtnList)
 
-        qsb_slide.setOnQuickSideBarTouchListener(this)
-
-        getData()
-    }
-
-    private fun getData()
-    {
-        val accountList: MutableList<AccountModel> = DataUtil.getInstance().queryAll()
-
-        accountListAdapter = AccountListAdapter(accountList, this)
+        accountListAdapter = AccountListAdapter()
         rv_password_list.layoutManager = ScrollTopLayoutManager(activity as Context)
         rv_password_list.adapter = accountListAdapter
+
+        accountListAdapter.setOnAccountItemClickListener { DialogUtil.showAccountInfoDialog(activity as Context, it) }
+
+        accountListAdapter.setOnAccountItemLongClickListener { onAccountItemLongClick(it) }
+
+        qsb_slide.setOnQuickSideBarTouchListener(this)
+
+        presenter.getAllAccounts()
     }
 
-    override fun onAccountItemClick(accountModel: AccountModel)
+    override fun showAccountList(accountList: List<AccountModel>)
     {
-        DialogUtil.showAccountInfoDialog(activity as Context, accountModel)
+        accountListAdapter.setData(accountList)
     }
 
-    override fun onAccountItemLongClick(accountModel: AccountModel): Boolean
+    private fun onAccountItemLongClick(accountModel: AccountModel): Boolean
     {
         val operationList = mutableListOf<OperationItem>()
 
@@ -73,16 +70,11 @@ class AccountListFragment : BaseFragment<EmptyPresenter>(), AccountListAdapter.O
         // 删除账号
         operationList.add(OperationItem(getString(R.string.delete_account_item)) {
             DataUtil.getInstance().deleteData(accountModel)
-            getData()
+            presenter.getAllAccounts()
         })
 
         DialogUtil.showOperationListDialog(activity as Context, operationList)
         return true
-    }
-
-    override fun onBackPressed(): Boolean
-    {
-        return false
     }
 
     override fun onLetterChanged(letter: String, position: Int, y: Float)
@@ -98,6 +90,8 @@ class AccountListFragment : BaseFragment<EmptyPresenter>(), AccountListAdapter.O
 
     override fun onLetterTouching(touching: Boolean)
     {
-        if (touching) tv_select_letter.visibility = View.VISIBLE else tv_select_letter.visibility = View.GONE
+        tv_select_letter.isVisible = touching
     }
+
+    override fun onBackPressed() = false
 }

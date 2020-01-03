@@ -11,10 +11,7 @@ import kotlinx.android.synthetic.main.dialog_account_info.*
  */
 class DialogAccountInfo(context: Context, private val accountModel: AccountModel) : BaseDialog(context)
 {
-    override fun getDialogLayoutResId(): Int
-    {
-        return R.layout.dialog_account_info
-    }
+    override fun getDialogLayoutResId() = R.layout.dialog_account_info
 
     override fun initView()
     {

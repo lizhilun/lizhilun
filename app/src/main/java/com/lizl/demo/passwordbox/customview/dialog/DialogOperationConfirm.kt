@@ -10,10 +10,7 @@ import kotlinx.android.synthetic.main.dialog_operation_confirm.*
 class DialogOperationConfirm(context: Context, private val title: String, private val notify: String, private val operationConfirmCallback: () -> Unit) :
         BaseDialog(context)
 {
-    override fun getDialogLayoutResId(): Int
-    {
-        return R.layout.dialog_operation_confirm
-    }
+    override fun getDialogLayoutResId() = R.layout.dialog_operation_confirm
 
     override fun initView()
     {

@@ -1,4 +1,4 @@
-package com.lizl.demo.passwordbox.customview
+package com.lizl.demo.passwordbox.customview.other
 
 import android.content.Context
 import androidx.recyclerview.widget.LinearLayoutManager

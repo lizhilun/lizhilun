@@ -13,10 +13,7 @@ import kotlinx.android.synthetic.main.dialog_operation_list.*
  */
 class DialogOperationList(context: Context, private var operationList: List<OperationItem>) : BaseDialog(context)
 {
-    override fun getDialogLayoutResId(): Int
-    {
-        return R.layout.dialog_operation_list
-    }
+    override fun getDialogLayoutResId() = R.layout.dialog_operation_list
 
     override fun initView()
     {
@@ -25,12 +22,6 @@ class DialogOperationList(context: Context, private var operationList: List<Oper
         rv_operation_list.addItemDecoration(ListDividerItemDecoration(context))
         rv_operation_list.adapter = operationListAdapter
 
-        operationListAdapter.setOnOperationItemClickListener(object : OperationListAdapter.OnOperationItemClickListener
-        {
-            override fun onOperationItemClick()
-            {
-                dismiss()
-            }
-        })
+        operationListAdapter.setOnOperationItemClickListener { dismiss() }
     }
 }

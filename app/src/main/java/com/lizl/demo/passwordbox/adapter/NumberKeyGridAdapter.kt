@@ -1,15 +1,18 @@
 package com.lizl.demo.passwordbox.adapter
 
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 import com.lizl.demo.passwordbox.R
 import com.lizl.demo.passwordbox.UiApplication
 import kotlinx.android.synthetic.main.item_number_key.view.*
 
-class NumberKeyGridAdapter(private val keyList: List<String>, private val onItemClickListener: OnNumberKeyClickListener) : RecyclerView.Adapter<NumberKeyGridAdapter.ViewHolder>()
+class NumberKeyGridAdapter(private val keyList: List<String>) : RecyclerView.Adapter<NumberKeyGridAdapter.ViewHolder>()
 {
+
+    private var onNumberKeyClickListener: ((String) -> Unit)? = null
+
     override fun getItemCount(): Int = keyList.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder
@@ -40,12 +43,12 @@ class NumberKeyGridAdapter(private val keyList: List<String>, private val onItem
                 itemView.tv_key.text = if (keyValue == "*") UiApplication.instance.getText(R.string.exit) else keyValue
             }
 
-            itemView.setOnClickListener { onItemClickListener.onNumberKeyClick(keyValue) }
+            itemView.setOnClickListener { onNumberKeyClickListener?.invoke(keyValue) }
         }
     }
 
-    interface OnNumberKeyClickListener
+    fun setOnNumberKeyClickListener(onNumberKeyClickListener: (String) -> Unit)
     {
-        fun onNumberKeyClick(keyValue: String)
+        this.onNumberKeyClickListener = onNumberKeyClickListener
     }
 }

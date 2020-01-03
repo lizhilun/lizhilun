@@ -10,7 +10,7 @@ import kotlinx.android.synthetic.main.item_operation.view.*
 
 class OperationListAdapter(private var operationList: List<OperationItem>) : RecyclerView.Adapter<OperationListAdapter.ViewHolder>()
 {
-    private var onOperationItemClickListener: OnOperationItemClickListener? = null
+    private var onOperationItemClickListener: (() -> Unit)? = null
 
     override fun getItemCount(): Int = operationList.size
 
@@ -31,18 +31,13 @@ class OperationListAdapter(private var operationList: List<OperationItem>) : Rec
             itemView.tv_operation_name.text = operationItem.operationName
 
             itemView.setOnClickListener {
-                onOperationItemClickListener?.onOperationItemClick()
+                onOperationItemClickListener?.invoke()
                 operationItem.operationItemCallBack.invoke()
             }
         }
     }
 
-    interface OnOperationItemClickListener
-    {
-        fun onOperationItemClick()
-    }
-
-    fun setOnOperationItemClickListener(onOperationItemClickListener: OnOperationItemClickListener)
+    fun setOnOperationItemClickListener(onOperationItemClickListener: () -> Unit)
     {
         this.onOperationItemClickListener = onOperationItemClickListener
     }

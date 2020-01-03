@@ -17,10 +17,7 @@ class AddAccountFragment : BaseFragment<EmptyPresenter>()
 {
     private var accountModel: AccountModel? = null
 
-    override fun getLayoutResId(): Int
-    {
-        return R.layout.fragment_add_account
-    }
+    override fun getLayoutResId() = R.layout.fragment_add_account
 
     override fun initPresenter() = EmptyPresenter()
 

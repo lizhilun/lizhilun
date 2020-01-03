@@ -11,10 +11,7 @@ import kotlinx.android.synthetic.main.dialog_input.*
 class DialogInput(context: Context, private var title: String, private var editHint: String, private var inputCompletedCallback: (String) -> Unit) :
         BaseDialog(context)
 {
-    override fun getDialogLayoutResId(): Int
-    {
-        return R.layout.dialog_input
-    }
+    override fun getDialogLayoutResId() = R.layout.dialog_input
 
     override fun initView()
     {

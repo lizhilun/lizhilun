@@ -18,10 +18,7 @@ class LockPasswordFragment : BaseFragment<EmptyPresenter>()
 {
     private var fragmentType: Int? = Constant.LOCK_PASSWORD_FRAGMENT_TYPE_MODIFY_PASSWORD
 
-    override fun getLayoutResId(): Int
-    {
-        return R.layout.fragment_lock_password
-    }
+    override fun getLayoutResId() = R.layout.fragment_lock_password
 
     override fun initPresenter() = EmptyPresenter()
 
