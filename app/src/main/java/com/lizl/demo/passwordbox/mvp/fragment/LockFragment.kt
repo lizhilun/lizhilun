@@ -1,27 +1,29 @@
-package com.lizl.demo.passwordbox.fragment
+package com.lizl.demo.passwordbox.mvp.fragment
 
 import android.content.DialogInterface
 import android.hardware.biometrics.BiometricPrompt
 import android.os.CancellationSignal
-import androidx.recyclerview.widget.GridLayoutManager
 import android.util.Log
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.GridLayoutManager
 import com.lizl.demo.passwordbox.R
 import com.lizl.demo.passwordbox.adapter.NumberKeyGridAdapter
-import com.lizl.demo.passwordbox.customview.recylerviewitemdivider.GridDividerItemDecoration
-import com.lizl.demo.passwordbox.UiApplication
 import com.lizl.demo.passwordbox.config.AppConfig
+import com.lizl.demo.passwordbox.customview.recylerviewitemdivider.GridDividerItemDecoration
+import com.lizl.demo.passwordbox.mvp.presenter.EmptyPresenter
 import com.lizl.demo.passwordbox.util.UiUtil
 import kotlinx.android.synthetic.main.fragment_lock.*
 
 /**
  * 锁定界面
  */
-class LockFragment : BaseFragment(), NumberKeyGridAdapter.OnNumberKeyClickListener
+class LockFragment : BaseFragment<EmptyPresenter>(), NumberKeyGridAdapter.OnNumberKeyClickListener
 {
     private var inputPassword = ""
 
     private lateinit var mBiometricPrompt: BiometricPrompt
+
+    override fun initPresenter() = EmptyPresenter()
 
     override fun getLayoutResId(): Int
     {
@@ -36,12 +38,10 @@ class LockFragment : BaseFragment(), NumberKeyGridAdapter.OnNumberKeyClickListen
         rv_number_key.addItemDecoration(GridDividerItemDecoration())
         rv_number_key.adapter = numberKeyGridAdapter
 
-        mBiometricPrompt = BiometricPrompt.Builder(activity)
-                .setTitle(getString(R.string.fingerprint_authentication_dialog_title))
-                .setDescription(getString(R.string.fingerprint_authentication_dialog_description))
-                .setNegativeButton(getString(R.string.cancel), ContextCompat.getMainExecutor(context), DialogInterface.OnClickListener {
-                    _, _ -> Log.d(TAG, "cancel button click")})
-                .build()
+        mBiometricPrompt = BiometricPrompt.Builder(activity).setTitle(getString(R.string.fingerprint_authentication_dialog_title))
+            .setDescription(getString(R.string.fingerprint_authentication_dialog_description))
+            .setNegativeButton(getString(R.string.cancel), ContextCompat.getMainExecutor(context),
+                    DialogInterface.OnClickListener { _, _ -> Log.d(TAG, "cancel button click") }).build()
     }
 
     override fun onResume()

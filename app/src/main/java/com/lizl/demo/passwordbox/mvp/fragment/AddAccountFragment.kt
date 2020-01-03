@@ -1,9 +1,10 @@
-package com.lizl.demo.passwordbox.fragment
+package com.lizl.demo.passwordbox.mvp.fragment
 
 import android.text.TextUtils
 import com.lizl.demo.passwordbox.R
 import com.lizl.demo.passwordbox.customview.CustomTitleBar
 import com.lizl.demo.passwordbox.model.AccountModel
+import com.lizl.demo.passwordbox.mvp.presenter.EmptyPresenter
 import com.lizl.demo.passwordbox.util.Constant
 import com.lizl.demo.passwordbox.util.DataUtil
 import com.lizl.demo.passwordbox.util.PinyinUtil
@@ -13,7 +14,7 @@ import kotlinx.android.synthetic.main.fragment_add_account.*
 /**
  * 添加账号界面
  */
-class AddAccountFragment : BaseFragment()
+class AddAccountFragment : BaseFragment<EmptyPresenter>()
 {
     private var accountModel: AccountModel? = null
 
@@ -21,6 +22,8 @@ class AddAccountFragment : BaseFragment()
     {
         return R.layout.fragment_add_account
     }
+
+    override fun initPresenter() = EmptyPresenter()
 
     override fun initView()
     {

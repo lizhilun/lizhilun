@@ -1,4 +1,4 @@
-package com.lizl.demo.passwordbox.fragment
+package com.lizl.demo.passwordbox.mvp.fragment
 
 import android.content.Context
 import android.os.Bundle
@@ -10,6 +10,7 @@ import com.lizl.demo.passwordbox.customview.quicksearchbar.OnQuickSideBarTouchLi
 import com.lizl.demo.passwordbox.model.AccountModel
 import com.lizl.demo.passwordbox.model.OperationItem
 import com.lizl.demo.passwordbox.model.TitleBarBtnItem
+import com.lizl.demo.passwordbox.mvp.presenter.EmptyPresenter
 import com.lizl.demo.passwordbox.util.Constant
 import com.lizl.demo.passwordbox.util.DataUtil
 import com.lizl.demo.passwordbox.util.DialogUtil
@@ -18,7 +19,7 @@ import kotlinx.android.synthetic.main.fragment_account_list.*
 /**
  * 账号列表界面
  */
-class AccountListFragment : BaseFragment(), AccountListAdapter.OnItemClickListener, OnQuickSideBarTouchListener
+class AccountListFragment : BaseFragment<EmptyPresenter>(), AccountListAdapter.OnItemClickListener, OnQuickSideBarTouchListener
 {
     private lateinit var accountListAdapter: AccountListAdapter
 
@@ -26,6 +27,8 @@ class AccountListFragment : BaseFragment(), AccountListAdapter.OnItemClickListen
     {
         return R.layout.fragment_account_list
     }
+
+    override fun initPresenter() = EmptyPresenter()
 
     override fun initView()
     {

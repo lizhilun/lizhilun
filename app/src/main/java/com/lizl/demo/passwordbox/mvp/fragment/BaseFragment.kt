@@ -1,19 +1,22 @@
-package com.lizl.demo.passwordbox.fragment
+package com.lizl.demo.passwordbox.mvp.fragment
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
 import com.lizl.demo.passwordbox.R
+import com.lizl.demo.passwordbox.mvp.base.BasePresenter
 import com.lizl.demo.passwordbox.util.DialogUtil
 
-abstract class BaseFragment : Fragment()
+abstract class BaseFragment<T : BasePresenter<*>> : Fragment()
 {
     protected var TAG = this.javaClass.simpleName
+
+    protected lateinit var presenter: T
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
@@ -29,6 +32,8 @@ abstract class BaseFragment : Fragment()
     override fun onActivityCreated(savedInstanceState: Bundle?)
     {
         super.onActivityCreated(savedInstanceState)
+
+        presenter = initPresenter()
 
         initView()
     }
@@ -59,6 +64,15 @@ abstract class BaseFragment : Fragment()
         super.onStop()
     }
 
+    override fun onDestroyView()
+    {
+        Log.d(TAG, "onDestroyView")
+
+        presenter.onDestroy()
+
+        super.onDestroyView()
+    }
+
     override fun onDestroy()
     {
         Log.d(TAG, "onDestroy")
@@ -66,6 +80,8 @@ abstract class BaseFragment : Fragment()
     }
 
     abstract fun getLayoutResId(): Int
+
+    abstract fun initPresenter(): T
 
     abstract fun initView()
 
@@ -93,7 +109,7 @@ abstract class BaseFragment : Fragment()
         try
         {
             val options = NavOptions.Builder().setEnterAnim(R.anim.slide_right_in).setExitAnim(R.anim.slide_left_out).setPopEnterAnim(R.anim.slide_left_in)
-                    .setPopExitAnim(R.anim.slide_right_out).build()
+                .setPopExitAnim(R.anim.slide_right_out).build()
             Navigation.findNavController(checkNotNull(view)).navigate(fragmentId, bundle, options)
         }
         catch (e: Exception)

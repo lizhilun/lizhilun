@@ -1,4 +1,4 @@
-package com.lizl.demo.passwordbox.fragment
+package com.lizl.demo.passwordbox.mvp.fragment
 
 import android.text.TextUtils
 import android.view.View
@@ -6,6 +6,7 @@ import com.lizl.demo.passwordbox.R
 import com.lizl.demo.passwordbox.config.AppConfig
 import com.lizl.demo.passwordbox.customview.CustomTitleBar
 import com.lizl.demo.passwordbox.model.TitleBarBtnItem
+import com.lizl.demo.passwordbox.mvp.presenter.EmptyPresenter
 import com.lizl.demo.passwordbox.util.Constant
 import com.lizl.demo.passwordbox.util.ToastUtil
 import com.lizl.demo.passwordbox.util.UiUtil
@@ -14,7 +15,7 @@ import kotlinx.android.synthetic.main.fragment_lock_password.*
 /**
  * 保护密码设置/修改界面
  */
-class LockPasswordFragment : BaseFragment()
+class LockPasswordFragment : BaseFragment<EmptyPresenter>()
 {
     private var fragmentType: Int? = Constant.LOCK_PASSWORD_FRAGMENT_TYPE_MODIFY_PASSWORD
 
@@ -22,6 +23,8 @@ class LockPasswordFragment : BaseFragment()
     {
         return R.layout.fragment_lock_password
     }
+
+    override fun initPresenter() = EmptyPresenter()
 
     override fun initView()
     {

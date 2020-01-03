@@ -1,4 +1,4 @@
-package com.lizl.demo.passwordbox.fragment
+package com.lizl.demo.passwordbox.mvp.fragment
 
 import android.content.Context
 import android.os.Bundle
@@ -13,6 +13,7 @@ import com.lizl.demo.passwordbox.R
 import com.lizl.demo.passwordbox.adapter.AccountListAdapter
 import com.lizl.demo.passwordbox.model.AccountModel
 import com.lizl.demo.passwordbox.model.OperationItem
+import com.lizl.demo.passwordbox.mvp.presenter.EmptyPresenter
 import com.lizl.demo.passwordbox.util.Constant
 import com.lizl.demo.passwordbox.util.DataUtil
 import com.lizl.demo.passwordbox.util.DialogUtil
@@ -22,7 +23,7 @@ import kotlinx.android.synthetic.main.fragment_search.*
 /**
  * 搜索界面
  */
-class SearchFragment : BaseFragment(), AccountListAdapter.OnItemClickListener
+class SearchFragment : BaseFragment<EmptyPresenter>(), AccountListAdapter.OnItemClickListener
 {
     private var accountListAdapter: AccountListAdapter? = null
     private lateinit var allAccountList: MutableList<AccountModel>
@@ -31,6 +32,8 @@ class SearchFragment : BaseFragment(), AccountListAdapter.OnItemClickListener
     {
         return R.layout.fragment_search
     }
+
+    override fun initPresenter() = EmptyPresenter()
 
     override fun initView()
     {

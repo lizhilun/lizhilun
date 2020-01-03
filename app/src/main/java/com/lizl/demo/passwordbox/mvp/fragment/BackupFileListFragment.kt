@@ -1,4 +1,4 @@
-package com.lizl.demo.passwordbox.fragment
+package com.lizl.demo.passwordbox.mvp.fragment
 
 import android.content.Context
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -8,6 +8,7 @@ import com.lizl.demo.passwordbox.customview.CustomTitleBar
 import com.lizl.demo.passwordbox.customview.dialog.DialogInput
 import com.lizl.demo.passwordbox.customview.dialog.DialogOperationConfirm
 import com.lizl.demo.passwordbox.model.OperationItem
+import com.lizl.demo.passwordbox.mvp.presenter.EmptyPresenter
 import com.lizl.demo.passwordbox.util.*
 import kotlinx.android.synthetic.main.fragment_backup_file_list.*
 import kotlinx.coroutines.Dispatchers
@@ -16,13 +17,15 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.io.File
 
-class BackupFileListFragment : BaseFragment(), BackupFileListAdapter.OnBackFileItemClickListener
+class BackupFileListFragment : BaseFragment<EmptyPresenter>(), BackupFileListAdapter.OnBackFileItemClickListener
 {
 
     override fun getLayoutResId(): Int
     {
         return R.layout.fragment_backup_file_list
     }
+
+    override fun initPresenter() = EmptyPresenter()
 
     override fun initView()
     {
@@ -63,7 +66,8 @@ class BackupFileListFragment : BaseFragment(), BackupFileListAdapter.OnBackFileI
         {
             override fun onOperationExecute()
             {
-                DialogUtil.showOperationConfirmDialog(activity as Context, getString(R.string.import_backup_file_overlay), getString(R.string.notify_restore_data_overlay), object : DialogOperationConfirm.OperationConfirmCallback
+                DialogUtil.showOperationConfirmDialog(activity as Context, getString(R.string.import_backup_file_overlay),
+                        getString(R.string.notify_restore_data_overlay), object : DialogOperationConfirm.OperationConfirmCallback
                 {
                     override fun onOperationConfirmed()
                     {
@@ -78,7 +82,8 @@ class BackupFileListFragment : BaseFragment(), BackupFileListAdapter.OnBackFileI
         {
             override fun onOperationExecute()
             {
-                DialogUtil.showOperationConfirmDialog(activity as Context, getString(R.string.import_backup_file_merge), getString(R.string.notify_restore_data_merge), object : DialogOperationConfirm.OperationConfirmCallback
+                DialogUtil.showOperationConfirmDialog(activity as Context, getString(R.string.import_backup_file_merge),
+                        getString(R.string.notify_restore_data_merge), object : DialogOperationConfirm.OperationConfirmCallback
                 {
                     override fun onOperationConfirmed()
                     {
@@ -93,7 +98,8 @@ class BackupFileListFragment : BaseFragment(), BackupFileListAdapter.OnBackFileI
         {
             override fun onOperationExecute()
             {
-                DialogUtil.showOperationConfirmDialog(activity as Context, getString(R.string.delete_backup_file), getString(R.string.notify_delete_backup_file), object : DialogOperationConfirm.OperationConfirmCallback
+                DialogUtil.showOperationConfirmDialog(activity as Context, getString(R.string.delete_backup_file),
+                        getString(R.string.notify_delete_backup_file), object : DialogOperationConfirm.OperationConfirmCallback
                 {
                     override fun onOperationConfirmed()
                     {
@@ -111,16 +117,17 @@ class BackupFileListFragment : BaseFragment(), BackupFileListAdapter.OnBackFileI
         {
             override fun onOperationExecute()
             {
-                DialogUtil.showInputDialog(activity as Context, getString(R.string.rename_backup_file), getString(R.string.hint_rename_backup_file), object : DialogInput.InputCompletedCallback
-                {
-                    override fun onInputCompleted(inputValue: String)
-                    {
-                        if (FileUtil.renameFile(file.absolutePath, inputValue))
+                DialogUtil.showInputDialog(activity as Context, getString(R.string.rename_backup_file), getString(R.string.hint_rename_backup_file),
+                        object : DialogInput.InputCompletedCallback
                         {
-                            getData()
-                        }
-                    }
-                })
+                            override fun onInputCompleted(inputValue: String)
+                            {
+                                if (FileUtil.renameFile(file.absolutePath, inputValue))
+                                {
+                                    getData()
+                                }
+                            }
+                        })
             }
         }))
 
@@ -139,13 +146,14 @@ class BackupFileListFragment : BaseFragment(), BackupFileListAdapter.OnBackFileI
         {
             if (reason == Constant.DATA_RESTORE_FAILED_WRONG_PASSWORD)
             {
-                DialogUtil.showInputDialog(activity as Context, getString(R.string.input_encrypt_password), getString(R.string.hint_input_encrypt_password), object : DialogInput.InputCompletedCallback
-                {
-                    override fun onInputCompleted(inputValue: String)
-                    {
-                        BackupUtil.restoreData(failedFilePath, inputValue, clearAllData, DataRestoreCallback())
-                    }
-                })
+                DialogUtil.showInputDialog(activity as Context, getString(R.string.input_encrypt_password), getString(R.string.hint_input_encrypt_password),
+                        object : DialogInput.InputCompletedCallback
+                        {
+                            override fun onInputCompleted(inputValue: String)
+                            {
+                                BackupUtil.restoreData(failedFilePath, inputValue, clearAllData, DataRestoreCallback())
+                            }
+                        })
             }
         }
     }

@@ -1,4 +1,4 @@
-package com.lizl.demo.passwordbox.fragment
+package com.lizl.demo.passwordbox.mvp.fragment
 
 import android.Manifest
 import android.app.Activity
@@ -21,13 +21,14 @@ import com.lizl.demo.passwordbox.model.settingmodel.SettingBaseItem
 import com.lizl.demo.passwordbox.model.settingmodel.SettingBooleanItem
 import com.lizl.demo.passwordbox.model.settingmodel.SettingDivideItem
 import com.lizl.demo.passwordbox.model.settingmodel.SettingNormalItem
+import com.lizl.demo.passwordbox.mvp.presenter.EmptyPresenter
 import com.lizl.demo.passwordbox.util.*
 import kotlinx.android.synthetic.main.fragment_setting.*
 
 /**
  * 设置界面
  */
-class SettingFragment : BaseFragment()
+class SettingFragment : BaseFragment<EmptyPresenter>()
 {
     private val REQUEST_CODE_READ_EX_PERMISSION_FOR_BACKUP = 1
     private val REQUEST_CODE_READ_EX_PERMISSION_FOR_RESTORE = 2
@@ -36,6 +37,8 @@ class SettingFragment : BaseFragment()
     {
         return R.layout.fragment_setting
     }
+
+    override fun initPresenter() = EmptyPresenter()
 
     override fun initView()
     {

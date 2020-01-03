@@ -1,4 +1,4 @@
-package com.lizl.demo.passwordbox.activity
+package com.lizl.demo.passwordbox.mvp.activity
 
 import android.os.Bundle
 import android.text.TextUtils
@@ -11,7 +11,7 @@ import androidx.navigation.Navigation
 import com.lizl.demo.passwordbox.R
 import com.lizl.demo.passwordbox.config.AppConfig
 import com.lizl.demo.passwordbox.config.ConfigConstant
-import com.lizl.demo.passwordbox.fragment.BaseFragment
+import com.lizl.demo.passwordbox.mvp.fragment.BaseFragment
 import com.lizl.demo.passwordbox.util.Constant
 import com.lizl.demo.passwordbox.util.UiUtil
 
@@ -106,7 +106,7 @@ class MainActivity : AppCompatActivity()
         }
     }
 
-    private fun getTopFragment(): BaseFragment?
+    private fun getTopFragment(): BaseFragment<*>?
     {
         if (supportFragmentManager.primaryNavigationFragment == null)
         {
@@ -118,6 +118,6 @@ class MainActivity : AppCompatActivity()
             return null
         }
 
-        return supportFragmentManager.primaryNavigationFragment!!.childFragmentManager.fragments[0] as BaseFragment
+        return supportFragmentManager.primaryNavigationFragment!!.childFragmentManager.fragments[0] as BaseFragment<*>
     }
 }

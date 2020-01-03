@@ -6,7 +6,7 @@
     xmlns:QuickSideBarView="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.MainActivity">
+    tools:context=".mvp.activity.MainActivity">
 
     <com.lizl.demo.passwordbox.customview.CustomTitleBar
         android:id="@+id/ctb_title"
