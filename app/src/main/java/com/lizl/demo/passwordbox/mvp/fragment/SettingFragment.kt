@@ -2,9 +2,7 @@ package com.lizl.demo.passwordbox.mvp.fragment
 
 import android.Manifest
 import android.content.Context
-import android.os.Bundle
 import android.text.TextUtils
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lizl.demo.passwordbox.R
 import com.lizl.demo.passwordbox.adapter.SettingListAdapter
@@ -52,7 +50,7 @@ class SettingFragment : BaseFragment<EmptyPresenter>()
         val isAppLockPasswordOn = AppConfig.isAppLockPasswordOn() && !TextUtils.isEmpty(AppConfig.getAppLockPassword())
 
         // 支持指纹识别的情况显示指纹解锁设置
-        if (AppConfig.isAppFingerprintSupport())
+        if (BiometricAuthenticationUtil.isFingerprintSupport())
         {
             settingList.add(SettingBooleanItem(getString(R.string.setting_fingerprint), ConfigConstant.IS_FINGERPRINT_LOCK_ON,
                     ConfigConstant.DEFAULT_IS_FINGERPRINT_LOCK_ON, isAppLockPasswordOn) {
@@ -84,7 +82,7 @@ class SettingFragment : BaseFragment<EmptyPresenter>()
 
         // 备份数据设置
         settingList.add(SettingNormalItem(getString(R.string.setting_backup_data)) {
-            if (DataUtil.getInstance().queryAll().isEmpty())
+            if (AppDatabase.instance.getAccountDao().getDiariesCount() == 0)
             {
                 ToastUtil.showToast(R.string.notify_no_data_to_backup)
                 return@SettingNormalItem

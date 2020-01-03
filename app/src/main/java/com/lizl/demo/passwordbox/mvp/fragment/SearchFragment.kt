@@ -1,7 +1,6 @@
 package com.lizl.demo.passwordbox.mvp.fragment
 
 import android.content.Context
-import android.os.Bundle
 import android.text.InputFilter
 import android.view.KeyEvent
 import android.view.MenuItem
@@ -15,10 +14,7 @@ import com.lizl.demo.passwordbox.model.AccountModel
 import com.lizl.demo.passwordbox.model.OperationItem
 import com.lizl.demo.passwordbox.mvp.contract.SearchContract
 import com.lizl.demo.passwordbox.mvp.presenter.SearchPresenter
-import com.lizl.demo.passwordbox.util.Constant
-import com.lizl.demo.passwordbox.util.DataUtil
-import com.lizl.demo.passwordbox.util.DialogUtil
-import com.lizl.demo.passwordbox.util.UiUtil
+import com.lizl.demo.passwordbox.util.*
 import kotlinx.android.synthetic.main.fragment_search.*
 
 /**
@@ -27,7 +23,6 @@ import kotlinx.android.synthetic.main.fragment_search.*
 class SearchFragment : BaseFragment<SearchPresenter>(), SearchContract.View
 {
     private lateinit var accountListAdapter: AccountListAdapter
-    private lateinit var allAccountList: MutableList<AccountModel>
 
     override fun getLayoutResId() = R.layout.fragment_search
 
@@ -35,8 +30,6 @@ class SearchFragment : BaseFragment<SearchPresenter>(), SearchContract.View
 
     override fun initView()
     {
-        allAccountList = DataUtil.getInstance().queryAll()
-
         iv_back.setOnClickListener { onBackButtonClick() }
         iv_cancel.setOnClickListener { et_search.setText("") }
 
@@ -95,9 +88,8 @@ class SearchFragment : BaseFragment<SearchPresenter>(), SearchContract.View
         })
 
         operationList.add(OperationItem(getString(R.string.delete_account_item)) {
-            DataUtil.getInstance().deleteData(accountModel)
+            AppDatabase.instance.getAccountDao().delete(accountModel)
 
-            allAccountList = DataUtil.getInstance().queryAll()
             presenter.search(et_search.text.toString())
         })
 

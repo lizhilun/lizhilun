@@ -1,7 +1,6 @@
 package com.lizl.demo.passwordbox.mvp.fragment
 
 import android.content.Context
-import android.os.Bundle
 import androidx.core.view.isVisible
 import com.lizl.demo.passwordbox.R
 import com.lizl.demo.passwordbox.adapter.AccountListAdapter
@@ -12,8 +11,7 @@ import com.lizl.demo.passwordbox.model.OperationItem
 import com.lizl.demo.passwordbox.model.TitleBarBtnItem
 import com.lizl.demo.passwordbox.mvp.contract.AccountListContract
 import com.lizl.demo.passwordbox.mvp.presenter.AccountListPresenter
-import com.lizl.demo.passwordbox.util.Constant
-import com.lizl.demo.passwordbox.util.DataUtil
+import com.lizl.demo.passwordbox.util.AppDatabase
 import com.lizl.demo.passwordbox.util.DialogUtil
 import kotlinx.android.synthetic.main.fragment_account_list.*
 
@@ -65,7 +63,7 @@ class AccountListFragment : BaseFragment<AccountListPresenter>(), AccountListCon
 
             // 删除账号
             add(OperationItem(getString(R.string.delete_account_item)) {
-                DataUtil.getInstance().deleteData(accountModel)
+                AppDatabase.instance.getAccountDao().delete(accountModel)
                 presenter.getAllAccounts()
             })
         }

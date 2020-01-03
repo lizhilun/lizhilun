@@ -31,7 +31,7 @@ object BackupUtil
 
             val formatter = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault())
             val backupFileName = formatter.format(System.currentTimeMillis()) + fileSuffixName
-            val accountList = DataUtil.getInstance().queryAll()
+            val accountList = AppDatabase.instance.getAccountDao().getAllDiary()
             val dataString = GsonUtils.toJson(accountList)
             val encryptData = EncryptUtil.encrypt(dataString, AppConfig.getAppLockPassword())
             FileUtil.writeTxtFile(encryptData, "$backupFilePath/$backupFileName")
@@ -75,12 +75,12 @@ object BackupUtil
             // 清空之前的数据
             if (clearAllData)
             {
-                DataUtil.getInstance().deleteAllData()
+                AppDatabase.instance.getAccountDao().deleteAll()
             }
 
             val accountItemList = GsonUtils.fromJson<Array<AccountModel>>(readResult, Array<AccountModel>::class.java)
             accountItemList.forEach {
-                var accountModel = DataUtil.getInstance().getAccountByDesAndAccount(it.description, it.account)
+                var accountModel = AppDatabase.instance.getAccountDao().search(it.description, it.account)
                 if (accountModel == null)
                 {
                     accountModel = AccountModel()
@@ -89,7 +89,7 @@ object BackupUtil
                 accountModel.account = it.account
                 accountModel.password = it.password
                 accountModel.desPinyin = it.desPinyin
-                DataUtil.getInstance().saveData(accountModel)
+                AppDatabase.instance.getAccountDao().insert(accountModel)
             }
 
             GlobalScope.launch(Dispatchers.Main) {

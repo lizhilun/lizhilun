@@ -7,6 +7,7 @@ import com.lizl.demo.passwordbox.config.AppConfig
 import com.lizl.demo.passwordbox.customview.recylerviewitemdivider.GridDividerItemDecoration
 import com.lizl.demo.passwordbox.mvp.contract.LockContract
 import com.lizl.demo.passwordbox.mvp.presenter.LockPresenter
+import com.lizl.demo.passwordbox.util.BiometricAuthenticationUtil
 import com.lizl.demo.passwordbox.util.UiUtil
 import kotlinx.android.synthetic.main.fragment_lock.*
 
@@ -45,7 +46,7 @@ class LockFragment : BaseFragment<LockPresenter>(), LockContract.View
     {
         super.onStart()
 
-        if (AppConfig.isAppFingerprintSupport() && AppConfig.isFingerPrintLockOn())
+        if (BiometricAuthenticationUtil.isFingerprintSupport() && AppConfig.isFingerPrintLockOn())
         {
             tv_hint.text = getString(R.string.hint_verify_fingerprint_or_input_password)
 

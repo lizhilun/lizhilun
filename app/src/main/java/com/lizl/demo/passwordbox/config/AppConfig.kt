@@ -35,21 +35,6 @@ object AppConfig
         SPUtils.getInstance().put(ConfigConstant.APP_LOCK_PASSWORD, password)
     }
 
-    fun getAppFingerprintStatus(): Int
-    {
-        return SPUtils.getInstance().getInt(ConfigConstant.APP_FINGERPRINT_STATUS, ConfigConstant.DEFAULT_APP_FINGERPRINT_STATUS)
-    }
-
-    fun setAppFingerprintStatus(status: Int)
-    {
-        SPUtils.getInstance().put(ConfigConstant.APP_FINGERPRINT_STATUS, status)
-    }
-
-    fun isAppFingerprintSupport(): Boolean
-    {
-        return getAppFingerprintStatus() == Constant.APP_FINGERPRINT_STATUS_SUPPORT
-    }
-
     fun setAppLastStopTime(stopTime: Long)
     {
         SPUtils.getInstance().put(ConfigConstant.APP_LAST_STOP_TIME, stopTime)

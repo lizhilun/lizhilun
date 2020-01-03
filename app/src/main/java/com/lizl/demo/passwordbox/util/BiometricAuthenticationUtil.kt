@@ -13,18 +13,19 @@ object BiometricAuthenticationUtil
 {
     private val TAG = "BiometricAuthenticationUtil"
 
-    private lateinit var mBiometricPrompt: BiometricPrompt
+    private val mBiometricPrompt: BiometricPrompt
+
+    init
+    {
+        mBiometricPrompt =
+            BiometricPrompt.Builder(UiApplication.instance).setTitle(UiApplication.instance.getString(R.string.fingerprint_authentication_dialog_title))
+                    .setDescription(UiApplication.instance.getString(R.string.fingerprint_authentication_dialog_description))
+                    .setNegativeButton(UiApplication.instance.getString(R.string.cancel), ContextCompat.getMainExecutor(UiApplication.instance),
+                            DialogInterface.OnClickListener { _, _ -> Log.d(TAG, "cancel button click") }).build()
+    }
 
     private fun getBiometricPrompt(): BiometricPrompt
     {
-        if (!this::mBiometricPrompt.isInitialized)
-        {
-            mBiometricPrompt =
-                BiometricPrompt.Builder(UiApplication.instance).setTitle(UiApplication.instance.getString(R.string.fingerprint_authentication_dialog_title))
-                        .setDescription(UiApplication.instance.getString(R.string.fingerprint_authentication_dialog_description))
-                        .setNegativeButton(UiApplication.instance.getString(R.string.cancel), ContextCompat.getMainExecutor(UiApplication.instance),
-                                DialogInterface.OnClickListener { _, _ -> Log.d(TAG, "cancel button click") }).build()
-        }
         return mBiometricPrompt
     }
 

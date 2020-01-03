@@ -4,10 +4,7 @@ import android.text.TextUtils
 import com.lizl.demo.passwordbox.R
 import com.lizl.demo.passwordbox.model.AccountModel
 import com.lizl.demo.passwordbox.mvp.presenter.EmptyPresenter
-import com.lizl.demo.passwordbox.util.Constant
-import com.lizl.demo.passwordbox.util.DataUtil
-import com.lizl.demo.passwordbox.util.PinyinUtil
-import com.lizl.demo.passwordbox.util.ToastUtil
+import com.lizl.demo.passwordbox.util.*
 import kotlinx.android.synthetic.main.fragment_add_account.*
 
 /**
@@ -56,7 +53,7 @@ class AddAccountFragment : BaseFragment<EmptyPresenter>()
         accountModel?.password = password
         accountModel?.desPinyin = PinyinUtil.getPinyin(description)
 
-        DataUtil.getInstance().saveData(accountModel!!)
+        AppDatabase.instance.getAccountDao().insert(accountModel!!)
 
         backToPreFragment()
     }
