@@ -1,17 +1,12 @@
 package com.lizl.demo.passwordbox.mvp.fragment
 
 import android.Manifest
-import android.app.Activity
 import android.content.Context
-import android.content.pm.PackageManager
 import android.os.Bundle
 import android.text.TextUtils
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lizl.demo.passwordbox.R
-import com.lizl.demo.passwordbox.UiApplication
 import com.lizl.demo.passwordbox.adapter.SettingListAdapter
 import com.lizl.demo.passwordbox.config.AppConfig
 import com.lizl.demo.passwordbox.config.ConfigConstant
@@ -24,14 +19,17 @@ import com.lizl.demo.passwordbox.model.settingmodel.SettingNormalItem
 import com.lizl.demo.passwordbox.mvp.presenter.EmptyPresenter
 import com.lizl.demo.passwordbox.util.*
 import kotlinx.android.synthetic.main.fragment_setting.*
+import permissions.dispatcher.NeedsPermission
+import permissions.dispatcher.OnNeverAskAgain
+import permissions.dispatcher.OnPermissionDenied
+import permissions.dispatcher.RuntimePermissions
 
 /**
  * 设置界面
  */
+@RuntimePermissions
 class SettingFragment : BaseFragment<EmptyPresenter>()
 {
-    private val REQUEST_CODE_READ_EX_PERMISSION_FOR_BACKUP = 1
-    private val REQUEST_CODE_READ_EX_PERMISSION_FOR_RESTORE = 2
 
     override fun getLayoutResId(): Int
     {
@@ -139,10 +137,7 @@ class SettingFragment : BaseFragment<EmptyPresenter>()
                             {
                                 override fun onOperationConfirmed()
                                 {
-                                    if (checkWriteStoragePermission(REQUEST_CODE_READ_EX_PERMISSION_FOR_BACKUP))
-                                    {
-                                        backupData()
-                                    }
+                                    backupData()
                                 }
                             })
                 }
@@ -154,17 +149,15 @@ class SettingFragment : BaseFragment<EmptyPresenter>()
         {
             override fun onSettingItemCallBack(result: Boolean)
             {
-                if (checkWriteStoragePermission(REQUEST_CODE_READ_EX_PERMISSION_FOR_RESTORE))
-                {
-                    turnToFragment(R.id.backupFileListFragment)
-                }
+                turnToBackupFileFragment()
             }
         }))
 
         return settingList
     }
 
-    private fun backupData()
+    @NeedsPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    fun backupData()
     {
         BackupUtil.backupData(object : BackupUtil.DataBackupCallback
         {
@@ -180,53 +173,36 @@ class SettingFragment : BaseFragment<EmptyPresenter>()
         })
     }
 
-    /**
-     * 检查内部存储读取权限
-     */
-    private fun checkWriteStoragePermission(requestCode: Int): Boolean
+    @NeedsPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    fun turnToBackupFileFragment()
     {
-        // 权限已获取直接返回
-        if (ContextCompat.checkSelfPermission(UiApplication.instance, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
-        {
-            return true
-        }
-        this@SettingFragment.requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), requestCode)
-        return false
+        turnToFragment(R.id.backupFileListFragment)
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray)
+    @OnPermissionDenied(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    fun onPermissionDenied()
     {
-        if (grantResults.isEmpty())
-        {
-            return
-        }
+        ToastUtil.showToast(R.string.notify_failed_to_get_permission)
+    }
 
-        if (grantResults[0] == PackageManager.PERMISSION_GRANTED)
+    @OnNeverAskAgain(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    fun onPermissionNeverAskAgain()
+    {
+        DialogUtil.showOperationConfirmDialog(activity as Context, getString(R.string.notify_failed_to_get_permission),
+                getString(R.string.notify_permission_be_refused), object : DialogOperationConfirm.OperationConfirmCallback
         {
-            when (requestCode)
+            override fun onOperationConfirmed()
             {
-                REQUEST_CODE_READ_EX_PERMISSION_FOR_BACKUP  -> backupData()
-                REQUEST_CODE_READ_EX_PERMISSION_FOR_RESTORE -> turnToFragment(R.id.backupFileListFragment)
+                UiUtil.goToAppDetailPage()
             }
-        }
-        else if (grantResults[0] == PackageManager.PERMISSION_DENIED)
-        {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(activity as Activity, Manifest.permission.WRITE_EXTERNAL_STORAGE))
-            {
-                ToastUtil.showToast(R.string.notify_failed_to_get_permission)
-            }
-            else
-            {
-                DialogUtil.showOperationConfirmDialog(activity as Context, getString(R.string.notify_failed_to_get_permission),
-                        getString(R.string.notify_permission_be_refused), object : DialogOperationConfirm.OperationConfirmCallback
-                {
-                    override fun onOperationConfirmed()
-                    {
-                        UiUtil.goToAppDetailPage()
-                    }
-                })
-            }
-        }
+        })
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray)
+    {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        // NOTE: delegate the permission handling to generated function
+        onRequestPermissionsResult(requestCode, grantResults)
     }
 
     override fun onBackPressed(): Boolean
