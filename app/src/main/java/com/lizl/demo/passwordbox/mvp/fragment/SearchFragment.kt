@@ -14,7 +14,9 @@ import com.lizl.demo.passwordbox.model.AccountModel
 import com.lizl.demo.passwordbox.model.OperationItem
 import com.lizl.demo.passwordbox.mvp.contract.SearchContract
 import com.lizl.demo.passwordbox.mvp.presenter.SearchPresenter
-import com.lizl.demo.passwordbox.util.*
+import com.lizl.demo.passwordbox.util.AppDatabase
+import com.lizl.demo.passwordbox.util.DialogUtil
+import com.lizl.demo.passwordbox.util.UiUtil
 import kotlinx.android.synthetic.main.fragment_search.*
 
 /**
@@ -81,17 +83,18 @@ class SearchFragment : BaseFragment<SearchPresenter>(), SearchContract.View
 
     private fun onAccountItemLongClick(accountModel: AccountModel)
     {
-        val operationList = mutableListOf<OperationItem>()
+        val operationList = mutableListOf<OperationItem>().apply {
 
-        operationList.add(OperationItem(getString(R.string.modify_account_info)) {
-            turnToFragment(R.id.addAccountFragment, accountModel)
-        })
+            add(OperationItem(getString(R.string.modify_account_info)) {
+                turnToFragment(R.id.addAccountFragment, accountModel)
+            })
 
-        operationList.add(OperationItem(getString(R.string.delete_account_item)) {
-            AppDatabase.instance.getAccountDao().delete(accountModel)
+            add(OperationItem(getString(R.string.delete_account_item)) {
+                AppDatabase.instance.getAccountDao().delete(accountModel)
 
-            presenter.search(et_search.text.toString())
-        })
+                presenter.search(et_search.text.toString())
+            })
+        }
 
         DialogUtil.showOperationListDialog(activity as Context, operationList)
     }

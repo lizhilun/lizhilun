@@ -1,7 +1,5 @@
 package com.lizl.demo.passwordbox.config
 
-import com.lizl.demo.passwordbox.util.Constant
-
 class ConfigConstant
 {
     companion object

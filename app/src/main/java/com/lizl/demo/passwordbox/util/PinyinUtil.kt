@@ -7,6 +7,7 @@ import net.sourceforge.pinyin4j.PinyinHelper
 import net.sourceforge.pinyin4j.format.HanyuPinyinCaseType
 import net.sourceforge.pinyin4j.format.HanyuPinyinOutputFormat
 import net.sourceforge.pinyin4j.format.HanyuPinyinToneType
+import java.util.*
 
 object PinyinUtil
 {
@@ -33,8 +34,7 @@ object PinyinUtil
     fun getPinyin(sourceStr: String): String
     {
         val result = StringBuffer()
-        val sourceChar = sourceStr.toCharArray()
-        for (letter in sourceChar)
+        for (letter in sourceStr)
         {
             if (letter.toInt() > 128)
             {
@@ -46,19 +46,11 @@ object PinyinUtil
             }
         }
 
-        return result.toString().toLowerCase()
+        return result.toString().toLowerCase(Locale.getDefault())
     }
 
     /**
      * 获取用于排序的拼音的首字母
      */
-    fun getSortFirstLetter(pinyin: String): Char
-    {
-        val firstLetter = pinyin[0]
-        if (Character.isLetter(firstLetter))
-        {
-            return firstLetter
-        }
-        return '#'
-    }
+    fun getSortFirstLetter(pinyin: String) = if (Character.isLetter(pinyin[0])) pinyin[0] else '#'
 }

@@ -4,7 +4,10 @@ import android.text.TextUtils
 import com.lizl.demo.passwordbox.R
 import com.lizl.demo.passwordbox.model.AccountModel
 import com.lizl.demo.passwordbox.mvp.presenter.EmptyPresenter
-import com.lizl.demo.passwordbox.util.*
+import com.lizl.demo.passwordbox.util.AppDatabase
+import com.lizl.demo.passwordbox.util.Constant
+import com.lizl.demo.passwordbox.util.PinyinUtil
+import com.lizl.demo.passwordbox.util.ToastUtil
 import kotlinx.android.synthetic.main.fragment_add_account.*
 
 /**
@@ -48,18 +51,17 @@ class AddAccountFragment : BaseFragment<EmptyPresenter>()
         {
             accountModel = AccountModel()
         }
-        accountModel?.description = description
-        accountModel?.account = account
-        accountModel?.password = password
-        accountModel?.desPinyin = PinyinUtil.getPinyin(description)
+        accountModel?.let {
+            it.description = description
+            it.account = account
+            it.password = password
+            it.desPinyin = PinyinUtil.getPinyin(description)
 
-        AppDatabase.instance.getAccountDao().insert(accountModel!!)
+            AppDatabase.instance.getAccountDao().insert(it)
+        }
 
         backToPreFragment()
     }
 
-    override fun onBackPressed(): Boolean
-    {
-        return false
-    }
+    override fun onBackPressed() = false
 }

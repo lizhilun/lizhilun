@@ -4,7 +4,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.blankj.utilcode.util.SPUtils
 import com.lizl.demo.passwordbox.R
 import com.lizl.demo.passwordbox.model.settingmodel.SettingBaseItem
 import com.lizl.demo.passwordbox.model.settingmodel.SettingBooleanItem
@@ -67,14 +66,14 @@ class SettingListAdapter(private val settingList: List<SettingBaseItem>) : Recyc
     {
         fun bindBooleanViewHolder(settingItem: SettingBooleanItem)
         {
-            val isChecked = SPUtils.getInstance().getBoolean(settingItem.settingKey, settingItem.checked)
+            val isChecked = settingItem.getConfig()
             itemView.tv_boolean_setting_name.text = settingItem.settingName
             itemView.iv_boolean_setting_checked.isSelected = isChecked
 
             itemView.iv_boolean_setting_checked.setOnClickListener {
                 if (settingItem.needSave)
                 {
-                    SPUtils.getInstance().put(settingItem.settingKey, !isChecked)
+                    settingItem.saveConfig(!isChecked)
                     notifyDataSetChanged()
                 }
                 settingItem.onItemClickListener.invoke(!isChecked)

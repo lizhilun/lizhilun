@@ -87,8 +87,12 @@ class MainActivity : AppCompatActivity()
 
     private fun turnToFragment(fragmentId: Int, vararg extraList: Any)
     {
-        val options = NavOptions.Builder().setEnterAnim(R.anim.slide_right_in).setExitAnim(R.anim.slide_left_out).setPopEnterAnim(R.anim.slide_left_in)
-                .setPopExitAnim(R.anim.slide_right_out).build()
+        val options = NavOptions.Builder()
+            .setEnterAnim(R.anim.slide_right_in)
+            .setExitAnim(R.anim.slide_left_out)
+            .setPopEnterAnim(R.anim.slide_left_in)
+            .setPopExitAnim(R.anim.slide_right_out)
+            .build()
 
         val bundle = Bundle()
         extraList.forEach {
@@ -116,8 +120,7 @@ class MainActivity : AppCompatActivity()
 
     private fun getTopFragment(): BaseFragment<*>?
     {
-        supportFragmentManager.primaryNavigationFragment ?: return null
-        if (supportFragmentManager.primaryNavigationFragment!!.childFragmentManager.fragments.isEmpty()) return null
+        if (supportFragmentManager.primaryNavigationFragment?.childFragmentManager?.fragments.isNullOrEmpty()) return null
         return supportFragmentManager.primaryNavigationFragment!!.childFragmentManager.fragments[0] as BaseFragment<*>
     }
 }

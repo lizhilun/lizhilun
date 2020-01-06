@@ -20,7 +20,7 @@ class AccountListAdapter : RecyclerView.Adapter<AccountListAdapter.ViewHolder>()
     fun setData(accountList: List<AccountModel>)
     {
         this.accountList.clear()
-        this.accountList.addAll(accountList.sorted())
+        this.accountList.addAll(accountList.sortedBy { PinyinUtil.getPinyin(it.desPinyin) })
         notifyDataSetChanged()
     }
 

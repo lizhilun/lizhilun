@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 import java.io.Serializable
 
 @Entity(tableName = "accounts")
-class AccountModel : Serializable, Comparable<AccountModel>
+class AccountModel : Serializable
 {
     @PrimaryKey(autoGenerate = true)
     var id: Long = 0L
@@ -22,30 +22,4 @@ class AccountModel : Serializable, Comparable<AccountModel>
 
     @ColumnInfo
     var desPinyin: String = ""
-
-    override fun compareTo(other: AccountModel): Int
-    {
-        var firstLetter = this.desPinyin.toCharArray()[0]
-        var toFirstLetter = other.desPinyin.toCharArray()[0]
-
-        if (!Character.isLetter(firstLetter))
-        {
-            firstLetter = '#'
-        }
-
-        if (!Character.isLetter(toFirstLetter))
-        {
-            toFirstLetter = '#'
-        }
-
-        if (firstLetter < toFirstLetter)
-        {
-            return -1
-        }
-        else if (firstLetter > toFirstLetter)
-        {
-            return 1
-        }
-        return 0
-    }
 }
