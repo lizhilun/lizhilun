@@ -1,9 +1,9 @@
 package com.lizl.demo.passwordbox.adapter
 
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
+import com.chad.library.adapter.base.BaseDelegateMultiAdapter
+import com.chad.library.adapter.base.delegate.BaseMultiTypeDelegate
+import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.lizl.demo.passwordbox.R
 import com.lizl.demo.passwordbox.model.settingmodel.SettingBaseItem
 import com.lizl.demo.passwordbox.model.settingmodel.SettingBooleanItem
@@ -12,7 +12,8 @@ import com.lizl.demo.passwordbox.model.settingmodel.SettingNormalItem
 import kotlinx.android.synthetic.main.item_setting_boolean.view.*
 import kotlinx.android.synthetic.main.item_setting_normal.view.*
 
-class SettingListAdapter(private val settingList: List<SettingBaseItem>) : RecyclerView.Adapter<SettingListAdapter.ViewHolder>()
+class SettingListAdapter(settingList: List<SettingBaseItem>) :
+        BaseDelegateMultiAdapter<SettingBaseItem, SettingListAdapter.ViewHolder>(settingList.toMutableList())
 {
     companion object
     {
@@ -21,48 +22,39 @@ class SettingListAdapter(private val settingList: List<SettingBaseItem>) : Recyc
         const val ITEM_TYPE_NORMAL = 3
     }
 
-    override fun getItemCount(): Int = settingList.size
-
-    override fun getItemViewType(position: Int): Int
+    init
     {
-        if (position >= itemCount)
+        setMultiTypeDelegate(object : BaseMultiTypeDelegate<SettingBaseItem>()
         {
-            return -1
-        }
-        return when
-        {
-            settingList[position] is SettingDivideItem  -> ITEM_TYPE_DIVIDE
-            settingList[position] is SettingBooleanItem -> ITEM_TYPE_BOOLEAN
-            settingList[position] is SettingNormalItem  -> ITEM_TYPE_NORMAL
-            else                                        -> -1
+            override fun getItemType(data: List<SettingBaseItem>, position: Int): Int
+            {
+                return when (data[position])
+                {
+                    is SettingDivideItem  -> ITEM_TYPE_DIVIDE
+                    is SettingBooleanItem -> ITEM_TYPE_BOOLEAN
+                    is SettingNormalItem  -> ITEM_TYPE_NORMAL
+                    else                  -> ITEM_TYPE_DIVIDE
+                }
+            }
+        })
+
+        getMultiTypeDelegate()?.let {
+            it.addItemType(ITEM_TYPE_DIVIDE, R.layout.item_setting_divide)
+            it.addItemType(ITEM_TYPE_BOOLEAN, R.layout.item_setting_boolean)
+            it.addItemType(ITEM_TYPE_NORMAL, R.layout.item_setting_normal)
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder
+    override fun convert(helper: ViewHolder, item: SettingBaseItem)
     {
-        when (viewType)
+        when (item)
         {
-            ITEM_TYPE_BOOLEAN -> return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_setting_boolean, parent, false))
-            ITEM_TYPE_DIVIDE  -> return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_setting_divide, parent, false))
-            ITEM_TYPE_NORMAL  -> return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_setting_normal, parent, false))
-        }
-        return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_setting_divide, parent, false))
-    }
-
-    override fun onBindViewHolder(holder: ViewHolder, position: Int)
-    {
-        val settingItem = settingList[position]
-        if (settingItem is SettingBooleanItem)
-        {
-            holder.bindBooleanViewHolder(settingItem)
-        }
-        else if (settingItem is SettingNormalItem)
-        {
-            holder.bindNormalViewHolder(settingItem)
+            is SettingNormalItem  -> helper.bindNormalViewHolder(item)
+            is SettingBooleanItem -> helper.bindBooleanViewHolder(item)
         }
     }
 
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+    inner class ViewHolder(itemView: View) : BaseViewHolder(itemView)
     {
         fun bindBooleanViewHolder(settingItem: SettingBooleanItem)
         {

@@ -1,45 +1,39 @@
 package com.lizl.demo.passwordbox.adapter
 
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
+import androidx.core.view.isVisible
+import com.chad.library.adapter.base.BaseQuickAdapter
+import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.lizl.demo.passwordbox.R
 import com.lizl.demo.passwordbox.UiApplication
 import kotlinx.android.synthetic.main.item_number_key.view.*
 
-class NumberKeyGridAdapter(private val keyList: List<String>) : RecyclerView.Adapter<NumberKeyGridAdapter.ViewHolder>()
+class NumberKeyGridAdapter(keyList: List<String>) : BaseQuickAdapter<String, NumberKeyGridAdapter.ViewHolder>(R.layout.item_number_key, keyList.toMutableList())
 {
 
     private var onNumberKeyClickListener: ((String) -> Unit)? = null
 
-    override fun getItemCount(): Int = keyList.size
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder
+    override fun convert(helper: ViewHolder, item: String)
     {
-        return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_number_key, parent, false))
+        helper.bindViewHolder(item)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int)
-    {
-        holder.bindViewHolder(keyList[position])
-    }
-
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+    inner class ViewHolder(itemView: View) : BaseViewHolder(itemView)
     {
         fun bindViewHolder(keyValue: String)
         {
             if (keyValue == "#")
             {
-                itemView.tv_key.visibility = View.GONE
-                itemView.iv_key.visibility = View.VISIBLE
+                itemView.tv_key.isVisible = false
+                itemView.iv_key.isVisible = true
 
                 itemView.iv_key.setImageResource(R.mipmap.ic_backspace)
             }
             else
             {
-                itemView.tv_key.visibility = View.VISIBLE
-                itemView.iv_key.visibility = View.GONE
+                itemView.tv_key.isVisible = true
+                itemView.iv_key.isVisible = false
+
                 itemView.tv_key.text = if (keyValue == "*") UiApplication.instance.getText(R.string.exit) else keyValue
             }
 

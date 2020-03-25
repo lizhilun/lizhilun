@@ -1,51 +1,38 @@
 package com.lizl.demo.passwordbox.adapter
 
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
+import com.chad.library.adapter.base.BaseQuickAdapter
+import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.lizl.demo.passwordbox.R
 import com.lizl.demo.passwordbox.model.AccountModel
 import com.lizl.demo.passwordbox.util.PinyinUtil
 import kotlinx.android.synthetic.main.item_account.view.*
 
-class AccountListAdapter : RecyclerView.Adapter<AccountListAdapter.ViewHolder>()
+class AccountListAdapter : BaseQuickAdapter<AccountModel, AccountListAdapter.ViewHolder>(R.layout.item_account)
 {
-
-    private var accountList: MutableList<AccountModel> = mutableListOf()
-
     private var onAccountItemClickListener: ((AccountModel) -> Unit)? = null
     private var onAccountItemLongClickListener: ((AccountModel) -> Unit)? = null
 
+    override fun convert(helper: ViewHolder, item: AccountModel)
+    {
+        helper.bindViewHolder(item)
+    }
+
     fun setData(accountList: List<AccountModel>)
     {
-        this.accountList.clear()
-        this.accountList.addAll(accountList.sortedBy { PinyinUtil.getPinyin(it.desPinyin) })
-        notifyDataSetChanged()
+        setNewData(accountList.sortedBy { PinyinUtil.getPinyin(it.desPinyin) }.toMutableList())
     }
 
-    override fun getItemCount(): Int = accountList.size
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder
+    inner class ViewHolder(itemView: View) : BaseViewHolder(itemView)
     {
-        return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_account, parent, false))
-    }
-
-    override fun onBindViewHolder(holder: ViewHolder, position: Int)
-    {
-        holder.bindViewHolder(position)
-    }
-
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
-    {
-        fun bindViewHolder(position: Int)
+        fun bindViewHolder(accountModel: AccountModel)
         {
-            val accountModel = accountList[position]
+            val position = getItemPosition(accountModel)
             val firstLetter = PinyinUtil.getSortFirstLetter(accountModel.desPinyin)
             var showFirstLetter = true // 是否显示首字母标识
             if (position > 0)
             {
-                val lastAccountModel = accountList[position - 1]
+                val lastAccountModel = getItem(position - 1)
                 val lastFirstLetter = PinyinUtil.getSortFirstLetter(lastAccountModel.desPinyin)
                 // 与上一个item首字母相同的情况下不显示首字母
                 if (firstLetter == lastFirstLetter)
@@ -76,7 +63,7 @@ class AccountListAdapter : RecyclerView.Adapter<AccountListAdapter.ViewHolder>()
      */
     fun getFirstLetterPosition(letter: Char): Int
     {
-        return accountList.indexOfFirst { PinyinUtil.getSortFirstLetter(it.desPinyin) == letter.toLowerCase() }
+        return data.indexOfFirst { PinyinUtil.getSortFirstLetter(it.desPinyin) == letter.toLowerCase() }
     }
 
     fun setOnAccountItemClickListener(onAccountItemClickListener: (AccountModel) -> Unit)

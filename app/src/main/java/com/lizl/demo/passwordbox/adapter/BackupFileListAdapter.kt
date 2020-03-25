@@ -1,9 +1,8 @@
 package com.lizl.demo.passwordbox.adapter
 
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
+import com.chad.library.adapter.base.BaseQuickAdapter
+import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.lizl.demo.passwordbox.R
 import kotlinx.android.synthetic.main.item_backup_file.view.*
 import java.io.File
@@ -11,34 +10,23 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-class BackupFileListAdapter : RecyclerView.Adapter<BackupFileListAdapter.ViewHolder>()
+class BackupFileListAdapter : BaseQuickAdapter<File, BackupFileListAdapter.ViewHolder>(R.layout.item_backup_file)
 {
-    private val fileList: MutableList<File> = mutableListOf()
-
     private val formatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
 
     private var onItemClickListener: ((File) -> Unit)? = null
 
     fun setData(fileList: List<File>)
     {
-        this.fileList.clear()
-        this.fileList.addAll(fileList.sortedByDescending { it.lastModified() })
-        notifyDataSetChanged()
+        setNewData(fileList.sortedByDescending { it.lastModified() }.toMutableList())
     }
 
-    override fun getItemCount(): Int = fileList.size
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder
+    override fun convert(helper: ViewHolder, item: File)
     {
-        return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_backup_file, parent, false))
+        helper.bindViewHolder(item)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int)
-    {
-        holder.bindViewHolder(fileList[position])
-    }
-
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+    inner class ViewHolder(itemView: View) : BaseViewHolder(itemView)
     {
         fun bindViewHolder(file: File)
         {
