@@ -1,4 +1,4 @@
-package com.lizl.demo.passwordbox.mvp.activity
+package com.lizl.demo.passwordbox.mvvm.activity
 
 import android.os.Bundle
 import android.text.TextUtils
@@ -11,7 +11,7 @@ import androidx.navigation.Navigation
 import com.lizl.demo.passwordbox.R
 import com.lizl.demo.passwordbox.config.AppConfig
 import com.lizl.demo.passwordbox.config.ConfigConstant
-import com.lizl.demo.passwordbox.mvp.fragment.BaseFragment
+import com.lizl.demo.passwordbox.mvvm.base.BaseFragment
 import com.lizl.demo.passwordbox.util.Constant
 import com.lizl.demo.passwordbox.util.UiUtil
 import java.io.Serializable
@@ -87,12 +87,8 @@ class MainActivity : AppCompatActivity()
 
     private fun turnToFragment(fragmentId: Int, vararg extraList: Any)
     {
-        val options = NavOptions.Builder()
-            .setEnterAnim(R.anim.slide_right_in)
-            .setExitAnim(R.anim.slide_left_out)
-            .setPopEnterAnim(R.anim.slide_left_in)
-            .setPopExitAnim(R.anim.slide_right_out)
-            .build()
+        val options = NavOptions.Builder().setEnterAnim(R.anim.slide_right_in).setExitAnim(R.anim.slide_left_out).setPopEnterAnim(R.anim.slide_left_in)
+            .setPopExitAnim(R.anim.slide_right_out).build()
 
         val bundle = Bundle()
         extraList.forEach {
@@ -118,9 +114,8 @@ class MainActivity : AppCompatActivity()
         }
     }
 
-    private fun getTopFragment(): BaseFragment<*>?
+    private fun getTopFragment(): BaseFragment?
     {
-        if (supportFragmentManager.primaryNavigationFragment?.childFragmentManager?.fragments.isNullOrEmpty()) return null
-        return supportFragmentManager.primaryNavigationFragment!!.childFragmentManager.fragments[0] as BaseFragment<*>
+        return supportFragmentManager.primaryNavigationFragment?.childFragmentManager?.fragments?.firstOrNull() as BaseFragment
     }
 }

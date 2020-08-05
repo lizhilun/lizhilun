@@ -1,40 +1,43 @@
 package com.lizl.demo.passwordbox.util
 
+import android.app.Dialog
 import android.content.Context
-import com.lizl.demo.passwordbox.customview.dialog.*
+import com.lizl.demo.passwordbox.customview.dialog.DialogAccountInfo
+import com.lizl.demo.passwordbox.customview.dialog.DialogInput
+import com.lizl.demo.passwordbox.customview.dialog.DialogOperationConfirm
+import com.lizl.demo.passwordbox.customview.dialog.DialogOperationList
 import com.lizl.demo.passwordbox.model.AccountModel
 import com.lizl.demo.passwordbox.model.OperationItem
 
 object DialogUtil
 {
-    private var dialog: BaseDialog? = null
+    private var dialog: Dialog? = null
 
     fun showAccountInfoDialog(context: Context, accountModel: AccountModel)
     {
-        dialog?.dismiss()
-        dialog = DialogAccountInfo(context, accountModel)
-        dialog?.show()
+        showDialog(DialogAccountInfo(context, accountModel))
     }
 
     fun showInputDialog(context: Context, title: String, editHint: String, inputCompletedCallback: (String) -> Unit)
     {
-        dialog?.dismiss()
-        dialog = DialogInput(context, title, editHint, inputCompletedCallback)
-        dialog?.show()
+        showDialog(DialogInput(context, title, editHint, inputCompletedCallback))
     }
 
     fun showOperationConfirmDialog(context: Context, title: String, notify: String, operationConfirmCallback: () -> Unit)
     {
-        dialog?.dismiss()
-        dialog = DialogOperationConfirm(context, title, notify, operationConfirmCallback)
-        dialog?.show()
+        showDialog(DialogOperationConfirm(context, title, notify, operationConfirmCallback))
     }
 
     fun showOperationListDialog(context: Context, operationList: List<OperationItem>)
     {
-        dialog?.dismiss()
-        dialog = DialogOperationList(context, operationList)
-        dialog?.show()
+        showDialog(DialogOperationList(context, operationList))
+    }
+
+    private fun showDialog(dialog: Dialog)
+    {
+        this.dialog?.dismiss()
+        this.dialog = dialog
+        this.dialog?.show()
     }
 
     fun dismissDialog()

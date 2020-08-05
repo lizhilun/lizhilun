@@ -1,41 +1,46 @@
-package com.lizl.demo.passwordbox.mvp.fragment
+package com.lizl.demo.passwordbox.mvvm.fragment
 
 import android.content.Context
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lizl.demo.passwordbox.R
 import com.lizl.demo.passwordbox.adapter.BackupFileListAdapter
 import com.lizl.demo.passwordbox.model.OperationItem
-import com.lizl.demo.passwordbox.mvp.contract.BackupFileListContract
-import com.lizl.demo.passwordbox.mvp.presenter.BackupFileListPresenter
+import com.lizl.demo.passwordbox.mvvm.base.BaseFragment
+import com.lizl.demo.passwordbox.mvvm.viewmodel.BackupFileViewModel
 import com.lizl.demo.passwordbox.util.*
 import kotlinx.android.synthetic.main.fragment_backup_file_list.*
 import java.io.File
 
-class BackupFileListFragment : BaseFragment<BackupFileListPresenter>(), BackupFileListContract.View
+class BackupFileListFragment : BaseFragment(R.layout.fragment_backup_file_list)
 {
-
     private lateinit var backupFileListAdapter: BackupFileListAdapter
 
-    override fun getLayoutResId() = R.layout.fragment_backup_file_list
-
-    override fun initPresenter() = BackupFileListPresenter(this)
+    private lateinit var backupFileViewModel: BackupFileViewModel
 
     override fun initView()
     {
-        ctb_title.setOnBackBtnClickListener { backToPreFragment() }
-
         backupFileListAdapter = BackupFileListAdapter()
         rv_file_list.layoutManager = LinearLayoutManager(activity)
         rv_file_list.adapter = backupFileListAdapter
 
-        backupFileListAdapter.setOnItemClickListener { onBackupFileItemClick(it) }
-
-        presenter.getAllBackupFiles()
+        backupFileViewModel = AndroidViewModelFactory.getInstance(requireActivity().application).create(BackupFileViewModel::class.java)
     }
 
-    override fun showBackupFiles(fileList: List<File>)
+    override fun initData()
     {
-        backupFileListAdapter.setData(fileList)
+        backupFileViewModel.backupFileLiveData.observe(this, Observer {
+            backupFileListAdapter.setData(it)
+        })
+
+        backupFileViewModel.requestBackupFileList()
+    }
+
+    override fun initListener()
+    {
+        ctb_title.setOnBackBtnClickListener { backToPreFragment() }
+        backupFileListAdapter.setOnItemClickListener { onBackupFileItemClick(it) }
     }
 
     private fun onBackupFileItemClick(file: File)
@@ -60,7 +65,7 @@ class BackupFileListFragment : BaseFragment<BackupFileListPresenter>(), BackupFi
                         getString(R.string.notify_delete_backup_file)) {
                     if (FileUtil.deleteFile(file.absolutePath))
                     {
-                        presenter.getAllBackupFiles()
+                        backupFileViewModel.requestBackupFileList()
                     }
                 }
             })
@@ -70,8 +75,16 @@ class BackupFileListFragment : BaseFragment<BackupFileListPresenter>(), BackupFi
                 DialogUtil.showInputDialog(activity as Context, getString(R.string.rename_backup_file), getString(R.string.hint_rename_backup_file)) {
                     if (FileUtil.renameFile(file.absolutePath, it))
                     {
-                        presenter.getAllBackupFiles()
+                        backupFileViewModel.requestBackupFileList()
                     }
+                }
+            })
+
+            // 分享备份文件
+            add(OperationItem(getString(R.string.share_backup_file)) {
+                DialogUtil.showOperationConfirmDialog(activity as Context, getString(R.string.share_backup_file),
+                        getString(R.string.notify_share_backup_file)) {
+                    FileUtil.shareAllTypeFile(file)
                 }
             })
         }
@@ -97,6 +110,4 @@ class BackupFileListFragment : BaseFragment<BackupFileListPresenter>(), BackupFi
             }
         }
     }
-
-    override fun onBackPressed() = false
 }

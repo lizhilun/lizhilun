@@ -1,4 +1,4 @@
-package com.lizl.demo.passwordbox.mvp.base
+package com.lizl.demo.passwordbox.mvvm.base
 
 interface BasePresenter<T : BaseView>
 {

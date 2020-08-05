@@ -1,4 +1,4 @@
-package com.lizl.demo.passwordbox.mvp.fragment
+package com.lizl.demo.passwordbox.mvvm.base
 
 import android.os.Bundle
 import android.util.Log
@@ -9,16 +9,13 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
 import com.lizl.demo.passwordbox.R
-import com.lizl.demo.passwordbox.mvp.base.BasePresenter
 import com.lizl.demo.passwordbox.util.Constant
 import com.lizl.demo.passwordbox.util.DialogUtil
 import java.io.Serializable
 
-abstract class BaseFragment<T : BasePresenter<*>> : Fragment()
+open class BaseFragment(private val layoutResId: Int) : Fragment()
 {
     protected var TAG = this.javaClass.simpleName
-
-    protected lateinit var presenter: T
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
@@ -28,16 +25,16 @@ abstract class BaseFragment<T : BasePresenter<*>> : Fragment()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
-        return inflater.inflate(getLayoutResId(), container, false)
+        return inflater.inflate(layoutResId, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?)
     {
         super.onActivityCreated(savedInstanceState)
 
-        presenter = initPresenter()
-
         initView()
+        initData()
+        initListener()
     }
 
     override fun onStart()
@@ -70,8 +67,6 @@ abstract class BaseFragment<T : BasePresenter<*>> : Fragment()
     {
         Log.d(TAG, "onDestroyView")
 
-        presenter.onDestroy()
-
         super.onDestroyView()
     }
 
@@ -81,19 +76,28 @@ abstract class BaseFragment<T : BasePresenter<*>> : Fragment()
         super.onDestroy()
     }
 
-    abstract fun getLayoutResId(): Int
+    open fun initView()
+    {
 
-    abstract fun initPresenter(): T
+    }
 
-    abstract fun initView()
+    open fun initData()
+    {
 
-    abstract fun onBackPressed(): Boolean
+    }
+
+    open fun initListener()
+    {
+
+    }
+
+    open fun onBackPressed() = false
 
     protected fun backToPreFragment()
     {
         try
         {
-            Navigation.findNavController(checkNotNull(view)).navigateUp()
+            Navigation.findNavController(requireView()).navigateUp()
         }
         catch (e: Exception)
         {
@@ -106,7 +110,7 @@ abstract class BaseFragment<T : BasePresenter<*>> : Fragment()
         try
         {
             val options = NavOptions.Builder().setEnterAnim(R.anim.slide_right_in).setExitAnim(R.anim.slide_left_out).setPopEnterAnim(R.anim.slide_left_in)
-                    .setPopExitAnim(R.anim.slide_right_out).build()
+                .setPopExitAnim(R.anim.slide_right_out).build()
 
             val bundle = Bundle()
             extraList.forEach {
@@ -117,7 +121,7 @@ abstract class BaseFragment<T : BasePresenter<*>> : Fragment()
                 }
             }
 
-            Navigation.findNavController(checkNotNull(view)).navigate(fragmentId, bundle, options)
+            Navigation.findNavController(requireView()).navigate(fragmentId, bundle, options)
         }
         catch (e: Exception)
         {

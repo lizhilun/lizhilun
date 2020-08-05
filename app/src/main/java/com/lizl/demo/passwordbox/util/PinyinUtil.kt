@@ -11,12 +11,9 @@ import java.util.*
 
 object PinyinUtil
 {
-    private var defaultFormat: HanyuPinyinOutputFormat = HanyuPinyinOutputFormat()
-
-    init
-    {
-        defaultFormat.caseType = HanyuPinyinCaseType.LOWERCASE
-        defaultFormat.toneType = HanyuPinyinToneType.WITHOUT_TONE
+    private val defaultFormat: HanyuPinyinOutputFormat = HanyuPinyinOutputFormat().apply {
+        caseType = HanyuPinyinCaseType.LOWERCASE
+        toneType = HanyuPinyinToneType.WITHOUT_TONE
     }
 
     /**

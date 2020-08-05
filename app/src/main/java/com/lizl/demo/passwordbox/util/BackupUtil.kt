@@ -1,12 +1,14 @@
 package com.lizl.demo.passwordbox.util
 
-import android.os.Environment
 import android.text.TextUtils
+import com.blankj.utilcode.util.FileUtils
 import com.blankj.utilcode.util.GsonUtils
+import com.blankj.utilcode.util.PathUtils
 import com.lizl.demo.passwordbox.config.AppConfig
 import com.lizl.demo.passwordbox.model.AccountModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.io.File
 import java.text.SimpleDateFormat
@@ -18,7 +20,8 @@ import java.util.*
 object BackupUtil
 {
     // 备份文件路径
-    var backupFilePath = Environment.getExternalStorageDirectory().absolutePath + "/PasswordBoxBackup"
+    var backupFilePath = PathUtils.getExternalAppFilesPath() + "/Backup"
+
     // 备份文件后缀名
     var fileSuffixName = ".iu"
 
@@ -35,6 +38,10 @@ object BackupUtil
             val dataString = GsonUtils.toJson(accountList)
             val encryptData = EncryptUtil.encrypt(dataString, AppConfig.getAppLockPassword())
             FileUtil.writeTxtFile(encryptData, "$backupFilePath/$backupFileName")
+
+            FileUtils.notifySystemToScan(backupFilePath)
+
+            delay(200)
 
             GlobalScope.launch(Dispatchers.Main) { callback.invoke(Constant.RESULT_SUCCESS) }
         }
@@ -55,7 +62,7 @@ object BackupUtil
     {
         GlobalScope.launch(Dispatchers.IO) {
             // 如果传入的密码为空，则使用当前App保护密码进行数据解密
-            val readResult: String? = if (TextUtils.isEmpty(password))
+            val readResult = if (TextUtils.isEmpty(password))
             {
                 EncryptUtil.decrypt(FileUtil.readTxtFile(filePath), AppConfig.getAppLockPassword())
             }
@@ -80,11 +87,7 @@ object BackupUtil
 
             val accountItemList = GsonUtils.fromJson<Array<AccountModel>>(readResult, Array<AccountModel>::class.java)
             accountItemList.forEach {
-                var accountModel = AppDatabase.instance.getAccountDao().search(it.description, it.account)
-                if (accountModel == null)
-                {
-                    accountModel = AccountModel()
-                }
+                val accountModel = AppDatabase.instance.getAccountDao().search(it.description, it.account) ?: AccountModel()
                 accountModel.description = it.description
                 accountModel.account = it.account
                 accountModel.password = it.password

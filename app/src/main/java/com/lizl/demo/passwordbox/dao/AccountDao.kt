@@ -1,5 +1,6 @@
 package com.lizl.demo.passwordbox.dao
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Query
 import com.lizl.demo.passwordbox.model.AccountModel
@@ -7,6 +8,9 @@ import com.lizl.demo.passwordbox.model.AccountModel
 @Dao
 interface AccountDao : BaseDao<AccountModel>
 {
+    @Query("select * from accounts")
+    fun getAllDiaryLiveData(): LiveData<MutableList<AccountModel>>
+
     @Query("select * from accounts")
     fun getAllDiary(): MutableList<AccountModel>
 

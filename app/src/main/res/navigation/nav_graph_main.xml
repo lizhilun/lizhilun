@@ -6,30 +6,30 @@
 
     <fragment
         android:id="@+id/accountListFragment"
-        android:name="com.lizl.demo.passwordbox.mvp.fragment.AccountListFragment" />
+        android:name="com.lizl.demo.passwordbox.mvvm.fragment.AccountListFragment" />
 
     <fragment
         android:id="@+id/addAccountFragment"
-        android:name="com.lizl.demo.passwordbox.mvp.fragment.AddAccountFragment" />
+        android:name="com.lizl.demo.passwordbox.mvvm.fragment.AddAccountFragment" />
 
     <fragment
         android:id="@+id/backupFileListFragment"
-        android:name="com.lizl.demo.passwordbox.mvp.fragment.BackupFileListFragment" />
+        android:name="com.lizl.demo.passwordbox.mvvm.fragment.BackupFileListFragment" />
 
     <fragment
         android:id="@+id/lockFragment"
-        android:name="com.lizl.demo.passwordbox.mvp.fragment.LockFragment" />
+        android:name="com.lizl.demo.passwordbox.mvvm.fragment.LockFragment" />
 
     <fragment
         android:id="@+id/lockPasswordFragment"
-        android:name="com.lizl.demo.passwordbox.mvp.fragment.LockPasswordFragment" />
+        android:name="com.lizl.demo.passwordbox.mvvm.fragment.LockPasswordFragment" />
 
     <fragment
         android:id="@+id/searchFragment"
-        android:name="com.lizl.demo.passwordbox.mvp.fragment.SearchFragment" />
+        android:name="com.lizl.demo.passwordbox.mvvm.fragment.SearchFragment" />
 
     <fragment
         android:id="@+id/settingFragment"
-        android:name="com.lizl.demo.passwordbox.mvp.fragment.SettingFragment" />
+        android:name="com.lizl.demo.passwordbox.mvvm.fragment.SettingFragment" />
 
 </navigation>

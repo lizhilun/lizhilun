@@ -1,4 +1,4 @@
-package com.lizl.demo.passwordbox.mvp.fragment
+package com.lizl.demo.passwordbox.mvvm.fragment
 
 import android.content.Context
 import android.text.InputFilter
@@ -7,13 +7,15 @@ import android.view.MenuItem
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lizl.demo.passwordbox.R
 import com.lizl.demo.passwordbox.adapter.AccountListAdapter
 import com.lizl.demo.passwordbox.model.AccountModel
 import com.lizl.demo.passwordbox.model.OperationItem
-import com.lizl.demo.passwordbox.mvp.contract.SearchContract
-import com.lizl.demo.passwordbox.mvp.presenter.SearchPresenter
+import com.lizl.demo.passwordbox.mvvm.base.BaseFragment
+import com.lizl.demo.passwordbox.mvvm.viewmodel.AccountSearchViewModel
 import com.lizl.demo.passwordbox.util.AppDatabase
 import com.lizl.demo.passwordbox.util.DialogUtil
 import com.lizl.demo.passwordbox.util.UiUtil
@@ -22,29 +24,39 @@ import kotlinx.android.synthetic.main.fragment_search.*
 /**
  * 搜索界面
  */
-class SearchFragment : BaseFragment<SearchPresenter>(), SearchContract.View
+class SearchFragment : BaseFragment(R.layout.fragment_search)
 {
-    private lateinit var accountListAdapter: AccountListAdapter
-
-    override fun getLayoutResId() = R.layout.fragment_search
-
-    override fun initPresenter() = SearchPresenter(this)
+    private val accountListAdapter = AccountListAdapter()
+    private lateinit var accountSearchViewModel: AccountSearchViewModel
 
     override fun initView()
     {
-        iv_back.setOnClickListener { onBackButtonClick() }
-        iv_cancel.setOnClickListener { et_search.setText("") }
-
         iv_cancel.visibility = View.GONE
 
         et_search.filters = arrayOf(InputFilter.LengthFilter(20), UiUtil.getNoWrapOrSpaceFilter())
 
-        accountListAdapter = AccountListAdapter()
         rv_result_list.layoutManager = LinearLayoutManager(activity)
         rv_result_list.adapter = accountListAdapter
 
+        accountSearchViewModel = AndroidViewModelFactory.getInstance(requireActivity().application).create(AccountSearchViewModel::class.java)
+
+        UiUtil.showSoftKeyboard(et_search)
+    }
+
+    override fun initData()
+    {
+        accountSearchViewModel.searchResultLiveData.observe(this, Observer {
+            accountListAdapter.setData(it)
+        })
+    }
+
+    override fun initListener()
+    {
+        iv_back.setOnClickListener { onBackButtonClick() }
+        iv_cancel.setOnClickListener { et_search.setText("") }
+
         et_search.addTextChangedListener {
-            presenter.search(it.toString())
+            accountSearchViewModel.search(it.toString())
             iv_cancel.isVisible = it.toString().isNotEmpty()
         }
 
@@ -61,15 +73,7 @@ class SearchFragment : BaseFragment<SearchPresenter>(), SearchContract.View
         }
 
         accountListAdapter.setOnAccountItemClickListener { DialogUtil.showAccountInfoDialog(activity as Context, it) }
-
         accountListAdapter.setOnAccountItemLongClickListener { onAccountItemLongClick(it) }
-
-        UiUtil.showSoftKeyboard(et_search)
-    }
-
-    override fun showSearchResult(accountList: List<AccountModel>)
-    {
-        accountListAdapter.setData(accountList)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean
@@ -91,8 +95,7 @@ class SearchFragment : BaseFragment<SearchPresenter>(), SearchContract.View
 
             add(OperationItem(getString(R.string.delete_account_item)) {
                 AppDatabase.instance.getAccountDao().delete(accountModel)
-
-                presenter.search(et_search.text.toString())
+                accountListAdapter.remove(accountModel)
             })
         }
 

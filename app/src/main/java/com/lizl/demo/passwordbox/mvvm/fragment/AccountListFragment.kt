@@ -1,7 +1,8 @@
-package com.lizl.demo.passwordbox.mvp.fragment
+package com.lizl.demo.passwordbox.mvvm.fragment
 
 import android.content.Context
 import androidx.core.view.isVisible
+import androidx.lifecycle.Observer
 import com.lizl.demo.passwordbox.R
 import com.lizl.demo.passwordbox.adapter.AccountListAdapter
 import com.lizl.demo.passwordbox.customview.other.ScrollTopLayoutManager
@@ -9,8 +10,7 @@ import com.lizl.demo.passwordbox.customview.quicksearchbar.OnQuickSideBarTouchLi
 import com.lizl.demo.passwordbox.model.AccountModel
 import com.lizl.demo.passwordbox.model.OperationItem
 import com.lizl.demo.passwordbox.model.TitleBarBtnItem
-import com.lizl.demo.passwordbox.mvp.contract.AccountListContract
-import com.lizl.demo.passwordbox.mvp.presenter.AccountListPresenter
+import com.lizl.demo.passwordbox.mvvm.base.BaseFragment
 import com.lizl.demo.passwordbox.util.AppDatabase
 import com.lizl.demo.passwordbox.util.DialogUtil
 import kotlinx.android.synthetic.main.fragment_account_list.*
@@ -18,13 +18,9 @@ import kotlinx.android.synthetic.main.fragment_account_list.*
 /**
  * 账号列表界面
  */
-class AccountListFragment : BaseFragment<AccountListPresenter>(), AccountListContract.View, OnQuickSideBarTouchListener
+class AccountListFragment : BaseFragment(R.layout.fragment_account_list), OnQuickSideBarTouchListener
 {
-    private lateinit var accountListAdapter: AccountListAdapter
-
-    override fun getLayoutResId() = R.layout.fragment_account_list
-
-    override fun initPresenter() = AccountListPresenter(this)
+    private val accountListAdapter = AccountListAdapter()
 
     override fun initView()
     {
@@ -36,22 +32,24 @@ class AccountListFragment : BaseFragment<AccountListPresenter>(), AccountListCon
         }
         ctb_title.setBtnList(titleBtnList)
 
-        accountListAdapter = AccountListAdapter()
         rv_password_list.layoutManager = ScrollTopLayoutManager(activity as Context)
         rv_password_list.adapter = accountListAdapter
+    }
 
+    override fun initData()
+    {
+        AppDatabase.instance.getAccountDao().getAllDiaryLiveData().observe(this, Observer {
+            accountListAdapter.setData(it)
+        })
+    }
+
+    override fun initListener()
+    {
         accountListAdapter.setOnAccountItemClickListener { DialogUtil.showAccountInfoDialog(activity as Context, it) }
 
         accountListAdapter.setOnAccountItemLongClickListener { onAccountItemLongClick(it) }
 
         qsb_slide.setOnQuickSideBarTouchListener(this)
-
-        presenter.getAllAccounts()
-    }
-
-    override fun showAccountList(accountList: List<AccountModel>)
-    {
-        accountListAdapter.setData(accountList)
     }
 
     private fun onAccountItemLongClick(accountModel: AccountModel): Boolean
@@ -64,7 +62,6 @@ class AccountListFragment : BaseFragment<AccountListPresenter>(), AccountListCon
             // 删除账号
             add(OperationItem(getString(R.string.delete_account_item)) {
                 AppDatabase.instance.getAccountDao().delete(accountModel)
-                presenter.getAllAccounts()
             })
         }
 
@@ -87,6 +84,4 @@ class AccountListFragment : BaseFragment<AccountListPresenter>(), AccountListCon
     {
         tv_select_letter.isVisible = touching
     }
-
-    override fun onBackPressed() = false
 }

@@ -1,4 +1,4 @@
-package com.lizl.demo.passwordbox.mvp.fragment
+package com.lizl.demo.passwordbox.mvvm.fragment
 
 import android.Manifest
 import android.content.Context
@@ -12,7 +12,7 @@ import com.lizl.demo.passwordbox.model.settingmodel.SettingBaseItem
 import com.lizl.demo.passwordbox.model.settingmodel.SettingBooleanItem
 import com.lizl.demo.passwordbox.model.settingmodel.SettingDivideItem
 import com.lizl.demo.passwordbox.model.settingmodel.SettingNormalItem
-import com.lizl.demo.passwordbox.mvp.presenter.EmptyPresenter
+import com.lizl.demo.passwordbox.mvvm.base.BaseFragment
 import com.lizl.demo.passwordbox.util.*
 import kotlinx.android.synthetic.main.fragment_setting.*
 import permissions.dispatcher.NeedsPermission
@@ -24,19 +24,17 @@ import permissions.dispatcher.RuntimePermissions
  * 设置界面
  */
 @RuntimePermissions
-class SettingFragment : BaseFragment<EmptyPresenter>()
+class SettingFragment : BaseFragment(R.layout.fragment_setting)
 {
-
-    override fun getLayoutResId() = R.layout.fragment_setting
-
-    override fun initPresenter() = EmptyPresenter()
-
     override fun initView()
     {
         val settingAdapter = SettingListAdapter(getSettingData())
         rv_setting_list.layoutManager = LinearLayoutManager(activity)
         rv_setting_list.adapter = settingAdapter
+    }
 
+    override fun initListener()
+    {
         ctb_title.setOnBackBtnClickListener { backToPreFragment() }
     }
 
