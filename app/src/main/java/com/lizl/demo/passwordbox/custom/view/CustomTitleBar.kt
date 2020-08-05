@@ -1,4 +1,4 @@
-package com.lizl.demo.passwordbox.customview.view
+package com.lizl.demo.passwordbox.custom.view
 
 import android.content.Context
 import android.util.AttributeSet
@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.lizl.demo.passwordbox.R
 import com.lizl.demo.passwordbox.adapter.TitleBarBtnListAdapter
-import com.lizl.demo.passwordbox.model.TitleBarBtnItem
+import com.lizl.demo.passwordbox.model.TitleBarBtnModel
 
 class CustomTitleBar(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : ConstraintLayout(context, attrs, defStyleAttr)
 {
@@ -86,7 +86,7 @@ class CustomTitleBar(context: Context, attrs: AttributeSet?, defStyleAttr: Int) 
         this.onBackBtnClickListener = onBackBtnClickListener
     }
 
-    fun setBtnList(btnList: List<TitleBarBtnItem.BaseItem>)
+    fun setBtnList(btnList: List<TitleBarBtnModel.BaseModel>)
     {
         btnListView.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, true)
         btnListView.adapter = TitleBarBtnListAdapter(btnList)

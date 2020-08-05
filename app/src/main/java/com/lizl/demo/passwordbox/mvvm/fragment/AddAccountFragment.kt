@@ -4,7 +4,7 @@ import android.text.TextUtils
 import com.lizl.demo.passwordbox.R
 import com.lizl.demo.passwordbox.model.AccountModel
 import com.lizl.demo.passwordbox.mvvm.base.BaseFragment
-import com.lizl.demo.passwordbox.util.AppDatabase
+import com.lizl.demo.passwordbox.db.AppDatabase
 import com.lizl.demo.passwordbox.util.Constant
 import com.lizl.demo.passwordbox.util.PinyinUtil
 import com.lizl.demo.passwordbox.util.ToastUtil

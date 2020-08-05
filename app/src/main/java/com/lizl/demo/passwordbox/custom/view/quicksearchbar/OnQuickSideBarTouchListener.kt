@@ -1,4 +1,4 @@
-package com.lizl.demo.passwordbox.customview.quicksearchbar
+package com.lizl.demo.passwordbox.custom.view.quicksearchbar
 
 interface OnQuickSideBarTouchListener
 {

@@ -5,6 +5,7 @@ import com.blankj.utilcode.util.FileUtils
 import com.blankj.utilcode.util.GsonUtils
 import com.blankj.utilcode.util.PathUtils
 import com.lizl.demo.passwordbox.config.AppConfig
+import com.lizl.demo.passwordbox.db.AppDatabase
 import com.lizl.demo.passwordbox.model.AccountModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope

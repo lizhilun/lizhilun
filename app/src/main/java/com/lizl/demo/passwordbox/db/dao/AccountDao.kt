@@ -1,4 +1,4 @@
-package com.lizl.demo.passwordbox.dao
+package com.lizl.demo.passwordbox.db.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao

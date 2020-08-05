@@ -13,10 +13,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.lizl.demo.passwordbox.R
 import com.lizl.demo.passwordbox.adapter.AccountListAdapter
 import com.lizl.demo.passwordbox.model.AccountModel
-import com.lizl.demo.passwordbox.model.OperationItem
+import com.lizl.demo.passwordbox.model.OperationModel
 import com.lizl.demo.passwordbox.mvvm.base.BaseFragment
 import com.lizl.demo.passwordbox.mvvm.viewmodel.AccountSearchViewModel
-import com.lizl.demo.passwordbox.util.AppDatabase
+import com.lizl.demo.passwordbox.db.AppDatabase
 import com.lizl.demo.passwordbox.util.DialogUtil
 import com.lizl.demo.passwordbox.util.UiUtil
 import kotlinx.android.synthetic.main.fragment_search.*
@@ -87,13 +87,13 @@ class SearchFragment : BaseFragment(R.layout.fragment_search)
 
     private fun onAccountItemLongClick(accountModel: AccountModel)
     {
-        val operationList = mutableListOf<OperationItem>().apply {
+        val operationList = mutableListOf<OperationModel>().apply {
 
-            add(OperationItem(getString(R.string.modify_account_info)) {
+            add(OperationModel(getString(R.string.modify_account_info)) {
                 turnToFragment(R.id.addAccountFragment, accountModel)
             })
 
-            add(OperationItem(getString(R.string.delete_account_item)) {
+            add(OperationModel(getString(R.string.delete_account_item)) {
                 AppDatabase.instance.getAccountDao().delete(accountModel)
                 accountListAdapter.remove(accountModel)
             })

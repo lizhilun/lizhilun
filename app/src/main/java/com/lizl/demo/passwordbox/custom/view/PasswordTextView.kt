@@ -1,4 +1,4 @@
-package com.lizl.demo.passwordbox.customview.view
+package com.lizl.demo.passwordbox.custom.view
 
 import android.content.Context
 import android.util.AttributeSet

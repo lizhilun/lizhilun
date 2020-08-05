@@ -2,12 +2,12 @@ package com.lizl.demo.passwordbox.util
 
 import android.app.Dialog
 import android.content.Context
-import com.lizl.demo.passwordbox.customview.dialog.DialogAccountInfo
-import com.lizl.demo.passwordbox.customview.dialog.DialogInput
-import com.lizl.demo.passwordbox.customview.dialog.DialogOperationConfirm
-import com.lizl.demo.passwordbox.customview.dialog.DialogOperationList
+import com.lizl.demo.passwordbox.custom.dialog.DialogAccountInfo
+import com.lizl.demo.passwordbox.custom.dialog.DialogInput
+import com.lizl.demo.passwordbox.custom.dialog.DialogOperationConfirm
+import com.lizl.demo.passwordbox.custom.dialog.DialogOperationList
 import com.lizl.demo.passwordbox.model.AccountModel
-import com.lizl.demo.passwordbox.model.OperationItem
+import com.lizl.demo.passwordbox.model.OperationModel
 
 object DialogUtil
 {
@@ -28,7 +28,7 @@ object DialogUtil
         showDialog(DialogOperationConfirm(context, title, notify, operationConfirmCallback))
     }
 
-    fun showOperationListDialog(context: Context, operationList: List<OperationItem>)
+    fun showOperationListDialog(context: Context, operationList: List<OperationModel>)
     {
         showDialog(DialogOperationList(context, operationList))
     }

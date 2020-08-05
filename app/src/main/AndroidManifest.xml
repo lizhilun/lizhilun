@@ -28,7 +28,7 @@
         </activity>
 
         <provider
-            android:name=".util.CustomFileProvider"
+            android:name=".custom.other.CustomFileProvider"
             android:authorities="com.lizl.demo.passwordbox.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">

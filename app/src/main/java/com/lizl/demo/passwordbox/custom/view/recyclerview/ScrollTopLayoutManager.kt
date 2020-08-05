@@ -1,4 +1,4 @@
-package com.lizl.demo.passwordbox.customview.other
+package com.lizl.demo.passwordbox.custom.view.recyclerview
 
 import android.content.Context
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -9,7 +9,8 @@ class ScrollTopLayoutManager(context: Context) : LinearLayoutManager(context)
 {
     override fun smoothScrollToPosition(recyclerView: RecyclerView, state: RecyclerView.State?, position: Int)
     {
-        val smoothScroller = TopSmoothScroller(recyclerView.context)
+        val smoothScroller =
+                TopSmoothScroller(recyclerView.context)
         smoothScroller.targetPosition = position
         startSmoothScroll(smoothScroller)
     }

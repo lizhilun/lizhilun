@@ -33,7 +33,7 @@
         android:background="@color/color_number_key_divide"
         app:layout_constraintBottom_toTopOf="@+id/tv_number" />
 
-    <com.lizl.demo.passwordbox.customview.view.PasswordTextView
+    <com.lizl.demo.passwordbox.custom.view.PasswordTextView
         android:id="@+id/tv_number"
         android:layout_width="match_parent"
         android:layout_height="@dimen/number_key_height"

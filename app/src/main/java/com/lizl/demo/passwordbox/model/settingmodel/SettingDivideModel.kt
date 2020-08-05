@@ -1,4 +1,4 @@
 package com.lizl.demo.passwordbox.model.settingmodel
 
-class SettingDivideItem : SettingBaseItem()
+class SettingDivideModel : SettingBaseModel()
 {}

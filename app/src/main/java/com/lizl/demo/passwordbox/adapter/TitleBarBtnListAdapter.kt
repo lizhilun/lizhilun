@@ -5,12 +5,12 @@ import com.chad.library.adapter.base.BaseDelegateMultiAdapter
 import com.chad.library.adapter.base.delegate.BaseMultiTypeDelegate
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.lizl.demo.passwordbox.R
-import com.lizl.demo.passwordbox.model.TitleBarBtnItem
+import com.lizl.demo.passwordbox.model.TitleBarBtnModel
 import kotlinx.android.synthetic.main.item_title_bar_image_btn.view.*
 import kotlinx.android.synthetic.main.item_title_bar_text_btn.view.*
 
-class TitleBarBtnListAdapter(btnList: List<TitleBarBtnItem.BaseItem>) :
-        BaseDelegateMultiAdapter<TitleBarBtnItem.BaseItem, TitleBarBtnListAdapter.ViewHolder>(btnList.toMutableList())
+class TitleBarBtnListAdapter(btnList: List<TitleBarBtnModel.BaseModel>) :
+        BaseDelegateMultiAdapter<TitleBarBtnModel.BaseModel, TitleBarBtnListAdapter.ViewHolder>(btnList.toMutableList())
 {
 
     companion object
@@ -21,15 +21,15 @@ class TitleBarBtnListAdapter(btnList: List<TitleBarBtnItem.BaseItem>) :
 
     init
     {
-        setMultiTypeDelegate(object : BaseMultiTypeDelegate<TitleBarBtnItem.BaseItem>()
+        setMultiTypeDelegate(object : BaseMultiTypeDelegate<TitleBarBtnModel.BaseModel>()
         {
-            override fun getItemType(data: List<TitleBarBtnItem.BaseItem>, position: Int): Int
+            override fun getItemType(data: List<TitleBarBtnModel.BaseModel>, position: Int): Int
             {
                 return when (data[position])
                 {
-                    is TitleBarBtnItem.ImageBtnItem -> ITEM_TYPE_IMAGE
-                    is TitleBarBtnItem.TextBtnItem  -> ITEM_TYPE_TEXT
-                    else                            -> ITEM_TYPE_TEXT
+                    is TitleBarBtnModel.ImageBtnModel -> ITEM_TYPE_IMAGE
+                    is TitleBarBtnModel.TextBtnModel  -> ITEM_TYPE_TEXT
+                    else                              -> ITEM_TYPE_TEXT
                 }
             }
         })
@@ -40,27 +40,27 @@ class TitleBarBtnListAdapter(btnList: List<TitleBarBtnItem.BaseItem>) :
         }
     }
 
-    override fun convert(helper: ViewHolder, item: TitleBarBtnItem.BaseItem)
+    override fun convert(helper: ViewHolder, model: TitleBarBtnModel.BaseModel)
     {
-        when (item)
+        when (model)
         {
-            is TitleBarBtnItem.ImageBtnItem -> helper.bindImageHolder(item)
-            is TitleBarBtnItem.TextBtnItem  -> helper.bindTextHolder(item)
+            is TitleBarBtnModel.ImageBtnModel -> helper.bindImageHolder(model)
+            is TitleBarBtnModel.TextBtnModel  -> helper.bindTextHolder(model)
         }
     }
 
     inner class ViewHolder(itemView: View) : BaseViewHolder(itemView)
     {
-        fun bindImageHolder(imageBtnItem: TitleBarBtnItem.ImageBtnItem)
+        fun bindImageHolder(imageBtnModel: TitleBarBtnModel.ImageBtnModel)
         {
-            itemView.iv_image_btn.setImageResource(imageBtnItem.imageRedId)
-            itemView.setOnClickListener { imageBtnItem.onBtnClickListener.invoke() }
+            itemView.iv_image_btn.setImageResource(imageBtnModel.imageRedId)
+            itemView.setOnClickListener { imageBtnModel.onBtnClickListener.invoke() }
         }
 
-        fun bindTextHolder(textBtnItem: TitleBarBtnItem.TextBtnItem)
+        fun bindTextHolder(textBtnModel: TitleBarBtnModel.TextBtnModel)
         {
-            itemView.tv_text_btn.text = textBtnItem.text
-            itemView.setOnClickListener { textBtnItem.onBtnClickListener.invoke() }
+            itemView.tv_text_btn.text = textBtnModel.text
+            itemView.setOnClickListener { textBtnModel.onBtnClickListener.invoke() }
         }
     }
 }

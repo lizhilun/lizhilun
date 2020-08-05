@@ -4,28 +4,28 @@ import android.view.View
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.lizl.demo.passwordbox.R
-import com.lizl.demo.passwordbox.model.OperationItem
+import com.lizl.demo.passwordbox.model.OperationModel
 import kotlinx.android.synthetic.main.item_operation.view.*
 
-class OperationListAdapter(operationList: List<OperationItem>) :
-        BaseQuickAdapter<OperationItem, OperationListAdapter.ViewHolder>(R.layout.item_operation, operationList.toMutableList())
+class OperationListAdapter(operationList: List<OperationModel>) :
+        BaseQuickAdapter<OperationModel, OperationListAdapter.ViewHolder>(R.layout.item_operation, operationList.toMutableList())
 {
     private var onOperationItemClickListener: (() -> Unit)? = null
 
-    override fun convert(helper: ViewHolder, item: OperationItem)
+    override fun convert(helper: ViewHolder, model: OperationModel)
     {
-        helper.bindViewHolder(item)
+        helper.bindViewHolder(model)
     }
 
     inner class ViewHolder(itemView: View) : BaseViewHolder(itemView)
     {
-        fun bindViewHolder(operationItem: OperationItem)
+        fun bindViewHolder(operationModel: OperationModel)
         {
-            itemView.tv_operation_name.text = operationItem.operationName
+            itemView.tv_operation_name.text = operationModel.operationName
 
             itemView.setOnClickListener {
                 onOperationItemClickListener?.invoke()
-                operationItem.operationItemCallBack.invoke()
+                operationModel.operationItemCallBack.invoke()
             }
         }
     }

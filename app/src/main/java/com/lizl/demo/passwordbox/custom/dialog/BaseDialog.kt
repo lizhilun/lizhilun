@@ -1,4 +1,4 @@
-package com.lizl.demo.passwordbox.customview.dialog
+package com.lizl.demo.passwordbox.custom.dialog
 
 import android.app.Dialog
 import android.content.Context
@@ -6,8 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import com.lizl.demo.passwordbox.R
 
-
-abstract class BaseDialog(context: Context) : Dialog(context, R.style.GlobalDialogStyle)
+open class BaseDialog(context: Context, private val layoutResId: Int) : Dialog(context, R.style.GlobalDialogStyle)
 {
     protected val TAG = javaClass.simpleName
 
@@ -16,7 +15,7 @@ abstract class BaseDialog(context: Context) : Dialog(context, R.style.GlobalDial
         super.onCreate(savedInstanceState)
 
         val inflater = LayoutInflater.from(context)
-        val view = inflater.inflate(getDialogLayoutResId(), null)
+        val view = inflater.inflate(layoutResId, null)
         setContentView(view)
 
         initView()
@@ -35,7 +34,8 @@ abstract class BaseDialog(context: Context) : Dialog(context, R.style.GlobalDial
         window?.attributes = params
     }
 
-    abstract fun getDialogLayoutResId(): Int
+    open fun initView()
+    {
 
-    abstract fun initView()
+    }
 }

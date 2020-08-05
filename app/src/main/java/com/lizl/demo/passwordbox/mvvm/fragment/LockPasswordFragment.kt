@@ -4,7 +4,7 @@ import android.text.TextUtils
 import android.view.View
 import com.lizl.demo.passwordbox.R
 import com.lizl.demo.passwordbox.config.AppConfig
-import com.lizl.demo.passwordbox.model.TitleBarBtnItem
+import com.lizl.demo.passwordbox.model.TitleBarBtnModel
 import com.lizl.demo.passwordbox.mvvm.base.BaseFragment
 import com.lizl.demo.passwordbox.util.Constant
 import com.lizl.demo.passwordbox.util.ToastUtil
@@ -37,8 +37,8 @@ class LockPasswordFragment : BaseFragment(R.layout.fragment_lock_password)
                 et_current_password.visibility = View.GONE
                 ctb_title.setTitleText(getString(R.string.set_lock_password))
                 ctb_title.setBackBtnVisible(false)
-                val titleBtnList = mutableListOf<TitleBarBtnItem.BaseItem>().apply {
-                    add(TitleBarBtnItem.TextBtnItem(getString(R.string.skip)) {
+                val titleBtnList = mutableListOf<TitleBarBtnModel.BaseModel>().apply {
+                    add(TitleBarBtnModel.TextBtnModel(getString(R.string.skip)) {
                         AppConfig.setAppLockPasswordOn(false)
                         turnToFragment(R.id.accountListFragment)
                     })

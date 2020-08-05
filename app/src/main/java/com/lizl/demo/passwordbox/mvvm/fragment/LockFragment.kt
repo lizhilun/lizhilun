@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.lizl.demo.passwordbox.R
 import com.lizl.demo.passwordbox.adapter.NumberKeyGridAdapter
 import com.lizl.demo.passwordbox.config.AppConfig
-import com.lizl.demo.passwordbox.customview.recylerviewitemdivider.GridDividerItemDecoration
+import com.lizl.demo.passwordbox.custom.view.recyclerview.GridDividerItemDecoration
 import com.lizl.demo.passwordbox.mvvm.base.BaseFragment
 import com.lizl.demo.passwordbox.util.BiometricAuthenticationUtil
 import com.lizl.demo.passwordbox.util.UiUtil

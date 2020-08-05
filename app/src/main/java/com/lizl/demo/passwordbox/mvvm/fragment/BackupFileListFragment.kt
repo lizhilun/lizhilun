@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lizl.demo.passwordbox.R
 import com.lizl.demo.passwordbox.adapter.BackupFileListAdapter
-import com.lizl.demo.passwordbox.model.OperationItem
+import com.lizl.demo.passwordbox.model.OperationModel
 import com.lizl.demo.passwordbox.mvvm.base.BaseFragment
 import com.lizl.demo.passwordbox.mvvm.viewmodel.BackupFileViewModel
 import com.lizl.demo.passwordbox.util.*
@@ -45,22 +45,22 @@ class BackupFileListFragment : BaseFragment(R.layout.fragment_backup_file_list)
 
     private fun onBackupFileItemClick(file: File)
     {
-        val operationList = mutableListOf<OperationItem>().apply {
+        val operationList = mutableListOf<OperationModel>().apply {
 
             // 覆盖导入备份
-            add(OperationItem(getString(R.string.import_backup_file_overlay)) {
+            add(OperationModel(getString(R.string.import_backup_file_overlay)) {
                 DialogUtil.showOperationConfirmDialog(activity as Context, getString(R.string.import_backup_file_overlay),
                         getString(R.string.notify_restore_data_overlay)) { BackupUtil.restoreData(file.absolutePath, true, DataRestoreCallback()) }
             })
 
             // 合并导入备份
-            add(OperationItem(getString(R.string.import_backup_file_merge)) {
+            add(OperationModel(getString(R.string.import_backup_file_merge)) {
                 DialogUtil.showOperationConfirmDialog(activity as Context, getString(R.string.import_backup_file_merge),
                         getString(R.string.notify_restore_data_merge)) { BackupUtil.restoreData(file.absolutePath, false, DataRestoreCallback()) }
             })
 
             // 删除备份文件
-            add(OperationItem(getString(R.string.delete_backup_file)) {
+            add(OperationModel(getString(R.string.delete_backup_file)) {
                 DialogUtil.showOperationConfirmDialog(activity as Context, getString(R.string.delete_backup_file),
                         getString(R.string.notify_delete_backup_file)) {
                     if (FileUtil.deleteFile(file.absolutePath))
@@ -71,7 +71,7 @@ class BackupFileListFragment : BaseFragment(R.layout.fragment_backup_file_list)
             })
 
             // 重命名备份文件
-            add(OperationItem(getString(R.string.rename_backup_file)) {
+            add(OperationModel(getString(R.string.rename_backup_file)) {
                 DialogUtil.showInputDialog(activity as Context, getString(R.string.rename_backup_file), getString(R.string.hint_rename_backup_file)) {
                     if (FileUtil.renameFile(file.absolutePath, it))
                     {
@@ -81,7 +81,7 @@ class BackupFileListFragment : BaseFragment(R.layout.fragment_backup_file_list)
             })
 
             // 分享备份文件
-            add(OperationItem(getString(R.string.share_backup_file)) {
+            add(OperationModel(getString(R.string.share_backup_file)) {
                 DialogUtil.showOperationConfirmDialog(activity as Context, getString(R.string.share_backup_file),
                         getString(R.string.notify_share_backup_file)) {
                     FileUtil.shareAllTypeFile(file)

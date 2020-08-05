@@ -1,4 +1,4 @@
-package com.lizl.demo.passwordbox.customview.recylerviewitemdivider
+package com.lizl.demo.passwordbox.custom.view.recyclerview
 
 import android.content.Context
 import android.graphics.Canvas

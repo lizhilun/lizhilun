@@ -5,13 +5,13 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import com.lizl.demo.passwordbox.R
 import com.lizl.demo.passwordbox.adapter.AccountListAdapter
-import com.lizl.demo.passwordbox.customview.other.ScrollTopLayoutManager
-import com.lizl.demo.passwordbox.customview.quicksearchbar.OnQuickSideBarTouchListener
+import com.lizl.demo.passwordbox.custom.view.recyclerview.ScrollTopLayoutManager
+import com.lizl.demo.passwordbox.custom.view.quicksearchbar.OnQuickSideBarTouchListener
 import com.lizl.demo.passwordbox.model.AccountModel
-import com.lizl.demo.passwordbox.model.OperationItem
-import com.lizl.demo.passwordbox.model.TitleBarBtnItem
+import com.lizl.demo.passwordbox.model.OperationModel
+import com.lizl.demo.passwordbox.model.TitleBarBtnModel
 import com.lizl.demo.passwordbox.mvvm.base.BaseFragment
-import com.lizl.demo.passwordbox.util.AppDatabase
+import com.lizl.demo.passwordbox.db.AppDatabase
 import com.lizl.demo.passwordbox.util.DialogUtil
 import kotlinx.android.synthetic.main.fragment_account_list.*
 
@@ -26,9 +26,9 @@ class AccountListFragment : BaseFragment(R.layout.fragment_account_list), OnQuic
     {
         fab_add.setOnClickListener { turnToFragment(R.id.addAccountFragment) }
 
-        val titleBtnList = mutableListOf<TitleBarBtnItem.BaseItem>().apply {
-            add(TitleBarBtnItem.ImageBtnItem(R.mipmap.ic_setting) { turnToFragment(R.id.settingFragment) })
-            add(TitleBarBtnItem.ImageBtnItem(R.mipmap.ic_search) { turnToFragment(R.id.searchFragment) })
+        val titleBtnList = mutableListOf<TitleBarBtnModel.BaseModel>().apply {
+            add(TitleBarBtnModel.ImageBtnModel(R.mipmap.ic_setting) { turnToFragment(R.id.settingFragment) })
+            add(TitleBarBtnModel.ImageBtnModel(R.mipmap.ic_search) { turnToFragment(R.id.searchFragment) })
         }
         ctb_title.setBtnList(titleBtnList)
 
@@ -54,13 +54,13 @@ class AccountListFragment : BaseFragment(R.layout.fragment_account_list), OnQuic
 
     private fun onAccountItemLongClick(accountModel: AccountModel): Boolean
     {
-        val operationList = mutableListOf<OperationItem>().apply {
+        val operationList = mutableListOf<OperationModel>().apply {
 
             // 修改账号信息
-            add(OperationItem(getString(R.string.modify_account_info)) { turnToFragment(R.id.addAccountFragment, accountModel) })
+            add(OperationModel(getString(R.string.modify_account_info)) { turnToFragment(R.id.addAccountFragment, accountModel) })
 
             // 删除账号
-            add(OperationItem(getString(R.string.delete_account_item)) {
+            add(OperationModel(getString(R.string.delete_account_item)) {
                 AppDatabase.instance.getAccountDao().delete(accountModel)
             })
         }

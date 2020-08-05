@@ -5,15 +5,15 @@ import com.chad.library.adapter.base.BaseDelegateMultiAdapter
 import com.chad.library.adapter.base.delegate.BaseMultiTypeDelegate
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.lizl.demo.passwordbox.R
-import com.lizl.demo.passwordbox.model.settingmodel.SettingBaseItem
-import com.lizl.demo.passwordbox.model.settingmodel.SettingBooleanItem
-import com.lizl.demo.passwordbox.model.settingmodel.SettingDivideItem
-import com.lizl.demo.passwordbox.model.settingmodel.SettingNormalItem
+import com.lizl.demo.passwordbox.model.settingmodel.SettingBaseModel
+import com.lizl.demo.passwordbox.model.settingmodel.SettingBooleanModel
+import com.lizl.demo.passwordbox.model.settingmodel.SettingDivideModel
+import com.lizl.demo.passwordbox.model.settingmodel.SettingNormalModel
 import kotlinx.android.synthetic.main.item_setting_boolean.view.*
 import kotlinx.android.synthetic.main.item_setting_normal.view.*
 
-class SettingListAdapter(settingList: List<SettingBaseItem>) :
-        BaseDelegateMultiAdapter<SettingBaseItem, SettingListAdapter.ViewHolder>(settingList.toMutableList())
+class SettingListAdapter(settingList: List<SettingBaseModel>) :
+        BaseDelegateMultiAdapter<SettingBaseModel, SettingListAdapter.ViewHolder>(settingList.toMutableList())
 {
     companion object
     {
@@ -24,16 +24,16 @@ class SettingListAdapter(settingList: List<SettingBaseItem>) :
 
     init
     {
-        setMultiTypeDelegate(object : BaseMultiTypeDelegate<SettingBaseItem>()
+        setMultiTypeDelegate(object : BaseMultiTypeDelegate<SettingBaseModel>()
         {
-            override fun getItemType(data: List<SettingBaseItem>, position: Int): Int
+            override fun getItemType(data: List<SettingBaseModel>, position: Int): Int
             {
                 return when (data[position])
                 {
-                    is SettingDivideItem  -> ITEM_TYPE_DIVIDE
-                    is SettingBooleanItem -> ITEM_TYPE_BOOLEAN
-                    is SettingNormalItem  -> ITEM_TYPE_NORMAL
-                    else                  -> ITEM_TYPE_DIVIDE
+                    is SettingDivideModel  -> ITEM_TYPE_DIVIDE
+                    is SettingBooleanModel -> ITEM_TYPE_BOOLEAN
+                    is SettingNormalModel  -> ITEM_TYPE_NORMAL
+                    else                   -> ITEM_TYPE_DIVIDE
                 }
             }
         })
@@ -45,18 +45,18 @@ class SettingListAdapter(settingList: List<SettingBaseItem>) :
         }
     }
 
-    override fun convert(helper: ViewHolder, item: SettingBaseItem)
+    override fun convert(helper: ViewHolder, model: SettingBaseModel)
     {
-        when (item)
+        when (model)
         {
-            is SettingNormalItem  -> helper.bindNormalViewHolder(item)
-            is SettingBooleanItem -> helper.bindBooleanViewHolder(item)
+            is SettingNormalModel  -> helper.bindNormalViewHolder(model)
+            is SettingBooleanModel -> helper.bindBooleanViewHolder(model)
         }
     }
 
     inner class ViewHolder(itemView: View) : BaseViewHolder(itemView)
     {
-        fun bindBooleanViewHolder(settingItem: SettingBooleanItem)
+        fun bindBooleanViewHolder(settingItem: SettingBooleanModel)
         {
             val isChecked = settingItem.getConfig()
             itemView.tv_boolean_setting_name.text = settingItem.settingName
@@ -72,7 +72,7 @@ class SettingListAdapter(settingList: List<SettingBaseItem>) :
             }
         }
 
-        fun bindNormalViewHolder(settingItem: SettingNormalItem)
+        fun bindNormalViewHolder(settingItem: SettingNormalModel)
         {
             itemView.tv_normal_setting_name.text = settingItem.settingName
 
