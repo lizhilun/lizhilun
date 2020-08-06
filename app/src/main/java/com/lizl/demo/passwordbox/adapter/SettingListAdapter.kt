@@ -45,12 +45,12 @@ class SettingListAdapter(settingList: List<SettingBaseModel>) :
         }
     }
 
-    override fun convert(helper: ViewHolder, model: SettingBaseModel)
+    override fun convert(helper: ViewHolder, item: SettingBaseModel)
     {
-        when (model)
+        when (item)
         {
-            is SettingNormalModel  -> helper.bindNormalViewHolder(model)
-            is SettingBooleanModel -> helper.bindBooleanViewHolder(model)
+            is SettingNormalModel  -> helper.bindNormalViewHolder(item)
+            is SettingBooleanModel -> helper.bindBooleanViewHolder(item)
         }
     }
 

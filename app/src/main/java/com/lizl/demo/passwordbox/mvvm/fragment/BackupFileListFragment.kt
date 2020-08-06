@@ -1,12 +1,17 @@
 package com.lizl.demo.passwordbox.mvvm.fragment
 
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
+import android.util.Log
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.lizl.demo.passwordbox.R
 import com.lizl.demo.passwordbox.adapter.BackupFileListAdapter
+import com.lizl.demo.passwordbox.config.AppConfig
+import com.lizl.demo.passwordbox.custom.function.getFileName
 import com.lizl.demo.passwordbox.model.OperationModel
+import com.lizl.demo.passwordbox.model.TitleBarBtnModel
 import com.lizl.demo.passwordbox.mvvm.base.BaseFragment
 import com.lizl.demo.passwordbox.mvvm.viewmodel.BackupFileViewModel
 import com.lizl.demo.passwordbox.util.*
@@ -15,15 +20,23 @@ import java.io.File
 
 class BackupFileListFragment : BaseFragment(R.layout.fragment_backup_file_list)
 {
-    private lateinit var backupFileListAdapter: BackupFileListAdapter
+    companion object
+    {
+        private const val REQUEST_CODE_SELECT_BACKUP_FILE = 666
+    }
+
+    private val backupFileListAdapter = BackupFileListAdapter()
 
     private lateinit var backupFileViewModel: BackupFileViewModel
 
     override fun initView()
     {
-        backupFileListAdapter = BackupFileListAdapter()
-        rv_file_list.layoutManager = LinearLayoutManager(activity)
         rv_file_list.adapter = backupFileListAdapter
+
+        val titleBtnList = mutableListOf<TitleBarBtnModel.BaseModel>().apply {
+            add(TitleBarBtnModel.ImageBtnModel(R.drawable.ic_folder) { selectBackupFile() })
+        }
+        ctb_title.setBtnList(titleBtnList)
 
         backupFileViewModel = AndroidViewModelFactory.getInstance(requireActivity().application).create(BackupFileViewModel::class.java)
     }
@@ -43,6 +56,16 @@ class BackupFileListFragment : BaseFragment(R.layout.fragment_backup_file_list)
         backupFileListAdapter.setOnItemClickListener { onBackupFileItemClick(it) }
     }
 
+    private fun selectBackupFile()
+    {
+        val intent = Intent(Intent.ACTION_GET_CONTENT)
+
+        intent.type = "*/*"
+        intent.addCategory(Intent.CATEGORY_OPENABLE)
+
+        startActivityForResult(intent, REQUEST_CODE_SELECT_BACKUP_FILE)
+    }
+
     private fun onBackupFileItemClick(file: File)
     {
         val operationList = mutableListOf<OperationModel>().apply {
@@ -50,13 +73,13 @@ class BackupFileListFragment : BaseFragment(R.layout.fragment_backup_file_list)
             // 覆盖导入备份
             add(OperationModel(getString(R.string.import_backup_file_overlay)) {
                 DialogUtil.showOperationConfirmDialog(activity as Context, getString(R.string.import_backup_file_overlay),
-                        getString(R.string.notify_restore_data_overlay)) { BackupUtil.restoreData(file.absolutePath, true, DataRestoreCallback()) }
+                        getString(R.string.notify_restore_data_overlay)) { restoreData(Uri.fromFile(file), clearAllData = true) }
             })
 
             // 合并导入备份
             add(OperationModel(getString(R.string.import_backup_file_merge)) {
                 DialogUtil.showOperationConfirmDialog(activity as Context, getString(R.string.import_backup_file_merge),
-                        getString(R.string.notify_restore_data_merge)) { BackupUtil.restoreData(file.absolutePath, false, DataRestoreCallback()) }
+                        getString(R.string.notify_restore_data_merge)) { restoreData(Uri.fromFile(file), clearAllData = false) }
             })
 
             // 删除备份文件
@@ -65,7 +88,7 @@ class BackupFileListFragment : BaseFragment(R.layout.fragment_backup_file_list)
                         getString(R.string.notify_delete_backup_file)) {
                     if (FileUtil.deleteFile(file.absolutePath))
                     {
-                        backupFileViewModel.requestBackupFileList()
+                        backupFileListAdapter.remove(file)
                     }
                 }
             })
@@ -75,7 +98,7 @@ class BackupFileListFragment : BaseFragment(R.layout.fragment_backup_file_list)
                 DialogUtil.showInputDialog(activity as Context, getString(R.string.rename_backup_file), getString(R.string.hint_rename_backup_file)) {
                     if (FileUtil.renameFile(file.absolutePath, it))
                     {
-                        backupFileViewModel.requestBackupFileList()
+                        backupFileListAdapter.update(file)
                     }
                 }
             })
@@ -92,21 +115,56 @@ class BackupFileListFragment : BaseFragment(R.layout.fragment_backup_file_list)
         DialogUtil.showOperationListDialog(activity as Context, operationList)
     }
 
-    inner class DataRestoreCallback : BackupUtil.DataRestoreCallback
+    private fun restoreData(backupFileUri: Uri, password: String = AppConfig.getAppLockPassword(), clearAllData: Boolean)
     {
-        override fun onDataRestoreSuccess()
-        {
-            ToastUtil.showToast(R.string.notify_success_to_restore)
-            backToPreFragment()
-        }
-
-        override fun onDataRestoreFailed(failedFilePath: String, clearAllData: Boolean, reason: String)
-        {
-            if (reason == Constant.DATA_RESTORE_FAILED_WRONG_PASSWORD)
+        BackupUtil.restoreData(backupFileUri, password, clearAllData) { result, failedReason ->
+            if (result)
             {
-                DialogUtil.showInputDialog(activity as Context, getString(R.string.input_encrypt_password), getString(R.string.hint_input_encrypt_password)) {
-                    BackupUtil.restoreData(failedFilePath, it, clearAllData, DataRestoreCallback())
+                ToastUtil.showToast(R.string.notify_success_to_restore)
+                backToPreFragment()
+            }
+            else
+            {
+                if (failedReason == Constant.DATA_RESTORE_FAILED_WRONG_PASSWORD)
+                {
+                    DialogUtil.showInputDialog(activity as Context, getString(R.string.input_encrypt_password),
+                            getString(R.string.hint_input_encrypt_password)) { restoreData(backupFileUri, it, clearAllData) }
                 }
+            }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?)
+    {
+        Log.d(TAG, "onActivityResult() called with: requestCode = [$requestCode], resultCode = [$resultCode], data = [${data?.data?.path}]")
+        when (requestCode)
+        {
+            REQUEST_CODE_SELECT_BACKUP_FILE ->
+            {
+                val fileUri = data?.data ?: return
+
+                if (fileUri.getFileName(requireContext())?.endsWith(BackupUtil.fileSuffixName) != true)
+                {
+                    ToastUtil.showToast(R.string.notify_wrong_backup_file)
+                    return
+                }
+
+                val operationList = mutableListOf<OperationModel>().apply {
+
+                    // 覆盖导入备份
+                    add(OperationModel(getString(R.string.import_backup_file_overlay)) {
+                        DialogUtil.showOperationConfirmDialog(activity as Context, getString(R.string.import_backup_file_overlay),
+                                getString(R.string.notify_restore_data_overlay)) { restoreData(fileUri, clearAllData = true) }
+                    })
+
+                    // 合并导入备份
+                    add(OperationModel(getString(R.string.import_backup_file_merge)) {
+                        DialogUtil.showOperationConfirmDialog(activity as Context, getString(R.string.import_backup_file_merge),
+                                getString(R.string.notify_restore_data_merge)) { restoreData(fileUri, clearAllData = false) }
+                    })
+                }
+
+                DialogUtil.showOperationListDialog(activity as Context, operationList)
             }
         }
     }

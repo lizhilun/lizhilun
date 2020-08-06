@@ -5,13 +5,14 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import com.lizl.demo.passwordbox.R
 import com.lizl.demo.passwordbox.adapter.AccountListAdapter
-import com.lizl.demo.passwordbox.custom.view.recyclerview.ScrollTopLayoutManager
 import com.lizl.demo.passwordbox.custom.view.quicksearchbar.OnQuickSideBarTouchListener
+import com.lizl.demo.passwordbox.custom.view.recyclerview.ScrollTopLayoutManager
+import com.lizl.demo.passwordbox.db.AppDatabase
 import com.lizl.demo.passwordbox.model.AccountModel
 import com.lizl.demo.passwordbox.model.OperationModel
 import com.lizl.demo.passwordbox.model.TitleBarBtnModel
 import com.lizl.demo.passwordbox.mvvm.base.BaseFragment
-import com.lizl.demo.passwordbox.db.AppDatabase
+import com.lizl.demo.passwordbox.util.AccountUtil
 import com.lizl.demo.passwordbox.util.DialogUtil
 import kotlinx.android.synthetic.main.fragment_account_list.*
 
@@ -38,9 +39,7 @@ class AccountListFragment : BaseFragment(R.layout.fragment_account_list), OnQuic
 
     override fun initData()
     {
-        AppDatabase.instance.getAccountDao().getAllDiaryLiveData().observe(this, Observer {
-            accountListAdapter.setData(it)
-        })
+        AccountUtil.accountLiveData.observe(this, Observer { accountListAdapter.setData(it) })
     }
 
     override fun initListener()

@@ -40,12 +40,12 @@ class TitleBarBtnListAdapter(btnList: List<TitleBarBtnModel.BaseModel>) :
         }
     }
 
-    override fun convert(helper: ViewHolder, model: TitleBarBtnModel.BaseModel)
+    override fun convert(helper: ViewHolder, item: TitleBarBtnModel.BaseModel)
     {
-        when (model)
+        when (item)
         {
-            is TitleBarBtnModel.ImageBtnModel -> helper.bindImageHolder(model)
-            is TitleBarBtnModel.TextBtnModel  -> helper.bindTextHolder(model)
+            is TitleBarBtnModel.ImageBtnModel -> helper.bindImageHolder(item)
+            is TitleBarBtnModel.TextBtnModel  -> helper.bindTextHolder(item)
         }
     }
 

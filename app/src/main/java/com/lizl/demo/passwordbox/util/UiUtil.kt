@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewTreeObserver
 import android.widget.TextView
 import com.blankj.utilcode.util.ActivityUtils
-import com.blankj.utilcode.util.AppUtils
 import com.blankj.utilcode.util.KeyboardUtils
 import com.blankj.utilcode.util.SizeUtils
 import com.lizl.demo.passwordbox.R
@@ -19,8 +18,6 @@ import com.lizl.demo.passwordbox.R
  */
 object UiUtil
 {
-    private var noWrapOrSpaceFilter: InputFilter? = null
-
     /**
      * 复制内容到剪切板
      */
@@ -35,11 +32,6 @@ object UiUtil
      * 退回到桌面
      */
     fun backToLauncher() = ActivityUtils.startHomeActivity()
-
-    /**
-     * 跳转到APP详情界面（用于获取权限）
-     */
-    fun goToAppDetailPage() = AppUtils.launchAppDetailsSettings()
 
     /**
      * 去除TextView默认换行样式，自定义换行
@@ -114,20 +106,16 @@ object UiUtil
      */
     fun getNoWrapOrSpaceFilter(): InputFilter
     {
-        if (noWrapOrSpaceFilter == null)
-        {
-            noWrapOrSpaceFilter = InputFilter { source, start, end, dest, dstart, dend ->
-                if (source == " " || source.toString().contentEquals("\n"))
-                {
-                    ""
-                }
-                else
-                {
-                    null
-                }
+        return InputFilter { source, _, _, _, _, _ ->
+            if (source == " " || source.toString().contentEquals("\n"))
+            {
+                ""
+            }
+            else
+            {
+                null
             }
         }
-        return noWrapOrSpaceFilter!!
     }
 
     /**

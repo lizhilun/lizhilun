@@ -4,19 +4,17 @@ import android.content.Context
 import android.text.InputFilter
 import android.view.KeyEvent
 import android.view.MenuItem
-import android.view.View
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.lizl.demo.passwordbox.R
 import com.lizl.demo.passwordbox.adapter.AccountListAdapter
+import com.lizl.demo.passwordbox.db.AppDatabase
 import com.lizl.demo.passwordbox.model.AccountModel
 import com.lizl.demo.passwordbox.model.OperationModel
 import com.lizl.demo.passwordbox.mvvm.base.BaseFragment
 import com.lizl.demo.passwordbox.mvvm.viewmodel.AccountSearchViewModel
-import com.lizl.demo.passwordbox.db.AppDatabase
 import com.lizl.demo.passwordbox.util.DialogUtil
 import com.lizl.demo.passwordbox.util.UiUtil
 import kotlinx.android.synthetic.main.fragment_search.*
@@ -31,11 +29,10 @@ class SearchFragment : BaseFragment(R.layout.fragment_search)
 
     override fun initView()
     {
-        iv_cancel.visibility = View.GONE
+        iv_cancel.isVisible = false
 
         et_search.filters = arrayOf(InputFilter.LengthFilter(20), UiUtil.getNoWrapOrSpaceFilter())
 
-        rv_result_list.layoutManager = LinearLayoutManager(activity)
         rv_result_list.adapter = accountListAdapter
 
         accountSearchViewModel = AndroidViewModelFactory.getInstance(requireActivity().application).create(AccountSearchViewModel::class.java)
@@ -113,6 +110,4 @@ class SearchFragment : BaseFragment(R.layout.fragment_search)
     {
         backToPreFragment()
     }
-
-    override fun onBackPressed() = false
 }

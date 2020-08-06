@@ -17,4 +17,6 @@ object AppConfig
     fun setAppLastStopTime(stopTime: Long) = SPUtils.getInstance().put(ConfigConstant.APP_LAST_STOP_TIME, stopTime)
 
     fun getAppLastStopTime() = SPUtils.getInstance().getLong(ConfigConstant.APP_LAST_STOP_TIME, ConfigConstant.DEFAULT_APP_LAST_STOP_TIME)
+
+    fun isAutoBackup() = SPUtils.getInstance().getBoolean(ConfigConstant.IS_AUTO_BACKUP, ConfigConstant.DEFAULT_IS_AUTO_BACKUP)
 }

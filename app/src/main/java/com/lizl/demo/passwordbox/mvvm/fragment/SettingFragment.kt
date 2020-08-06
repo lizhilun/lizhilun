@@ -1,6 +1,5 @@
 package com.lizl.demo.passwordbox.mvvm.fragment
 
-import android.Manifest
 import android.content.Context
 import android.text.TextUtils
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,15 +15,10 @@ import com.lizl.demo.passwordbox.model.settingmodel.SettingNormalModel
 import com.lizl.demo.passwordbox.mvvm.base.BaseFragment
 import com.lizl.demo.passwordbox.util.*
 import kotlinx.android.synthetic.main.fragment_setting.*
-import permissions.dispatcher.NeedsPermission
-import permissions.dispatcher.OnNeverAskAgain
-import permissions.dispatcher.OnPermissionDenied
-import permissions.dispatcher.RuntimePermissions
 
 /**
  * 设置界面
  */
-@RuntimePermissions
 class SettingFragment : BaseFragment(R.layout.fragment_setting)
 {
     override fun initView()
@@ -79,6 +73,10 @@ class SettingFragment : BaseFragment(R.layout.fragment_setting)
 
         settingList.add(SettingDivideModel())
 
+        // 自动备份
+        settingList.add(SettingBooleanModel(getString(R.string.setting_auto_backup), ConfigConstant.IS_AUTO_BACKUP,
+                ConfigConstant.DEFAULT_IS_AUTO_BACKUP, true) {})
+
         // 备份数据设置
         settingList.add(SettingNormalModel(getString(R.string.setting_backup_data)) {
             if (AppDatabase.instance.getAccountDao().getDiariesCount() == 0)
@@ -95,45 +93,24 @@ class SettingFragment : BaseFragment(R.layout.fragment_setting)
             else
             {
                 DialogUtil.showOperationConfirmDialog(activity as Context, getString(R.string.setting_backup_data),
-                        getString(R.string.notify_backup_data)) { backupDataWithPermissionCheck() }
+                        getString(R.string.notify_backup_data)) { backupData() }
             }
         })
 
         // 还原数据设置
-        settingList.add(SettingNormalModel(getString(R.string.setting_restore_data)) { turnToBackupFileFragmentWithPermissionCheck() })
+        settingList.add(SettingNormalModel(getString(R.string.setting_restore_data)) { turnToBackupFileFragment() })
 
         return settingList
     }
 
-    @NeedsPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
     fun backupData()
     {
         BackupUtil.backupData { ToastUtil.showToast(R.string.notify_success_to_backup) }
     }
 
-    @NeedsPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
     fun turnToBackupFileFragment()
     {
         turnToFragment(R.id.backupFileListFragment)
-    }
-
-    @OnPermissionDenied(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-    fun onPermissionDenied()
-    {
-        ToastUtil.showToast(R.string.notify_failed_to_get_permission)
-    }
-
-    @OnNeverAskAgain(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-    fun onPermissionNeverAskAgain()
-    {
-        DialogUtil.showOperationConfirmDialog(activity as Context, getString(R.string.notify_failed_to_get_permission),
-                getString(R.string.notify_permission_be_refused)) { UiUtil.goToAppDetailPage() }
-    }
-
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray)
-    {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        onRequestPermissionsResult(requestCode, grantResults)
     }
 
     override fun onBackPressed() = false

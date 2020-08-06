@@ -2,6 +2,7 @@ package com.lizl.demo.passwordbox
 
 import android.app.Application
 import com.blankj.utilcode.util.Utils
+import com.lizl.demo.passwordbox.util.BackupUtil
 import com.lizl.demo.passwordbox.util.PinyinUtil
 
 class UiApplication : Application()
@@ -16,6 +17,8 @@ class UiApplication : Application()
         super.onCreate()
 
         Utils.init(this)
+
+        BackupUtil.init()
 
         PinyinUtil.initResource()
     }

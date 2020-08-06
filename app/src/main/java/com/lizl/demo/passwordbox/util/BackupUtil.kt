@@ -1,6 +1,6 @@
 package com.lizl.demo.passwordbox.util
 
-import android.text.TextUtils
+import android.net.Uri
 import com.blankj.utilcode.util.FileUtils
 import com.blankj.utilcode.util.GsonUtils
 import com.blankj.utilcode.util.PathUtils
@@ -9,6 +9,7 @@ import com.lizl.demo.passwordbox.db.AppDatabase
 import com.lizl.demo.passwordbox.model.AccountModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.io.File
@@ -20,63 +21,85 @@ import java.util.*
  */
 object BackupUtil
 {
-    // 备份文件路径
-    var backupFilePath = PathUtils.getExternalAppFilesPath() + "/Backup"
+    private val backupFilePath = PathUtils.getExternalAppFilesPath() + "/Backup"
+    const val fileSuffixName = ".iu"
+    private const val autoBackupFileName = "autoBackup"
 
-    // 备份文件后缀名
-    var fileSuffixName = ".iu"
+    private val backupChannel = Channel<BackupJob>()
+
+    private var isFirstData = true
+
+    fun init()
+    {
+        GlobalScope.launch {
+            for (job in backupChannel)
+            {
+                backupData(job)
+            }
+        }
+
+        GlobalScope.launch(Dispatchers.Main) {
+            AccountUtil.accountLiveData.observeForever {
+                if (isFirstData)
+                {
+                    isFirstData = false
+                    return@observeForever
+                }
+                autoBackupData()
+            }
+        }
+    }
+
+    /**
+     * 自动备份
+     */
+    private fun autoBackupData()
+    {
+        GlobalScope.launch { backupChannel.send(BackupJob(autoBackupFileName) {}) }
+    }
 
     /**
      * 备份数据
      */
     fun backupData(callback: (result: Int) -> Unit)
     {
-        GlobalScope.launch(Dispatchers.IO) {
-
+        GlobalScope.launch {
             val formatter = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault())
-            val backupFileName = formatter.format(System.currentTimeMillis()) + fileSuffixName
-            val accountList = AppDatabase.instance.getAccountDao().getAllDiary()
-            val dataString = GsonUtils.toJson(accountList)
-            val encryptData = EncryptUtil.encrypt(dataString, AppConfig.getAppLockPassword())
-            FileUtil.writeTxtFile(encryptData, "$backupFilePath/$backupFileName")
-
-            FileUtils.notifySystemToScan(backupFilePath)
-
-            delay(200)
-
-            GlobalScope.launch(Dispatchers.Main) { callback.invoke(Constant.RESULT_SUCCESS) }
+            val backupFileName = formatter.format(System.currentTimeMillis())
+            backupChannel.send(BackupJob(backupFileName, callback))
         }
     }
 
     /**
-     * 还原数据
+     * 备份数据
      */
-    fun restoreData(filePath: String, clearAllData: Boolean, callback: DataRestoreCallback)
+    private suspend fun backupData(backupJob: BackupJob)
     {
-        restoreData(filePath, "", clearAllData, callback)
+        val backupFileName = "${backupJob.backupFileName}$fileSuffixName"
+        val accountList = AppDatabase.instance.getAccountDao().getAllDiary()
+        val dataString = GsonUtils.toJson(accountList)
+        val encryptData = EncryptUtil.encrypt(dataString, AppConfig.getAppLockPassword())
+        FileUtil.writeTxtFile(encryptData, "$backupFilePath/$backupFileName")
+
+        FileUtils.notifySystemToScan(backupFilePath)
+
+        delay(200)
+
+        GlobalScope.launch(Dispatchers.Main) { backupJob.callback.invoke(Constant.RESULT_SUCCESS) }
     }
 
     /**
      * 还原数据
      */
-    fun restoreData(filePath: String, password: String, clearAllData: Boolean, callback: DataRestoreCallback)
+    fun restoreData(fileUri: Uri, password: String, clearAllData: Boolean, callback: (result: Boolean, failedReason: String) -> Unit)
     {
         GlobalScope.launch(Dispatchers.IO) {
-            // 如果传入的密码为空，则使用当前App保护密码进行数据解密
-            val readResult = if (TextUtils.isEmpty(password))
-            {
-                EncryptUtil.decrypt(FileUtil.readTxtFile(filePath), AppConfig.getAppLockPassword())
-            }
-            else
-            {
-                EncryptUtil.decrypt(FileUtil.readTxtFile(filePath), password)
-            }
+
+            val readResult = EncryptUtil.decrypt(FileUtil.readTxtFile(fileUri), password)
 
             if (readResult == null)
             {
-                GlobalScope.launch(Dispatchers.Main) {
-                    callback.onDataRestoreFailed(filePath, clearAllData, Constant.DATA_RESTORE_FAILED_WRONG_PASSWORD)
-                }
+                GlobalScope.launch(Dispatchers.Main) { callback.invoke(false, Constant.DATA_RESTORE_FAILED_WRONG_PASSWORD) }
                 return@launch
             }
 
@@ -96,9 +119,7 @@ object BackupUtil
                 AppDatabase.instance.getAccountDao().insert(accountModel)
             }
 
-            GlobalScope.launch(Dispatchers.Main) {
-                callback.onDataRestoreSuccess()
-            }
+            GlobalScope.launch(Dispatchers.Main) { callback.invoke(true, "") }
         }
     }
 
@@ -112,10 +133,5 @@ object BackupUtil
         return File(backupFilePath).listFiles()?.filter { it.exists() && it.isFile && it.name.endsWith(fileSuffixName) } ?: emptyList()
     }
 
-    interface DataRestoreCallback
-    {
-        fun onDataRestoreSuccess()
-
-        fun onDataRestoreFailed(failedFilePath: String, clearAllData: Boolean, reason: String)
-    }
+    class BackupJob(val backupFileName: String, val callback: (result: Int) -> Unit)
 }

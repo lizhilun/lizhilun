@@ -1,5 +1,6 @@
 package com.lizl.demo.passwordbox.util
 
+import android.content.ContentResolver
 import android.content.Intent
 import android.net.Uri
 import android.util.Log
@@ -7,13 +8,18 @@ import androidx.core.content.FileProvider
 import com.blankj.utilcode.util.ActivityUtils
 import com.blankj.utilcode.util.FileIOUtils
 import com.blankj.utilcode.util.FileUtils
+import java.io.ByteArrayOutputStream
 import java.io.File
+import java.io.FileNotFoundException
+import java.io.IOException
+
 
 /**
  * 文件工具类
  */
 object FileUtil
 {
+    private const val sBufferSize = 524288
     private const val TAG = "FileUtil"
 
     /**
@@ -32,6 +38,68 @@ object FileUtil
     fun readTxtFile(filePath: String) = FileIOUtils.readFile2String(filePath)
 
     /**
+     * 读TXT文件内容
+     * @par
+     */
+    fun readTxtFile(fileUrl: Uri): String
+    {
+        if (fileUrl.scheme == ContentResolver.SCHEME_CONTENT)
+        {
+            try
+            {
+                var os: ByteArrayOutputStream? = null
+                val context = ActivityUtils.getTopActivity() ?: return ""
+                val inputStream = context.contentResolver.openInputStream(fileUrl)?.buffered() ?: return ""
+                try
+                {
+                    os = ByteArrayOutputStream()
+                    val b = ByteArray(sBufferSize)
+                    var len: Int
+                    while (inputStream.read(b, 0, sBufferSize).also { len = it } != -1)
+                    {
+                        os.write(b, 0, len)
+                    }
+                    return String(os.toByteArray())
+                }
+                catch (e: IOException)
+                {
+                    e.printStackTrace()
+                }
+                finally
+                {
+                    try
+                    {
+                        inputStream.close()
+                    }
+                    catch (e: IOException)
+                    {
+                        e.printStackTrace()
+                    }
+                    try
+                    {
+                        os?.close()
+                    }
+                    catch (e: IOException)
+                    {
+                        e.printStackTrace()
+                    }
+                }
+            }
+            catch (e: FileNotFoundException)
+            {
+                e.printStackTrace()
+            }
+            return ""
+        }
+        else if (fileUrl.scheme == ContentResolver.SCHEME_CONTENT)
+        {
+            val filePath = fileUrl.path ?: return ""
+            return readTxtFile(filePath)
+        }
+        return ""
+    }
+
+    /**
      * 删除文件
      */
     fun deleteFile(filePath: String) = FileUtils.deleteFile(filePath)
@@ -44,7 +112,7 @@ object FileUtil
     /**
      * 获取文件uri
      */
-    fun getFileUri(file: File): Uri
+    private fun getFileUri(file: File): Uri
     {
         return FileProvider.getUriForFile(ActivityUtils.getTopActivity(), "com.lizl.demo.passwordbox.fileprovider", file);
     }

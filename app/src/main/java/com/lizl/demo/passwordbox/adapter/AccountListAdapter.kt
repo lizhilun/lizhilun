@@ -1,61 +1,51 @@
 package com.lizl.demo.passwordbox.adapter
 
-import android.view.View
+import androidx.core.view.isInvisible
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.lizl.demo.passwordbox.R
 import com.lizl.demo.passwordbox.model.AccountModel
 import com.lizl.demo.passwordbox.util.PinyinUtil
 import kotlinx.android.synthetic.main.item_account.view.*
+import java.util.*
 
-class AccountListAdapter : BaseQuickAdapter<AccountModel, AccountListAdapter.ViewHolder>(R.layout.item_account)
+class AccountListAdapter : BaseQuickAdapter<AccountModel, BaseViewHolder>(R.layout.item_account)
 {
     private var onAccountItemClickListener: ((AccountModel) -> Unit)? = null
     private var onAccountItemLongClickListener: ((AccountModel) -> Unit)? = null
 
-    override fun convert(helper: ViewHolder, item: AccountModel)
+    override fun convert(helper: BaseViewHolder, item: AccountModel)
     {
-        helper.bindViewHolder(item)
+        with(helper.itemView) {
+            val position = getItemPosition(item)
+            val firstLetter = PinyinUtil.getSortFirstLetter(item.desPinyin)
+            val showFirstLetter = when
+            {
+                position > 0 ->
+                {
+                    // 与上一个item首字母相同的情况下不显示首字母
+                    firstLetter != PinyinUtil.getSortFirstLetter(getItem(position - 1).desPinyin)
+                }
+                else         -> true
+            }
+
+            tv_description.text = item.description
+            tv_account.text = item.account
+            tv_first_letter.text = firstLetter.toString().toUpperCase(java.util.Locale.getDefault())
+
+            tv_first_letter.isInvisible = !showFirstLetter
+
+            setOnClickListener { onAccountItemClickListener?.invoke(item) }
+            setOnLongClickListener {
+                onAccountItemLongClickListener?.invoke(item)
+                true
+            }
+        }
     }
 
     fun setData(accountList: List<AccountModel>)
     {
         setNewData(accountList.sortedBy { PinyinUtil.getPinyin(it.desPinyin) }.toMutableList())
-    }
-
-    inner class ViewHolder(itemView: View) : BaseViewHolder(itemView)
-    {
-        fun bindViewHolder(accountModel: AccountModel)
-        {
-            val position = getItemPosition(accountModel)
-            val firstLetter = PinyinUtil.getSortFirstLetter(accountModel.desPinyin)
-            var showFirstLetter = true // 是否显示首字母标识
-            if (position > 0)
-            {
-                val lastAccountModel = getItem(position - 1)
-                val lastFirstLetter = PinyinUtil.getSortFirstLetter(lastAccountModel.desPinyin)
-                // 与上一个item首字母相同的情况下不显示首字母
-                if (firstLetter == lastFirstLetter)
-                {
-                    showFirstLetter = false
-                }
-            }
-
-            with(itemView) {
-                tv_description.text = accountModel.description
-                tv_account.text = accountModel.account
-                tv_first_letter.text = firstLetter.toString().toUpperCase()
-
-                tv_first_letter.visibility = if (showFirstLetter) View.VISIBLE else View.INVISIBLE
-
-                setOnClickListener { onAccountItemClickListener?.invoke(accountModel) }
-                setOnLongClickListener {
-                    onAccountItemLongClickListener?.invoke(accountModel)
-                    true
-                }
-            }
-
-        }
     }
 
     /**

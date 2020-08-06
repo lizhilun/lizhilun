@@ -29,8 +29,8 @@ open class BaseDialog(context: Context, private val layoutResId: Int) : Dialog(c
         val params = window?.attributes ?: return
         val display = context.resources.displayMetrics
         val min = display.heightPixels.coerceAtMost(display.widthPixels)
-        // 宽度设置为宽高最小值的80%（兼容横屏）
-        params.width = (min * 0.8).toInt()
+        // 宽度设置为宽高最小值的90%（兼容横屏）
+        params.width = (min * 0.9).toInt()
         window?.attributes = params
     }
 

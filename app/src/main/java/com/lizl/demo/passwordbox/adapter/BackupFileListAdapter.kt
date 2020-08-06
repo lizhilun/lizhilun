@@ -1,6 +1,5 @@
 package com.lizl.demo.passwordbox.adapter
 
-import android.view.View
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.lizl.demo.passwordbox.R
@@ -10,7 +9,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-class BackupFileListAdapter : BaseQuickAdapter<File, BackupFileListAdapter.ViewHolder>(R.layout.item_backup_file)
+class BackupFileListAdapter : BaseQuickAdapter<File, BaseViewHolder>(R.layout.item_backup_file)
 {
     private val formatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
 
@@ -21,24 +20,26 @@ class BackupFileListAdapter : BaseQuickAdapter<File, BackupFileListAdapter.ViewH
         setNewData(fileList.sortedByDescending { it.lastModified() }.toMutableList())
     }
 
-    override fun convert(helper: ViewHolder, item: File)
+    override fun convert(helper: BaseViewHolder, item: File)
     {
-        helper.bindViewHolder(item)
-    }
-
-    inner class ViewHolder(itemView: View) : BaseViewHolder(itemView)
-    {
-        fun bindViewHolder(file: File)
-        {
-            itemView.tv_file_name.text = file.name
-
-            itemView.tv_file_time.text = formatter.format(file.lastModified())
-            itemView.setOnClickListener { onItemClickListener?.invoke(file) }
+        with(helper.itemView) {
+            tv_file_name.text = item.name
+            tv_file_time.text = formatter.format(item.lastModified())
+            setOnClickListener { onItemClickListener?.invoke(item) }
         }
     }
 
     fun setOnItemClickListener(onItemClickListener: ((File) -> Unit))
     {
         this.onItemClickListener = onItemClickListener
+    }
+
+    fun update(file: File)
+    {
+        val position = getItemPosition(file)
+        if (position >= 0)
+        {
+            setData(position, file)
+        }
     }
 }
