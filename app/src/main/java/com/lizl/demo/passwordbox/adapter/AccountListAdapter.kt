@@ -4,10 +4,9 @@ import androidx.core.view.isInvisible
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.lizl.demo.passwordbox.R
-import com.lizl.demo.passwordbox.model.AccountModel
+import com.lizl.demo.passwordbox.mvvm.model.AccountModel
 import com.lizl.demo.passwordbox.util.PinyinUtil
 import kotlinx.android.synthetic.main.item_account.view.*
-import java.util.*
 
 class AccountListAdapter : BaseQuickAdapter<AccountModel, BaseViewHolder>(R.layout.item_account)
 {

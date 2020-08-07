@@ -1,4 +1,4 @@
-package com.lizl.demo.passwordbox.model
+package com.lizl.demo.passwordbox.mvvm.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

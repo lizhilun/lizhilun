@@ -2,18 +2,20 @@ package com.lizl.demo.passwordbox.mvvm.fragment
 
 import android.content.Context
 import android.text.TextUtils
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.lizl.demo.passwordbox.R
 import com.lizl.demo.passwordbox.adapter.SettingListAdapter
 import com.lizl.demo.passwordbox.config.AppConfig
-import com.lizl.demo.passwordbox.config.ConfigConstant
+import com.lizl.demo.passwordbox.config.constant.ConfigConstant
 import com.lizl.demo.passwordbox.db.AppDatabase
-import com.lizl.demo.passwordbox.model.settingmodel.SettingBaseModel
-import com.lizl.demo.passwordbox.model.settingmodel.SettingBooleanModel
-import com.lizl.demo.passwordbox.model.settingmodel.SettingDivideModel
-import com.lizl.demo.passwordbox.model.settingmodel.SettingNormalModel
 import com.lizl.demo.passwordbox.mvvm.base.BaseFragment
-import com.lizl.demo.passwordbox.util.*
+import com.lizl.demo.passwordbox.mvvm.model.settingmodel.SettingBaseModel
+import com.lizl.demo.passwordbox.mvvm.model.settingmodel.SettingBooleanModel
+import com.lizl.demo.passwordbox.mvvm.model.settingmodel.SettingDivideModel
+import com.lizl.demo.passwordbox.mvvm.model.settingmodel.SettingNormalModel
+import com.lizl.demo.passwordbox.util.BackupUtil
+import com.lizl.demo.passwordbox.util.BiometricAuthenticationUtil
+import com.lizl.demo.passwordbox.util.DialogUtil
+import com.lizl.demo.passwordbox.util.ToastUtil
 import kotlinx.android.synthetic.main.fragment_setting.*
 
 /**
@@ -23,9 +25,7 @@ class SettingFragment : BaseFragment(R.layout.fragment_setting)
 {
     override fun initView()
     {
-        val settingAdapter = SettingListAdapter(getSettingData())
-        rv_setting_list.layoutManager = LinearLayoutManager(activity)
-        rv_setting_list.adapter = settingAdapter
+        rv_setting_list.adapter = SettingListAdapter(getSettingData())
     }
 
     override fun initListener()
@@ -45,14 +45,13 @@ class SettingFragment : BaseFragment(R.layout.fragment_setting)
         // 支持指纹识别的情况显示指纹解锁设置
         if (BiometricAuthenticationUtil.isFingerprintSupport())
         {
-            settingList.add(SettingBooleanModel(getString(R.string.setting_fingerprint), ConfigConstant.IS_FINGERPRINT_LOCK_ON,
-                    ConfigConstant.DEFAULT_IS_FINGERPRINT_LOCK_ON, isAppLockPasswordOn) {
+            settingList.add(SettingBooleanModel(getString(R.string.setting_fingerprint), ConfigConstant.IS_FINGERPRINT_LOCK_ON, isAppLockPasswordOn) {
                 if (isAppLockPasswordOn || !it)
                 {
                     return@SettingBooleanModel
                 }
 
-                turnToFragment(R.id.lockPasswordFragment, Constant.LOCK_PASSWORD_FRAGMENT_TYPE_SET_PASSWORD)
+                turnToFragment(R.id.lockPasswordFragment, LockPasswordFragment.LOCK_PASSWORD_FRAGMENT_TYPE_SET_PASSWORD)
             })
         }
 
@@ -60,22 +59,21 @@ class SettingFragment : BaseFragment(R.layout.fragment_setting)
         if (isAppLockPasswordOn)
         {
             settingList.add(SettingNormalModel(getString(R.string.setting_modify_lock_password)) {
-                turnToFragment(R.id.lockPasswordFragment, Constant.LOCK_PASSWORD_FRAGMENT_TYPE_MODIFY_PASSWORD)
+                turnToFragment(R.id.lockPasswordFragment, LockPasswordFragment.LOCK_PASSWORD_FRAGMENT_TYPE_MODIFY_PASSWORD)
             })
         }
         // 反之显示设置密码界面
         else
         {
             settingList.add(SettingNormalModel(getString(R.string.setting_set_lock_password)) {
-                turnToFragment(R.id.lockPasswordFragment, Constant.LOCK_PASSWORD_FRAGMENT_TYPE_SET_PASSWORD)
+                turnToFragment(R.id.lockPasswordFragment, LockPasswordFragment.LOCK_PASSWORD_FRAGMENT_TYPE_SET_PASSWORD)
             })
         }
 
         settingList.add(SettingDivideModel())
 
         // 自动备份
-        settingList.add(SettingBooleanModel(getString(R.string.setting_auto_backup), ConfigConstant.IS_AUTO_BACKUP,
-                ConfigConstant.DEFAULT_IS_AUTO_BACKUP, true) {})
+        settingList.add(SettingBooleanModel(getString(R.string.setting_auto_backup), ConfigConstant.IS_AUTO_BACKUP, true) {})
 
         // 备份数据设置
         settingList.add(SettingNormalModel(getString(R.string.setting_backup_data)) {
@@ -88,7 +86,7 @@ class SettingFragment : BaseFragment(R.layout.fragment_setting)
             // 保护密码不可用的情况下先设置密码
             if (!isAppLockPasswordOn)
             {
-                turnToFragment(R.id.lockPasswordFragment, Constant.LOCK_PASSWORD_FRAGMENT_TYPE_SET_PASSWORD)
+                turnToFragment(R.id.lockPasswordFragment, LockPasswordFragment.LOCK_PASSWORD_FRAGMENT_TYPE_SET_PASSWORD)
             }
             else
             {
@@ -103,12 +101,12 @@ class SettingFragment : BaseFragment(R.layout.fragment_setting)
         return settingList
     }
 
-    fun backupData()
+    private fun backupData()
     {
         BackupUtil.backupData { ToastUtil.showToast(R.string.notify_success_to_backup) }
     }
 
-    fun turnToBackupFileFragment()
+    private fun turnToBackupFileFragment()
     {
         turnToFragment(R.id.backupFileListFragment)
     }

@@ -5,10 +5,10 @@ import com.chad.library.adapter.base.BaseDelegateMultiAdapter
 import com.chad.library.adapter.base.delegate.BaseMultiTypeDelegate
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.lizl.demo.passwordbox.R
-import com.lizl.demo.passwordbox.model.settingmodel.SettingBaseModel
-import com.lizl.demo.passwordbox.model.settingmodel.SettingBooleanModel
-import com.lizl.demo.passwordbox.model.settingmodel.SettingDivideModel
-import com.lizl.demo.passwordbox.model.settingmodel.SettingNormalModel
+import com.lizl.demo.passwordbox.mvvm.model.settingmodel.SettingBaseModel
+import com.lizl.demo.passwordbox.mvvm.model.settingmodel.SettingBooleanModel
+import com.lizl.demo.passwordbox.mvvm.model.settingmodel.SettingDivideModel
+import com.lizl.demo.passwordbox.mvvm.model.settingmodel.SettingNormalModel
 import kotlinx.android.synthetic.main.item_setting_boolean.view.*
 import kotlinx.android.synthetic.main.item_setting_normal.view.*
 

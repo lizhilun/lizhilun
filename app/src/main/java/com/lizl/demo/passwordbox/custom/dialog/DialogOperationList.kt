@@ -3,7 +3,7 @@ package com.lizl.demo.passwordbox.custom.dialog
 import android.content.Context
 import com.lizl.demo.passwordbox.R
 import com.lizl.demo.passwordbox.adapter.OperationListAdapter
-import com.lizl.demo.passwordbox.model.OperationModel
+import com.lizl.demo.passwordbox.mvvm.model.OperationModel
 import kotlinx.android.synthetic.main.dialog_operation_list.*
 
 /**

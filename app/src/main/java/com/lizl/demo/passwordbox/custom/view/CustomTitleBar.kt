@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.lizl.demo.passwordbox.R
 import com.lizl.demo.passwordbox.adapter.TitleBarBtnListAdapter
-import com.lizl.demo.passwordbox.model.TitleBarBtnModel
+import com.lizl.demo.passwordbox.mvvm.model.TitleBarBtnModel
 
 class CustomTitleBar(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : ConstraintLayout(context, attrs, defStyleAttr)
 {

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<navigation android:id="@+id/nav_graph_main"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph_main"
     app:startDestination="@id/accountListFragment">
 
     <fragment
@@ -15,10 +15,6 @@
     <fragment
         android:id="@+id/backupFileListFragment"
         android:name="com.lizl.demo.passwordbox.mvvm.fragment.BackupFileListFragment" />
-
-    <fragment
-        android:id="@+id/lockFragment"
-        android:name="com.lizl.demo.passwordbox.mvvm.fragment.LockFragment" />
 
     <fragment
         android:id="@+id/lockPasswordFragment"

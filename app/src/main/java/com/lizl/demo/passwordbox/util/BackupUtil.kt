@@ -4,17 +4,16 @@ import android.net.Uri
 import com.blankj.utilcode.util.FileUtils
 import com.blankj.utilcode.util.GsonUtils
 import com.blankj.utilcode.util.PathUtils
+import com.blankj.utilcode.util.TimeUtils
 import com.lizl.demo.passwordbox.config.AppConfig
 import com.lizl.demo.passwordbox.db.AppDatabase
-import com.lizl.demo.passwordbox.model.AccountModel
+import com.lizl.demo.passwordbox.mvvm.model.AccountModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.io.File
-import java.text.SimpleDateFormat
-import java.util.*
 
 /**
  * 备份工具类
@@ -45,7 +44,10 @@ object BackupUtil
                     isFirstData = false
                     return@observeForever
                 }
-                autoBackupData()
+                if (AppConfig.isAutoBackup())
+                {
+                    autoBackupData()
+                }
             }
         }
     }
@@ -61,11 +63,10 @@ object BackupUtil
     /**
      * 备份数据
      */
-    fun backupData(callback: (result: Int) -> Unit)
+    fun backupData(callback: (result: Boolean) -> Unit)
     {
         GlobalScope.launch {
-            val formatter = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault())
-            val backupFileName = formatter.format(System.currentTimeMillis())
+            val backupFileName = TimeUtils.millis2String(System.currentTimeMillis(), "yyyyMMdd_HHmmss")
             backupChannel.send(BackupJob(backupFileName, callback))
         }
     }
@@ -85,7 +86,7 @@ object BackupUtil
 
         delay(200)
 
-        GlobalScope.launch(Dispatchers.Main) { backupJob.callback.invoke(Constant.RESULT_SUCCESS) }
+        GlobalScope.launch(Dispatchers.Main) { backupJob.callback.invoke(true) }
     }
 
     /**
@@ -133,5 +134,5 @@ object BackupUtil
         return File(backupFilePath).listFiles()?.filter { it.exists() && it.isFile && it.name.endsWith(fileSuffixName) } ?: emptyList()
     }
 
-    class BackupJob(val backupFileName: String, val callback: (result: Int) -> Unit)
+    class BackupJob(val backupFileName: String, val callback: (result: Boolean) -> Unit)
 }

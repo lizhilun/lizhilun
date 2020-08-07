@@ -10,8 +10,8 @@ import com.lizl.demo.passwordbox.R
 import com.lizl.demo.passwordbox.adapter.BackupFileListAdapter
 import com.lizl.demo.passwordbox.config.AppConfig
 import com.lizl.demo.passwordbox.custom.function.getFileName
-import com.lizl.demo.passwordbox.model.OperationModel
-import com.lizl.demo.passwordbox.model.TitleBarBtnModel
+import com.lizl.demo.passwordbox.mvvm.model.OperationModel
+import com.lizl.demo.passwordbox.mvvm.model.TitleBarBtnModel
 import com.lizl.demo.passwordbox.mvvm.base.BaseFragment
 import com.lizl.demo.passwordbox.mvvm.viewmodel.BackupFileViewModel
 import com.lizl.demo.passwordbox.util.*

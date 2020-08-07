@@ -1,33 +1,26 @@
-package com.lizl.demo.passwordbox.mvvm.fragment
+package com.lizl.demo.passwordbox.mvvm.activity
 
 import android.hardware.biometrics.BiometricPrompt
 import android.util.Log
-import androidx.recyclerview.widget.GridLayoutManager
+import com.blankj.utilcode.util.ActivityUtils
 import com.lizl.demo.passwordbox.R
 import com.lizl.demo.passwordbox.adapter.NumberKeyGridAdapter
 import com.lizl.demo.passwordbox.config.AppConfig
 import com.lizl.demo.passwordbox.custom.view.recyclerview.GridDividerItemDecoration
-import com.lizl.demo.passwordbox.mvvm.base.BaseFragment
+import com.lizl.demo.passwordbox.mvvm.base.BaseActivity
 import com.lizl.demo.passwordbox.util.BiometricAuthenticationUtil
 import com.lizl.demo.passwordbox.util.UiUtil
 import kotlinx.android.synthetic.main.fragment_lock.*
 
-/**
- * 锁定界面
- */
-class LockFragment : BaseFragment(R.layout.fragment_lock)
+class LockActivity : BaseActivity(R.layout.fragment_lock)
 {
     private val numberKeyGridAdapter = NumberKeyGridAdapter(listOf("1", "2", "3", "4", "5", "6", "7", "8", "9", "*", "0", "#"))
 
     override fun initView()
     {
-        rv_number_key.layoutManager = GridLayoutManager(activity, 3)
         rv_number_key.addItemDecoration(GridDividerItemDecoration())
         rv_number_key.adapter = numberKeyGridAdapter
-    }
 
-    override fun initListener()
-    {
         numberKeyGridAdapter.setOnNumberKeyClickListener {
             when (it)
             {
@@ -68,13 +61,17 @@ class LockFragment : BaseFragment(R.layout.fragment_lock)
 
     fun onUnlockSuccess()
     {
-        backToPreFragment()
+        lastAppStopTime = Long.MAX_VALUE
+        if (ActivityUtils.getActivityList().size == 1)
+        {
+            turnToActivity(MainActivity::class.java)
+        }
+        finish()
     }
 
-    override fun onBackPressed(): Boolean
+    override fun onBackPressed()
     {
         UiUtil.backToLauncher()
-        return true
     }
 
     private fun startFingerprintAuthentication()

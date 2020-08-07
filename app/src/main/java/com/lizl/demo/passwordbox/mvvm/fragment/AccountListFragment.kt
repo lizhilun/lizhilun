@@ -8,10 +8,10 @@ import com.lizl.demo.passwordbox.adapter.AccountListAdapter
 import com.lizl.demo.passwordbox.custom.view.quicksearchbar.OnQuickSideBarTouchListener
 import com.lizl.demo.passwordbox.custom.view.recyclerview.ScrollTopLayoutManager
 import com.lizl.demo.passwordbox.db.AppDatabase
-import com.lizl.demo.passwordbox.model.AccountModel
-import com.lizl.demo.passwordbox.model.OperationModel
-import com.lizl.demo.passwordbox.model.TitleBarBtnModel
 import com.lizl.demo.passwordbox.mvvm.base.BaseFragment
+import com.lizl.demo.passwordbox.mvvm.model.AccountModel
+import com.lizl.demo.passwordbox.mvvm.model.OperationModel
+import com.lizl.demo.passwordbox.mvvm.model.TitleBarBtnModel
 import com.lizl.demo.passwordbox.util.AccountUtil
 import com.lizl.demo.passwordbox.util.DialogUtil
 import kotlinx.android.synthetic.main.fragment_account_list.*

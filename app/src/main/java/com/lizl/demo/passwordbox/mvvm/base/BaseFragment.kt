@@ -6,12 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
-import com.lizl.demo.passwordbox.R
-import com.lizl.demo.passwordbox.util.Constant
+import com.lizl.demo.passwordbox.mvvm.activity.MainActivity
 import com.lizl.demo.passwordbox.util.DialogUtil
-import java.io.Serializable
 
 open class BaseFragment(private val layoutResId: Int) : Fragment()
 {
@@ -107,25 +104,6 @@ open class BaseFragment(private val layoutResId: Int) : Fragment()
 
     protected fun turnToFragment(fragmentId: Int, vararg extraList: Any)
     {
-        try
-        {
-            val options = NavOptions.Builder().setEnterAnim(R.anim.slide_right_in).setExitAnim(R.anim.slide_left_out).setPopEnterAnim(R.anim.slide_left_in)
-                .setPopExitAnim(R.anim.slide_right_out).build()
-
-            val bundle = Bundle()
-            extraList.forEach {
-                when (it)
-                {
-                    is Int          -> bundle.putInt(Constant.BUNDLE_DATA_INT, it)
-                    is Serializable -> bundle.putSerializable(Constant.BUNDLE_DATA_SERIALIZABLE, it)
-                }
-            }
-
-            Navigation.findNavController(requireView()).navigate(fragmentId, bundle, options)
-        }
-        catch (e: Exception)
-        {
-            Log.e(TAG, e.toString())
-        }
+        (activity as MainActivity).turnToFragment(fragmentId, extraList)
     }
 }

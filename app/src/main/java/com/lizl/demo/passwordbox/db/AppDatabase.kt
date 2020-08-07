@@ -5,7 +5,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.lizl.demo.passwordbox.UiApplication
 import com.lizl.demo.passwordbox.db.dao.AccountDao
-import com.lizl.demo.passwordbox.model.AccountModel
+import com.lizl.demo.passwordbox.mvvm.model.AccountModel
 
 @Database(entities = [AccountModel::class], version = 1, exportSchema = false)
 abstract class AppDatabase : RoomDatabase()

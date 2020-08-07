@@ -11,8 +11,8 @@ import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory
 import com.lizl.demo.passwordbox.R
 import com.lizl.demo.passwordbox.adapter.AccountListAdapter
 import com.lizl.demo.passwordbox.db.AppDatabase
-import com.lizl.demo.passwordbox.model.AccountModel
-import com.lizl.demo.passwordbox.model.OperationModel
+import com.lizl.demo.passwordbox.mvvm.model.AccountModel
+import com.lizl.demo.passwordbox.mvvm.model.OperationModel
 import com.lizl.demo.passwordbox.mvvm.base.BaseFragment
 import com.lizl.demo.passwordbox.mvvm.viewmodel.AccountSearchViewModel
 import com.lizl.demo.passwordbox.util.DialogUtil

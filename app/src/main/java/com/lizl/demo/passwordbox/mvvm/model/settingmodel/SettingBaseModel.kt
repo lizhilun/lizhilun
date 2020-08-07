@@ -1,4 +1,4 @@
-package com.lizl.demo.passwordbox.model.settingmodel
+package com.lizl.demo.passwordbox.mvvm.model.settingmodel
 
 open class SettingBaseModel(open val settingName: String?, open val settingKey: String? = null)
 {

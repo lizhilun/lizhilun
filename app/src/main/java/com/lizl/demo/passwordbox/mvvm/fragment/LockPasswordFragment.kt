@@ -4,8 +4,8 @@ import android.text.TextUtils
 import android.view.View
 import com.lizl.demo.passwordbox.R
 import com.lizl.demo.passwordbox.config.AppConfig
-import com.lizl.demo.passwordbox.model.TitleBarBtnModel
 import com.lizl.demo.passwordbox.mvvm.base.BaseFragment
+import com.lizl.demo.passwordbox.mvvm.model.TitleBarBtnModel
 import com.lizl.demo.passwordbox.util.Constant
 import com.lizl.demo.passwordbox.util.ToastUtil
 import com.lizl.demo.passwordbox.util.UiUtil
@@ -16,7 +16,14 @@ import kotlinx.android.synthetic.main.fragment_lock_password.*
  */
 class LockPasswordFragment : BaseFragment(R.layout.fragment_lock_password)
 {
-    private var fragmentType: Int? = Constant.LOCK_PASSWORD_FRAGMENT_TYPE_MODIFY_PASSWORD
+    private var fragmentType: Int? = LOCK_PASSWORD_FRAGMENT_TYPE_MODIFY_PASSWORD
+
+    companion object
+    {
+        const val LOCK_PASSWORD_FRAGMENT_TYPE_SET_PASSWORD = 1 //保护密码设置界面类型：设置密码
+        const val LOCK_PASSWORD_FRAGMENT_TYPE_FIRST_SET_PASSWORD = 2  //保护密码设置界面类型：应用第一次启动时设置密码
+        const val LOCK_PASSWORD_FRAGMENT_TYPE_MODIFY_PASSWORD = 3 //保护密码设置界面类型：修改密码
+    }
 
     override fun initView()
     {
@@ -26,13 +33,13 @@ class LockPasswordFragment : BaseFragment(R.layout.fragment_lock_password)
 
         when (fragmentType)
         {
-            Constant.LOCK_PASSWORD_FRAGMENT_TYPE_SET_PASSWORD       ->
+            LOCK_PASSWORD_FRAGMENT_TYPE_SET_PASSWORD       ->
             {
                 et_current_password.visibility = View.GONE
                 ctb_title.setTitleText(getString(R.string.set_lock_password))
                 ctb_title.setBackBtnVisible(true)
             }
-            Constant.LOCK_PASSWORD_FRAGMENT_TYPE_FIRST_SET_PASSWORD ->
+            LOCK_PASSWORD_FRAGMENT_TYPE_FIRST_SET_PASSWORD ->
             {
                 et_current_password.visibility = View.GONE
                 ctb_title.setTitleText(getString(R.string.set_lock_password))
@@ -45,7 +52,7 @@ class LockPasswordFragment : BaseFragment(R.layout.fragment_lock_password)
                 }
                 ctb_title.setBtnList(titleBtnList)
             }
-            Constant.LOCK_PASSWORD_FRAGMENT_TYPE_MODIFY_PASSWORD    ->
+            LOCK_PASSWORD_FRAGMENT_TYPE_MODIFY_PASSWORD    ->
             {
                 et_current_password.visibility = View.VISIBLE
                 ctb_title.setTitleText(getString(R.string.modify_lock_password))
@@ -82,7 +89,7 @@ class LockPasswordFragment : BaseFragment(R.layout.fragment_lock_password)
 
     override fun onBackPressed(): Boolean
     {
-        if (fragmentType == Constant.LOCK_PASSWORD_FRAGMENT_TYPE_FIRST_SET_PASSWORD)
+        if (fragmentType == LOCK_PASSWORD_FRAGMENT_TYPE_FIRST_SET_PASSWORD)
         {
             UiUtil.backToLauncher()
             return true

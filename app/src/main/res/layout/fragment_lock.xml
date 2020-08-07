@@ -48,6 +48,8 @@
         android:layout_height="wrap_content"
         android:background="@color/color_number_key_divide"
         android:overScrollMode="never"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:spanCount="3" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,7 +2,7 @@ package com.lizl.demo.passwordbox.mvvm.fragment
 
 import android.text.TextUtils
 import com.lizl.demo.passwordbox.R
-import com.lizl.demo.passwordbox.model.AccountModel
+import com.lizl.demo.passwordbox.mvvm.model.AccountModel
 import com.lizl.demo.passwordbox.mvvm.base.BaseFragment
 import com.lizl.demo.passwordbox.db.AppDatabase
 import com.lizl.demo.passwordbox.util.Constant

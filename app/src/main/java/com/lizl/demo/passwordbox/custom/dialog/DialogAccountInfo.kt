@@ -2,7 +2,7 @@ package com.lizl.demo.passwordbox.custom.dialog
 
 import android.content.Context
 import com.lizl.demo.passwordbox.R
-import com.lizl.demo.passwordbox.model.AccountModel
+import com.lizl.demo.passwordbox.mvvm.model.AccountModel
 import com.lizl.demo.passwordbox.util.UiUtil
 import kotlinx.android.synthetic.main.dialog_account_info.*
 

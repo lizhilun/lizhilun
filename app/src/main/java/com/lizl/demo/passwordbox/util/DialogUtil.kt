@@ -6,8 +6,8 @@ import com.lizl.demo.passwordbox.custom.dialog.DialogAccountInfo
 import com.lizl.demo.passwordbox.custom.dialog.DialogInput
 import com.lizl.demo.passwordbox.custom.dialog.DialogOperationConfirm
 import com.lizl.demo.passwordbox.custom.dialog.DialogOperationList
-import com.lizl.demo.passwordbox.model.AccountModel
-import com.lizl.demo.passwordbox.model.OperationModel
+import com.lizl.demo.passwordbox.mvvm.model.AccountModel
+import com.lizl.demo.passwordbox.mvvm.model.OperationModel
 
 object DialogUtil
 {

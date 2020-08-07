@@ -3,7 +3,7 @@ package com.lizl.demo.passwordbox.db.dao
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Query
-import com.lizl.demo.passwordbox.model.AccountModel
+import com.lizl.demo.passwordbox.mvvm.model.AccountModel
 
 @Dao
 interface AccountDao : BaseDao<AccountModel>

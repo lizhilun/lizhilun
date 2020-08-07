@@ -1,9 +1,6 @@
 package com.lizl.demo.passwordbox.custom.view
 
 import android.content.Context
-import androidx.core.content.ContextCompat
-import androidx.appcompat.widget.AppCompatEditText
-import androidx.appcompat.widget.AppCompatTextView
 import android.text.InputFilter
 import android.text.InputType
 import android.util.AttributeSet
@@ -13,6 +10,9 @@ import android.view.View
 import android.view.View.OnFocusChangeListener
 import android.widget.FrameLayout
 import android.widget.RelativeLayout
+import androidx.appcompat.widget.AppCompatEditText
+import androidx.appcompat.widget.AppCompatTextView
+import androidx.core.content.ContextCompat
 import com.lizl.demo.passwordbox.R
 import com.lizl.demo.passwordbox.util.UiUtil
 
@@ -53,8 +53,7 @@ class EditTextWithDecText(context: Context, attrs: AttributeSet?, defStyleAttr: 
         val typeArray = context.obtainStyledAttributes(attrs, R.styleable.EditTextWithDecText)
         for (index in 0 until typeArray.indexCount)
         {
-            val attr = typeArray.getIndex(index)
-            when (attr)
+            when (val attr = typeArray.getIndex(index))
             {
                 R.styleable.EditTextWithDecText_editTextHit       -> editText.hint = typeArray.getString(attr)
                 R.styleable.EditTextWithDecText_editTextSize      -> editTextSize = typeArray.getLayoutDimension(attr, editTextSize)
@@ -75,7 +74,6 @@ class EditTextWithDecText(context: Context, attrs: AttributeSet?, defStyleAttr: 
             }
         }
         typeArray.recycle()
-
 
         textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, decTextSize.toFloat())
         editText.setTextSize(TypedValue.COMPLEX_UNIT_PX, editTextSize.toFloat())

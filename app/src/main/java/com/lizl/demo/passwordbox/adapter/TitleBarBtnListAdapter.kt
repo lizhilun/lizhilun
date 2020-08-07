@@ -5,7 +5,7 @@ import com.chad.library.adapter.base.BaseDelegateMultiAdapter
 import com.chad.library.adapter.base.delegate.BaseMultiTypeDelegate
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.lizl.demo.passwordbox.R
-import com.lizl.demo.passwordbox.model.TitleBarBtnModel
+import com.lizl.demo.passwordbox.mvvm.model.TitleBarBtnModel
 import kotlinx.android.synthetic.main.item_title_bar_image_btn.view.*
 import kotlinx.android.synthetic.main.item_title_bar_text_btn.view.*
 

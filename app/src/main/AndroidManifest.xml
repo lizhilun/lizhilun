@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.lizl.demo.passwordbox.mvvm.activity.MainActivity"
+            android:name="com.lizl.demo.passwordbox.mvvm.activity.LockActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
@@ -24,6 +24,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".mvvm.activity.MainActivity" />
 
         <provider
             android:name=".custom.other.CustomFileProvider"
