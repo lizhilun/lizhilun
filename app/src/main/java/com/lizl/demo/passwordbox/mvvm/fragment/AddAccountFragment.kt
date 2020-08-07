@@ -2,9 +2,9 @@ package com.lizl.demo.passwordbox.mvvm.fragment
 
 import android.text.TextUtils
 import com.lizl.demo.passwordbox.R
-import com.lizl.demo.passwordbox.mvvm.model.AccountModel
-import com.lizl.demo.passwordbox.mvvm.base.BaseFragment
 import com.lizl.demo.passwordbox.db.AppDatabase
+import com.lizl.demo.passwordbox.mvvm.base.BaseFragment
+import com.lizl.demo.passwordbox.mvvm.model.AccountModel
 import com.lizl.demo.passwordbox.util.Constant
 import com.lizl.demo.passwordbox.util.PinyinUtil
 import com.lizl.demo.passwordbox.util.ToastUtil
@@ -19,7 +19,11 @@ class AddAccountFragment : BaseFragment(R.layout.fragment_add_account)
 
     override fun initData()
     {
-        accountModel = arguments?.getSerializable(Constant.BUNDLE_DATA_SERIALIZABLE) as AccountModel?
+        val accountId = arguments?.getLong(Constant.BUNDLE_DATA_LONG)
+        if (accountId != null)
+        {
+            accountModel = AppDatabase.instance.getAccountDao().getAccountById(accountId)
+        }
         et_account_description.setText(accountModel?.description)
         et_account.setText(accountModel?.account)
         et_password.setText(accountModel?.password)

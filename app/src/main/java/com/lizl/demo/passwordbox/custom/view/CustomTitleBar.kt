@@ -39,7 +39,7 @@ class CustomTitleBar(context: Context, attrs: AttributeSet?, defStyleAttr: Int) 
         backBtn = AppCompatImageView(context)
         val padding = context.resources.getDimensionPixelOffset(R.dimen.toolbar_back_icon_padding)
         backBtn.scaleType = ImageView.ScaleType.FIT_START
-        backBtn.setImageResource(R.mipmap.ic_back)
+        backBtn.setImageResource(R.drawable.ic_back)
         backBtn.setPadding(0, padding, 0, padding)
         backBtn.id = generateViewId()
         addView(backBtn)

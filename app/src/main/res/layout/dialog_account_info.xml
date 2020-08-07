@@ -33,7 +33,7 @@
         android:layout_height="24dp"
         android:layout_marginTop="@dimen/global_content_padding_content"
         android:gravity="start|center_vertical"
-        android:src="@mipmap/ic_copy"
+        android:src="@drawable/ic_copy"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_description" />
 
@@ -53,7 +53,7 @@
         android:id="@+id/iv_copy_password"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        android:src="@mipmap/ic_copy"
+        android:src="@drawable/ic_copy"
         app:layout_constraintEnd_toEndOf="@+id/iv_copy_account"
         app:layout_constraintTop_toTopOf="@+id/tv_password" />
 

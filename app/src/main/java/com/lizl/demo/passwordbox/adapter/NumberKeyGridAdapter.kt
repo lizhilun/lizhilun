@@ -20,7 +20,7 @@ class NumberKeyGridAdapter(keyList: List<String>) : BaseQuickAdapter<String, Bas
                 tv_key.isVisible = false
                 iv_key.isVisible = true
 
-                iv_key.setImageResource(R.mipmap.ic_backspace)
+                iv_key.setImageResource(R.drawable.ic_backspace)
             }
             else
             {

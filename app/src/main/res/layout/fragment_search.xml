@@ -24,9 +24,10 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:cropToPadding="true"
-                android:padding="13dp"
+                android:padding="11dp"
                 android:scaleType="fitCenter"
-                android:src="@mipmap/ic_back_gray"
+                android:src="@drawable/ic_back"
+                android:tint="@color/colorSecondaryTextColor"
                 app:layout_constraintDimensionRatio="H,1:1"
                 app:layout_constraintStart_toStartOf="parent" />
 
@@ -44,9 +45,10 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:cropToPadding="true"
-                android:padding="14dp"
+                android:padding="11dp"
                 android:scaleType="fitCenter"
-                android:src="@mipmap/ic_cancel_gray"
+                android:src="@drawable/ic_close"
+                android:tint="@color/colorSecondaryTextColor"
                 app:layout_constraintDimensionRatio="H,1:1"
                 app:layout_constraintEnd_toEndOf="parent" />
 

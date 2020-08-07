@@ -14,10 +14,5 @@ class MainActivity : BaseActivity(R.layout.activity_main)
         {
             turnToFragment(R.id.lockPasswordFragment, LockPasswordFragment.LOCK_PASSWORD_FRAGMENT_TYPE_FIRST_SET_PASSWORD)
         }
-        // 反之进入主界面
-        else
-        {
-            turnToFragment(R.id.accountListFragment)
-        }
     }
 }

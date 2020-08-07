@@ -9,13 +9,13 @@ import com.lizl.demo.passwordbox.mvvm.model.AccountModel
 interface AccountDao : BaseDao<AccountModel>
 {
     @Query("select * from accounts")
-    fun getAllDiaryLiveData(): LiveData<MutableList<AccountModel>>
+    fun getAllAccountLiveData(): LiveData<MutableList<AccountModel>>
 
     @Query("select * from accounts")
-    fun getAllDiary(): MutableList<AccountModel>
+    fun getAllAccount(): MutableList<AccountModel>
 
     @Query("select count (*) from accounts")
-    fun getDiariesCount(): Int
+    fun getAccountsCount(): Int
 
     @Query("DELETE FROM accounts")
     fun deleteAll()
@@ -25,4 +25,7 @@ interface AccountDao : BaseDao<AccountModel>
 
     @Query("select * from accounts where description == :description and account == :account")
     fun search(description: String, account: String): AccountModel?
+
+    @Query("select * from accounts where id == :id")
+    fun getAccountById(id: Long) : AccountModel?
 }

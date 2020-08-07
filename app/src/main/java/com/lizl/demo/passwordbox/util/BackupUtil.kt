@@ -77,7 +77,7 @@ object BackupUtil
     private suspend fun backupData(backupJob: BackupJob)
     {
         val backupFileName = "${backupJob.backupFileName}$fileSuffixName"
-        val accountList = AppDatabase.instance.getAccountDao().getAllDiary()
+        val accountList = AppDatabase.instance.getAccountDao().getAllAccount()
         val dataString = GsonUtils.toJson(accountList)
         val encryptData = EncryptUtil.encrypt(dataString, AppConfig.getAppLockPassword())
         FileUtil.writeTxtFile(encryptData, "$backupFilePath/$backupFileName")

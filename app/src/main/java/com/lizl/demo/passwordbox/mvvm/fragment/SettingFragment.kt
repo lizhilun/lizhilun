@@ -77,7 +77,7 @@ class SettingFragment : BaseFragment(R.layout.fragment_setting)
 
         // 备份数据设置
         settingList.add(SettingNormalModel(getString(R.string.setting_backup_data)) {
-            if (AppDatabase.instance.getAccountDao().getDiariesCount() == 0)
+            if (AppDatabase.instance.getAccountDao().getAccountsCount() == 0)
             {
                 ToastUtil.showToast(R.string.notify_no_data_to_backup)
                 return@SettingNormalModel

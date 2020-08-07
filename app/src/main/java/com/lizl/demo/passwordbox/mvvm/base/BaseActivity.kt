@@ -20,7 +20,6 @@ import com.lizl.demo.passwordbox.config.constant.ConfigConstant
 import com.lizl.demo.passwordbox.mvvm.activity.LockActivity
 import com.lizl.demo.passwordbox.mvvm.activity.MainActivity
 import com.lizl.demo.passwordbox.util.Constant
-import java.io.Serializable
 
 open class BaseActivity(private val layoutResId: Int) : AppCompatActivity()
 {
@@ -157,8 +156,8 @@ open class BaseActivity(private val layoutResId: Int) : AppCompatActivity()
         extraList.forEach {
             when (it)
             {
-                is Int          -> bundle.putInt(Constant.BUNDLE_DATA_INT, it)
-                is Serializable -> bundle.putSerializable(Constant.BUNDLE_DATA_SERIALIZABLE, it)
+                is Int  -> bundle.putInt(Constant.BUNDLE_DATA_INT, it)
+                is Long -> bundle.putLong(Constant.BUNDLE_DATA_LONG, it)
             }
         }
         Navigation.findNavController(this, R.id.fragment_container).navigate(fragmentId, bundle, options)

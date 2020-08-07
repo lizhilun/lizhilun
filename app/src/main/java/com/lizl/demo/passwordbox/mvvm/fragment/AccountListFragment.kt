@@ -28,8 +28,8 @@ class AccountListFragment : BaseFragment(R.layout.fragment_account_list), OnQuic
         fab_add.setOnClickListener { turnToFragment(R.id.addAccountFragment) }
 
         val titleBtnList = mutableListOf<TitleBarBtnModel.BaseModel>().apply {
-            add(TitleBarBtnModel.ImageBtnModel(R.mipmap.ic_setting) { turnToFragment(R.id.settingFragment) })
-            add(TitleBarBtnModel.ImageBtnModel(R.mipmap.ic_search) { turnToFragment(R.id.searchFragment) })
+            add(TitleBarBtnModel.ImageBtnModel(R.drawable.ic_setting) { turnToFragment(R.id.settingFragment) })
+            add(TitleBarBtnModel.ImageBtnModel(R.drawable.ic_search) { turnToFragment(R.id.searchFragment) })
         }
         ctb_title.setBtnList(titleBtnList)
 
@@ -56,7 +56,7 @@ class AccountListFragment : BaseFragment(R.layout.fragment_account_list), OnQuic
         val operationList = mutableListOf<OperationModel>().apply {
 
             // 修改账号信息
-            add(OperationModel(getString(R.string.modify_account_info)) { turnToFragment(R.id.addAccountFragment, accountModel) })
+            add(OperationModel(getString(R.string.modify_account_info)) { turnToFragment(R.id.addAccountFragment, accountModel.id) })
 
             // 删除账号
             add(OperationModel(getString(R.string.delete_account_item)) {
