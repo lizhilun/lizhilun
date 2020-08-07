@@ -1,5 +1,6 @@
 package com.lizl.demo.passwordbox.mvvm.activity
 
+import android.util.Log
 import com.blankj.utilcode.util.Utils
 import com.lizl.demo.passwordbox.R
 import com.lizl.demo.passwordbox.config.AppConfig
@@ -13,12 +14,21 @@ import kotlinx.coroutines.launch
 
 class SplashActivity : BaseActivity(R.layout.activity_splash)
 {
+    companion object
+    {
+        var isInitFinish = false
+    }
+
     override fun initView()
     {
         super.initView()
 
         GlobalScope.launch {
-            initApp()
+            if (!isInitFinish)
+            {
+                initApp()
+                isInitFinish = true
+            }
             GlobalScope.launch(Dispatchers.Main) {
                 onInitFinish()
             }
@@ -27,6 +37,8 @@ class SplashActivity : BaseActivity(R.layout.activity_splash)
 
     private fun initApp()
     {
+        Log.d(TAG, "initApp() called")
+
         Utils.init(this)
 
         ConfigUtil.initConfig()
