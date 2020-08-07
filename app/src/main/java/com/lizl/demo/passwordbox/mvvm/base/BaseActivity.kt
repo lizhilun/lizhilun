@@ -3,7 +3,6 @@ package com.lizl.demo.passwordbox.mvvm.base
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.os.SystemClock
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
@@ -12,41 +11,18 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
 import com.blankj.utilcode.util.ActivityUtils
-import com.blankj.utilcode.util.AppUtils
 import com.blankj.utilcode.util.KeyboardUtils
 import com.lizl.demo.passwordbox.R
-import com.lizl.demo.passwordbox.config.AppConfig
-import com.lizl.demo.passwordbox.config.constant.ConfigConstant
-import com.lizl.demo.passwordbox.mvvm.activity.LockActivity
-import com.lizl.demo.passwordbox.mvvm.activity.MainActivity
 import com.lizl.demo.passwordbox.util.Constant
 
 open class BaseActivity(private val layoutResId: Int) : AppCompatActivity()
 {
     protected val TAG = this.javaClass.simpleName
 
-    companion object
-    {
-        var lastAppStopTime = 0L
-    }
-
     override fun onCreate(savedInstanceState: Bundle?)
     {
         Log.d(TAG, "onCreate")
         super.onCreate(savedInstanceState)
-
-        // 没开密码保护的情况下进入锁屏界面返回主界面
-        if (this is LockActivity && !(AppConfig.isAppLockPasswordOn() && AppConfig.getAppLockPassword().isNotBlank()))
-        {
-            if (ActivityUtils.getActivityList().size == 1) turnToActivity(MainActivity::class.java)
-            finish()
-        }
-
-        // Activity走onCreate()将上次应用停止时间置为0，保证onStart()会走是否显示锁定界面流程
-        if (ActivityUtils.getActivityList().size == 1)
-        {
-            lastAppStopTime = 0L
-        }
 
         setContentView(layoutResId)
 
@@ -68,18 +44,6 @@ open class BaseActivity(private val layoutResId: Int) : AppCompatActivity()
     {
         Log.d(TAG, "onStart")
         super.onStart()
-
-        if (this is LockActivity) return
-
-        // 密码保护打开并且应用超时的情况
-        if (AppConfig.isAppLockPasswordOn() && SystemClock.elapsedRealtime() - lastAppStopTime >= ConfigConstant.APP_TIMEOUT_PERIOD)
-        {
-            turnToActivity(LockActivity::class.java)
-        }
-        else
-        {
-            lastAppStopTime = Long.MAX_VALUE
-        }
     }
 
     override fun onRestart()
@@ -98,8 +62,6 @@ open class BaseActivity(private val layoutResId: Int) : AppCompatActivity()
     {
         Log.d(TAG, "onStop")
         super.onStop()
-
-        if (!AppUtils.isAppForeground()) lastAppStopTime = SystemClock.elapsedRealtime()
     }
 
     override fun onDestroy()

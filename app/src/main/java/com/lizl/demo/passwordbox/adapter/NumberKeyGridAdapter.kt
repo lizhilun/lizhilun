@@ -4,7 +4,6 @@ import androidx.core.view.isVisible
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.lizl.demo.passwordbox.R
-import com.lizl.demo.passwordbox.UiApplication
 import kotlinx.android.synthetic.main.item_number_key.view.*
 
 class NumberKeyGridAdapter(keyList: List<String>) : BaseQuickAdapter<String, BaseViewHolder>(R.layout.item_number_key, keyList.toMutableList())
@@ -27,7 +26,7 @@ class NumberKeyGridAdapter(keyList: List<String>) : BaseQuickAdapter<String, Bas
                 tv_key.isVisible = true
                 iv_key.isVisible = false
 
-                tv_key.text = if (item == "*") UiApplication.instance.getText(R.string.exit) else item
+                tv_key.text = if (item == "*") context.getText(R.string.exit) else item
             }
 
             setOnClickListener { onNumberKeyClickListener?.invoke(item) }
