@@ -14,6 +14,7 @@ import com.lizl.demo.passwordbox.mvvm.model.OperationModel
 import com.lizl.demo.passwordbox.mvvm.model.TitleBarBtnModel
 import com.lizl.demo.passwordbox.util.AccountUtil
 import com.lizl.demo.passwordbox.util.DialogUtil
+import com.lizl.demo.passwordbox.util.UiUtil
 import kotlinx.android.synthetic.main.fragment_account_list.*
 
 /**
@@ -82,5 +83,11 @@ class AccountListFragment : BaseFragment(R.layout.fragment_account_list), OnQuic
     override fun onLetterTouching(touching: Boolean)
     {
         tv_select_letter.isVisible = touching
+    }
+
+    override fun onBackPressed(): Boolean
+    {
+        UiUtil.backToLauncher()
+        return true
     }
 }

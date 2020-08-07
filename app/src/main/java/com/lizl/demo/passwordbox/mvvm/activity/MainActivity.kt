@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.os.SystemClock
 import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
+import com.blankj.utilcode.util.ActivityUtils
 import com.lizl.demo.passwordbox.R
 import com.lizl.demo.passwordbox.config.AppConfig
 import com.lizl.demo.passwordbox.config.constant.ConfigConstant
@@ -41,7 +42,7 @@ class MainActivity : BaseActivity(R.layout.activity_main)
     {
         super.onStop()
 
-        lastAppStopTime = SystemClock.elapsedRealtime()
+        if (ActivityUtils.getActivityList().size == 1) lastAppStopTime = SystemClock.elapsedRealtime()
     }
 
     private fun turnToFragment(fragmentId: Int, vararg extraList: Any)

@@ -56,8 +56,5 @@ dependencies {
     implementation "android.arch.persistence.room:runtime:$room_version"
     implementation "android.arch.persistence.room:rxjava2:$room_version"
     kapt "android.arch.persistence.room:compiler:$room_version"
-    def pd_version = '4.5.0'
-    implementation "org.permissionsdispatcher:permissionsdispatcher:${pd_version}"
-    kapt "org.permissionsdispatcher:permissionsdispatcher-processor:${pd_version}"
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.1'
 }

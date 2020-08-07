@@ -2,6 +2,7 @@ package com.lizl.demo.passwordbox.mvvm.activity
 
 import android.hardware.biometrics.BiometricPrompt
 import android.util.Log
+import com.blankj.utilcode.util.ActivityUtils
 import com.lizl.demo.passwordbox.R
 import com.lizl.demo.passwordbox.adapter.NumberKeyGridAdapter
 import com.lizl.demo.passwordbox.config.AppConfig
@@ -60,7 +61,10 @@ class LockActivity : BaseActivity(R.layout.fragment_lock)
 
     fun onUnlockSuccess()
     {
-        turnToActivity(MainActivity::class.java)
+        if (ActivityUtils.getActivityList().size == 1)
+        {
+            turnToActivity(MainActivity::class.java)
+        }
         finish()
     }
 
