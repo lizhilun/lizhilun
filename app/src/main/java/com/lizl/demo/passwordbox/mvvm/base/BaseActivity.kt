@@ -8,12 +8,8 @@ import android.view.MotionEvent
 import android.view.View
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.NavOptions
-import androidx.navigation.Navigation
 import com.blankj.utilcode.util.ActivityUtils
 import com.blankj.utilcode.util.KeyboardUtils
-import com.lizl.demo.passwordbox.R
-import com.lizl.demo.passwordbox.util.Constant
 
 open class BaseActivity(private val layoutResId: Int) : AppCompatActivity()
 {
@@ -107,39 +103,5 @@ open class BaseActivity(private val layoutResId: Int) : AppCompatActivity()
         val intent = Intent(topActivity, cls)
 
         topActivity.startActivity(intent)
-    }
-
-    fun turnToFragment(fragmentId: Int, vararg extraList: Any)
-    {
-        val options = NavOptions.Builder().setEnterAnim(R.anim.slide_right_in).setExitAnim(R.anim.slide_left_out).setPopEnterAnim(R.anim.slide_left_in)
-            .setPopExitAnim(R.anim.slide_right_out).build()
-
-        val bundle = Bundle()
-        extraList.forEach {
-            when (it)
-            {
-                is Int  -> bundle.putInt(Constant.BUNDLE_DATA_INT, it)
-                is Long -> bundle.putLong(Constant.BUNDLE_DATA_LONG, it)
-            }
-        }
-        Navigation.findNavController(this, R.id.fragment_container).navigate(fragmentId, bundle, options)
-    }
-
-    override fun onBackPressed()
-    {
-        val topFragment = getTopFragment() ?: return
-        if (topFragment.onBackPressed())
-        {
-            return
-        }
-        if (!Navigation.findNavController(this, R.id.fragment_container).navigateUp())
-        {
-            super.onBackPressed()
-        }
-    }
-
-    private fun getTopFragment(): BaseFragment?
-    {
-        return supportFragmentManager.primaryNavigationFragment?.childFragmentManager?.fragments?.firstOrNull() as BaseFragment
     }
 }

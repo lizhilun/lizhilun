@@ -1,11 +1,16 @@
 package com.lizl.demo.passwordbox.mvvm.activity
 
+import android.os.Bundle
 import android.os.SystemClock
+import androidx.navigation.NavOptions
+import androidx.navigation.Navigation
 import com.lizl.demo.passwordbox.R
 import com.lizl.demo.passwordbox.config.AppConfig
 import com.lizl.demo.passwordbox.config.constant.ConfigConstant
 import com.lizl.demo.passwordbox.mvvm.base.BaseActivity
+import com.lizl.demo.passwordbox.mvvm.base.BaseFragment
 import com.lizl.demo.passwordbox.mvvm.fragment.LockPasswordFragment
+import com.lizl.demo.passwordbox.util.Constant
 
 class MainActivity : BaseActivity(R.layout.activity_main)
 {
@@ -37,5 +42,39 @@ class MainActivity : BaseActivity(R.layout.activity_main)
         super.onStop()
 
         lastAppStopTime = SystemClock.elapsedRealtime()
+    }
+
+    private fun turnToFragment(fragmentId: Int, vararg extraList: Any)
+    {
+        val options = NavOptions.Builder().setEnterAnim(R.anim.slide_right_in).setExitAnim(R.anim.slide_left_out).setPopEnterAnim(R.anim.slide_left_in)
+            .setPopExitAnim(R.anim.slide_right_out).build()
+
+        val bundle = Bundle()
+        extraList.forEach {
+            when (it)
+            {
+                is Int  -> bundle.putInt(Constant.BUNDLE_DATA_INT, it)
+                is Long -> bundle.putLong(Constant.BUNDLE_DATA_LONG, it)
+            }
+        }
+        Navigation.findNavController(this, R.id.fragment_container).navigate(fragmentId, bundle, options)
+    }
+
+    override fun onBackPressed()
+    {
+        val topFragment = getTopFragment() ?: return
+        if (topFragment.onBackPressed())
+        {
+            return
+        }
+        if (!Navigation.findNavController(this, R.id.fragment_container).navigateUp())
+        {
+            super.onBackPressed()
+        }
+    }
+
+    private fun getTopFragment(): BaseFragment?
+    {
+        return supportFragmentManager.primaryNavigationFragment?.childFragmentManager?.fragments?.firstOrNull() as BaseFragment
     }
 }
