@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.blankj.utilcode.util.ActivityUtils
 import com.blankj.utilcode.util.KeyboardUtils
 
-open class BaseActivity(private val layoutResId: Int) : AppCompatActivity()
+open class BaseActivity(layoutResId: Int) : AppCompatActivity(layoutResId)
 {
     protected val TAG = this.javaClass.simpleName
 
@@ -19,8 +19,6 @@ open class BaseActivity(private val layoutResId: Int) : AppCompatActivity()
     {
         Log.d(TAG, "onCreate")
         super.onCreate(savedInstanceState)
-
-        setContentView(layoutResId)
 
         initView()
     }

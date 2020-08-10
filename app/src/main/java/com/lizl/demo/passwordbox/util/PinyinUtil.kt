@@ -31,16 +31,12 @@ object PinyinUtil
     fun getPinyin(sourceStr: String): String
     {
         val result = StringBuffer()
-        for (letter in sourceStr)
-        {
-            if (letter.toInt() > 128)
+        sourceStr.forEach { letter ->
+            result.append(when
             {
-                result.append(PinyinHelper.toHanyuPinyinStringArray(letter, defaultFormat)[0])
-            }
-            else
-            {
-                result.append(letter)
-            }
+                letter.toInt() > 128 -> PinyinHelper.toHanyuPinyinStringArray(letter, defaultFormat)[0]
+                else                 -> letter
+            })
         }
 
         return result.toString().toLowerCase(Locale.getDefault())

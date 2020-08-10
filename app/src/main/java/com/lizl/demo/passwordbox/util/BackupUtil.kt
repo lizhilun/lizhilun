@@ -37,6 +37,7 @@ object BackupUtil
             }
         }
 
+        //启动数据监听，用于自动备份
         GlobalScope.launch(Dispatchers.Main) {
             AccountUtil.accountLiveData.observeForever {
                 if (isFirstData)

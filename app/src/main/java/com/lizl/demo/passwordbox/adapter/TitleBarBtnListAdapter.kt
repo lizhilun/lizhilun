@@ -10,7 +10,7 @@ import kotlinx.android.synthetic.main.item_title_bar_image_btn.view.*
 import kotlinx.android.synthetic.main.item_title_bar_text_btn.view.*
 
 class TitleBarBtnListAdapter(btnList: List<TitleBarBtnModel.BaseModel>) :
-        BaseDelegateMultiAdapter<TitleBarBtnModel.BaseModel, TitleBarBtnListAdapter.ViewHolder>(btnList.toMutableList())
+    BaseDelegateMultiAdapter<TitleBarBtnModel.BaseModel, TitleBarBtnListAdapter.ViewHolder>(btnList.toMutableList())
 {
 
     companion object

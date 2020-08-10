@@ -1,6 +1,5 @@
 package com.lizl.demo.passwordbox.mvvm.fragment
 
-import android.text.TextUtils
 import com.lizl.demo.passwordbox.R
 import com.lizl.demo.passwordbox.db.AppDatabase
 import com.lizl.demo.passwordbox.mvvm.base.BaseFragment
@@ -19,11 +18,7 @@ class AddAccountFragment : BaseFragment(R.layout.fragment_add_account)
 
     override fun initData()
     {
-        val accountId = arguments?.getLong(Constant.BUNDLE_DATA_LONG)
-        if (accountId != null)
-        {
-            accountModel = AppDatabase.instance.getAccountDao().getAccountById(accountId)
-        }
+        accountModel = arguments?.getSerializable(Constant.BUNDLE_DATA_SERIALIZABLE) as AccountModel?
         et_account_description.setText(accountModel?.description)
         et_account.setText(accountModel?.account)
         et_password.setText(accountModel?.password)
@@ -42,23 +37,20 @@ class AddAccountFragment : BaseFragment(R.layout.fragment_add_account)
         val password = et_password.getText()
 
         // 判断每个信息是否正确填入
-        if (TextUtils.isEmpty(description) || TextUtils.isEmpty(account) || TextUtils.isEmpty(password))
+        if (description.isBlank() || account.isBlank() || password.isBlank())
         {
             ToastUtil.showToast(R.string.notify_account_info_not_complete)
             return
         }
 
-        if (accountModel == null)
-        {
-            accountModel = AccountModel()
-        }
-        accountModel?.let {
-            it.description = description
-            it.account = account
-            it.password = password
-            it.desPinyin = PinyinUtil.getPinyin(description)
+        (accountModel ?: AccountModel()).apply {
 
-            AppDatabase.instance.getAccountDao().insert(it)
+            this.description = description
+            this.account = account
+            this.password = password
+            this.desPinyin = PinyinUtil.getPinyin(description)
+
+            AppDatabase.instance.getAccountDao().insert(this)
         }
 
         backToPreFragment()

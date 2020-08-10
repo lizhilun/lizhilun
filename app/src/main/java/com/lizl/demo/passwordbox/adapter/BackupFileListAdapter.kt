@@ -13,8 +13,6 @@ class BackupFileListAdapter : BaseQuickAdapter<File, BaseViewHolder>(R.layout.it
 {
     private val formatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
 
-    private var onItemClickListener: ((File) -> Unit)? = null
-
     fun setData(fileList: List<File>)
     {
         setNewData(fileList.sortedByDescending { it.lastModified() }.toMutableList())
@@ -25,13 +23,14 @@ class BackupFileListAdapter : BaseQuickAdapter<File, BaseViewHolder>(R.layout.it
         with(helper.itemView) {
             tv_file_name.text = item.name
             tv_file_time.text = formatter.format(item.lastModified())
-            setOnClickListener { onItemClickListener?.invoke(item) }
         }
     }
 
     fun setOnItemClickListener(onItemClickListener: ((File) -> Unit))
     {
-        this.onItemClickListener = onItemClickListener
+        setOnItemClickListener { _, _, position ->
+            getItemOrNull(position)?.let { onItemClickListener.invoke(it) }
+        }
     }
 
     fun update(file: File)

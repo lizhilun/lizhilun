@@ -34,7 +34,7 @@ class AccountListFragment : BaseFragment(R.layout.fragment_account_list), OnQuic
         }
         ctb_title.setBtnList(titleBtnList)
 
-        rv_password_list.layoutManager = ScrollTopLayoutManager(activity as Context)
+        rv_password_list.layoutManager = ScrollTopLayoutManager(requireContext())
         rv_password_list.adapter = accountListAdapter
     }
 
@@ -52,12 +52,12 @@ class AccountListFragment : BaseFragment(R.layout.fragment_account_list), OnQuic
         qsb_slide.setOnQuickSideBarTouchListener(this)
     }
 
-    private fun onAccountItemLongClick(accountModel: AccountModel): Boolean
+    private fun onAccountItemLongClick(accountModel: AccountModel)
     {
         val operationList = mutableListOf<OperationModel>().apply {
 
             // 修改账号信息
-            add(OperationModel(getString(R.string.modify_account_info)) { turnToFragment(R.id.addAccountFragment, accountModel.id) })
+            add(OperationModel(getString(R.string.modify_account_info)) { turnToFragment(R.id.addAccountFragment, accountModel) })
 
             // 删除账号
             add(OperationModel(getString(R.string.delete_account_item)) {
@@ -66,7 +66,6 @@ class AccountListFragment : BaseFragment(R.layout.fragment_account_list), OnQuic
         }
 
         DialogUtil.showOperationListDialog(activity as Context, operationList)
-        return true
     }
 
     override fun onLetterChanged(letter: String, position: Int, y: Float)

@@ -28,14 +28,14 @@ class NumberKeyGridAdapter(keyList: List<String>) : BaseQuickAdapter<String, Bas
 
                 tv_key.text = if (item == "*") context.getText(R.string.exit) else item
             }
-
-            setOnClickListener { onNumberKeyClickListener?.invoke(item) }
         }
     }
 
 
     fun setOnNumberKeyClickListener(onNumberKeyClickListener: (String) -> Unit)
     {
-        this.onNumberKeyClickListener = onNumberKeyClickListener
+        setOnItemClickListener { _, _, position ->
+            getItemOrNull(position)?.let { onNumberKeyClickListener.invoke(it) }
+        }
     }
 }

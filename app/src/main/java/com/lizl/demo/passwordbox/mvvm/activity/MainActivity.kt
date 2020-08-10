@@ -12,6 +12,7 @@ import com.lizl.demo.passwordbox.mvvm.base.BaseActivity
 import com.lizl.demo.passwordbox.mvvm.base.BaseFragment
 import com.lizl.demo.passwordbox.mvvm.fragment.LockPasswordFragment
 import com.lizl.demo.passwordbox.util.Constant
+import java.io.Serializable
 
 class MainActivity : BaseActivity(R.layout.activity_main)
 {
@@ -31,7 +32,8 @@ class MainActivity : BaseActivity(R.layout.activity_main)
     {
         super.onStart()
 
-        if (AppConfig.isAppLockPasswordOn() && SystemClock.elapsedRealtime() - lastAppStopTime >= ConfigConstant.APP_TIMEOUT_PERIOD)
+        if (AppConfig.isAppLockPasswordOn() && !AppConfig.getAppLockPassword().isBlank()
+            && SystemClock.elapsedRealtime() - lastAppStopTime >= ConfigConstant.APP_TIMEOUT_PERIOD)
         {
             turnToActivity(LockActivity::class.java)
         }
@@ -54,8 +56,8 @@ class MainActivity : BaseActivity(R.layout.activity_main)
         extraList.forEach {
             when (it)
             {
-                is Int  -> bundle.putInt(Constant.BUNDLE_DATA_INT, it)
-                is Long -> bundle.putLong(Constant.BUNDLE_DATA_LONG, it)
+                is Int          -> bundle.putInt(Constant.BUNDLE_DATA_INT, it)
+                is Serializable -> bundle.putSerializable(Constant.BUNDLE_DATA_SERIALIZABLE, it)
             }
         }
         Navigation.findNavController(this, R.id.fragment_container).navigate(fragmentId, bundle, options)

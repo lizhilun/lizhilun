@@ -36,24 +36,29 @@ class CustomTitleBar(context: Context, attrs: AttributeSet?, defStyleAttr: Int) 
 
     fun initView(context: Context, attrs: AttributeSet?)
     {
-        backBtn = AppCompatImageView(context)
-        val padding = context.resources.getDimensionPixelOffset(R.dimen.toolbar_back_icon_padding)
-        backBtn.scaleType = ImageView.ScaleType.FIT_START
-        backBtn.setImageResource(R.drawable.ic_back)
-        backBtn.setPadding(0, padding, 0, padding)
-        backBtn.id = generateViewId()
-        addView(backBtn)
+        backBtn = AppCompatImageView(context).apply {
+            id = generateViewId()
+            val padding = context.resources.getDimensionPixelOffset(R.dimen.toolbar_back_icon_padding)
+            scaleType = ImageView.ScaleType.FIT_START
+            setImageResource(R.drawable.ic_back)
+            setPadding(0, padding, 0, padding)
+            this@CustomTitleBar.addView(this)
+        }
 
-        titleTextView = AppCompatTextView(context)
-        titleTextView.id = generateViewId()
-        titleTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, context.resources.getDimension(R.dimen.toolbar_title_text_size))
-        titleTextView.setTextColor(ContextCompat.getColor(context, R.color.white))
-        titleTextView.gravity = Gravity.CENTER_VERTICAL
-        addView(titleTextView)
+        titleTextView = AppCompatTextView(context).apply {
+            id = generateViewId()
+            setTextSize(TypedValue.COMPLEX_UNIT_PX, context.resources.getDimension(R.dimen.toolbar_title_text_size))
+            setTextColor(ContextCompat.getColor(context, R.color.white))
+            gravity = Gravity.CENTER_VERTICAL
+            this@CustomTitleBar.addView(this)
+        }
 
-        btnListView = RecyclerView(context)
-        btnListView.id = generateViewId()
-        addView(btnListView)
+        btnListView = RecyclerView(context).apply {
+            id = generateViewId()
+            layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, true)
+            adapter = TitleBarBtnListAdapter(emptyList())
+            this@CustomTitleBar.addView(this)
+        }
 
         val typeArray = context.obtainStyledAttributes(attrs, R.styleable.CustomTitleBar)
         backBtn.isVisible = typeArray.getBoolean(R.styleable.CustomTitleBar_backBtnVisible, true)
@@ -88,8 +93,7 @@ class CustomTitleBar(context: Context, attrs: AttributeSet?, defStyleAttr: Int) 
 
     fun setBtnList(btnList: List<TitleBarBtnModel.BaseModel>)
     {
-        btnListView.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, true)
-        btnListView.adapter = TitleBarBtnListAdapter(btnList)
+        (btnListView.adapter as TitleBarBtnListAdapter).replaceData(btnList)
     }
 
     fun setBackBtnVisible(visible: Boolean)

@@ -2,17 +2,15 @@ package com.lizl.demo.passwordbox.mvvm.base
 
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
 import com.lizl.demo.passwordbox.R
 import com.lizl.demo.passwordbox.util.Constant
 import com.lizl.demo.passwordbox.util.DialogUtil
+import java.io.Serializable
 
-open class BaseFragment(private val layoutResId: Int) : Fragment()
+open class BaseFragment(layoutResId: Int) : Fragment(layoutResId)
 {
     protected var TAG = this.javaClass.simpleName
 
@@ -20,11 +18,6 @@ open class BaseFragment(private val layoutResId: Int) : Fragment()
     {
         Log.d(TAG, "onCreate")
         super.onCreate(savedInstanceState)
-    }
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
-    {
-        return inflater.inflate(layoutResId, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?)
@@ -113,8 +106,8 @@ open class BaseFragment(private val layoutResId: Int) : Fragment()
         extraList.forEach {
             when (it)
             {
-                is Int  -> bundle.putInt(Constant.BUNDLE_DATA_INT, it)
-                is Long -> bundle.putLong(Constant.BUNDLE_DATA_LONG, it)
+                is Int          -> bundle.putInt(Constant.BUNDLE_DATA_INT, it)
+                is Serializable -> bundle.putSerializable(Constant.BUNDLE_DATA_SERIALIZABLE, it)
             }
         }
         Navigation.findNavController(requireView()).navigate(fragmentId, bundle, options)

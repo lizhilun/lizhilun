@@ -50,6 +50,8 @@ class SplashActivity : BaseActivity(R.layout.activity_splash)
 
     private fun onInitFinish()
     {
+        Log.d(TAG, "onInitFinish() called")
+
         if (AppConfig.isAppLockPasswordOn() && AppConfig.getAppLockPassword().isNotBlank())
         {
             turnToActivity(LockActivity::class.java)

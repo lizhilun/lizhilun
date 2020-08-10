@@ -33,12 +33,7 @@ class PasswordTextView(context: Context, attrs: AttributeSet?, defStyleAttr: Int
 
     private fun update()
     {
-        val showText = StringBuilder()
-        for (i in 1..inputText.length)
-        {
-            showText.append("@")
-        }
-        text = showText.toString()
+        text = StringBuilder().apply { inputText.forEach { _ -> append("@") } }.toString()
     }
 
     fun getInputText() = inputText.toString()

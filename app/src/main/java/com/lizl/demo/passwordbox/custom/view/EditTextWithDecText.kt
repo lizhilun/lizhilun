@@ -8,16 +8,16 @@ import android.util.TypedValue
 import android.view.Gravity
 import android.view.View
 import android.view.View.OnFocusChangeListener
-import android.widget.FrameLayout
-import android.widget.RelativeLayout
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.ContextCompat
 import com.lizl.demo.passwordbox.R
 import com.lizl.demo.passwordbox.util.UiUtil
 
 
-class EditTextWithDecText(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : FrameLayout(context, attrs, defStyleAttr)
+class EditTextWithDecText(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : ConstraintLayout(context, attrs, defStyleAttr)
 {
 
     private lateinit var textView: AppCompatTextView
@@ -34,14 +34,23 @@ class EditTextWithDecText(context: Context, attrs: AttributeSet?, defStyleAttr: 
 
     private fun initView(context: Context, attrs: AttributeSet?)
     {
-        textView = AppCompatTextView(context)
-        textView.id = View.generateViewId()
+        textView = AppCompatTextView(context).apply {
+            id = View.generateViewId()
+            gravity = Gravity.CENTER
+            this@EditTextWithDecText.addView(this)
+        }
 
-        editText = AppCompatEditText(context)
-        editText.id = View.generateViewId()
+        editText = AppCompatEditText(context).apply {
+            id = View.generateViewId()
+            setLineSpacing(0F, 1.2F)
+            this@EditTextWithDecText.addView(this)
+        }
 
-        val bottomLine = View(context)
-        bottomLine.id = View.generateViewId()
+        val bottomLine = View(context).apply {
+            id = View.generateViewId()
+            setBackgroundColor(ContextCompat.getColor(context, R.color.colorDivideLine))
+            this@EditTextWithDecText.addView(this)
+        }
 
         var editTextSize = context.resources.getDimensionPixelSize(R.dimen.global_text_size)
         var decTextSize = context.resources.getDimensionPixelSize(R.dimen.global_text_size)
@@ -102,32 +111,27 @@ class EditTextWithDecText(context: Context, attrs: AttributeSet?, defStyleAttr: 
                 editText.setLines(2)
             }
         }
-        editText.setLineSpacing(0F, 1.2F)
         editText.filters = arrayOf<InputFilter>(InputFilter.LengthFilter(editTextMaxEms))
 
-        val decTextWidth = decEmsSize * editTextSize
+        val constraintSet = ConstraintSet()
+        constraintSet.clone(this)
 
-        bottomLine.setBackgroundColor(ContextCompat.getColor(context, R.color.colorDivideLine))
+        constraintSet.constrainHeight(textView.id, LayoutParams.WRAP_CONTENT)
+        constraintSet.constrainWidth(textView.id, decEmsSize * editTextSize)
+        constraintSet.connect(textView.id, ConstraintSet.TOP, editText.id, ConstraintSet.TOP)
+        constraintSet.connect(textView.id, ConstraintSet.BOTTOM, editText.id, ConstraintSet.BOTTOM)
 
-        val relativeLayout = RelativeLayout(context)
-        val decTextLp = RelativeLayout.LayoutParams(decTextWidth, 0)
-        val editTextLp = RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
-        val bottomLineLp = RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, UiUtil.dpToPx(1))
+        constraintSet.constrainHeight(editText.id, LayoutParams.WRAP_CONTENT)
+        constraintSet.constrainWidth(editText.id, LayoutParams.MATCH_CONSTRAINT)
+        constraintSet.connect(editText.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP)
+        constraintSet.connect(editText.id, ConstraintSet.START, textView.id, ConstraintSet.END, marginDecText)
+        constraintSet.connect(editText.id, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END)
 
-        bottomLineLp.addRule(RelativeLayout.BELOW, editText.id)
+        constraintSet.constrainHeight(bottomLine.id, UiUtil.dpToPx(1))
+        constraintSet.constrainWidth(bottomLine.id, LayoutParams.MATCH_PARENT)
+        constraintSet.connect(bottomLine.id, ConstraintSet.BOTTOM, editText.id, ConstraintSet.BOTTOM)
 
-        decTextLp.addRule(RelativeLayout.ALIGN_TOP, editText.id)
-        decTextLp.addRule(RelativeLayout.ALIGN_BOTTOM, editText.id)
-        decTextLp.addRule(RelativeLayout.ALIGN_PARENT_START)
-        textView.gravity = Gravity.CENTER
-
-        editTextLp.addRule(RelativeLayout.END_OF, textView.id)
-        editText.setPadding(marginDecText, UiUtil.dpToPx(5), 0, UiUtil.dpToPx(5))
-        editText.gravity = Gravity.CENTER_VERTICAL
-
-        relativeLayout.addView(bottomLine, bottomLineLp)
-        relativeLayout.addView(textView, decTextLp)
-        relativeLayout.addView(editText, editTextLp)
+        constraintSet.applyTo(this)
 
         editText.onFocusChangeListener = OnFocusChangeListener { v, hasFocus ->
             if (v.id == editText.id)
@@ -135,9 +139,6 @@ class EditTextWithDecText(context: Context, attrs: AttributeSet?, defStyleAttr: 
                 bottomLine.setBackgroundColor(ContextCompat.getColor(context, if (hasFocus) R.color.colorPrimary else R.color.colorDivideLine))
             }
         }
-
-        val layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
-        addView(relativeLayout, layoutParams)
     }
 
     fun setText(text: String?)

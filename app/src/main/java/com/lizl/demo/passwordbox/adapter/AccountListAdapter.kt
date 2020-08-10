@@ -10,9 +10,6 @@ import kotlinx.android.synthetic.main.item_account.view.*
 
 class AccountListAdapter : BaseQuickAdapter<AccountModel, BaseViewHolder>(R.layout.item_account)
 {
-    private var onAccountItemClickListener: ((AccountModel) -> Unit)? = null
-    private var onAccountItemLongClickListener: ((AccountModel) -> Unit)? = null
-
     override fun convert(helper: BaseViewHolder, item: AccountModel)
     {
         with(helper.itemView) {
@@ -33,12 +30,6 @@ class AccountListAdapter : BaseQuickAdapter<AccountModel, BaseViewHolder>(R.layo
             tv_first_letter.text = firstLetter.toString().toUpperCase(java.util.Locale.getDefault())
 
             tv_first_letter.isInvisible = !showFirstLetter
-
-            setOnClickListener { onAccountItemClickListener?.invoke(item) }
-            setOnLongClickListener {
-                onAccountItemLongClickListener?.invoke(item)
-                true
-            }
         }
     }
 
@@ -57,11 +48,16 @@ class AccountListAdapter : BaseQuickAdapter<AccountModel, BaseViewHolder>(R.layo
 
     fun setOnAccountItemClickListener(onAccountItemClickListener: (AccountModel) -> Unit)
     {
-        this.onAccountItemClickListener = onAccountItemClickListener
+        setOnItemClickListener { _, _, position ->
+            getItemOrNull(position)?.let { onAccountItemClickListener.invoke(it) }
+        }
     }
 
     fun setOnAccountItemLongClickListener(onAccountItemLongClickListener: (AccountModel) -> Unit)
     {
-        this.onAccountItemLongClickListener = onAccountItemLongClickListener
+        setOnItemLongClickListener { _, _, position ->
+            getItemOrNull(position)?.let { onAccountItemLongClickListener.invoke(it) }
+            true
+        }
     }
 }

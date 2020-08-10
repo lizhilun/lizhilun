@@ -25,7 +25,4 @@ interface AccountDao : BaseDao<AccountModel>
 
     @Query("select * from accounts where description == :description and account == :account")
     fun search(description: String, account: String): AccountModel?
-
-    @Query("select * from accounts where id == :id")
-    fun getAccountById(id: Long) : AccountModel?
 }
