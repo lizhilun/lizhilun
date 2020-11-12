@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:QuickSideBarView="http://schemas.android.com/apk/res-auto">
 
-    <com.lizl.demo.passwordbox.custom.view.CustomTitleBar
+    <com.lizl.passwordbox.custom.view.CustomTitleBar
         android:id="@+id/ctb_title"
         style="@style/ToolbarLayoutStyle"
         android:layout_alignParentTop="true"
@@ -14,7 +14,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.lizl.demo.passwordbox.custom.view.EditTextWithDecText
+    <com.lizl.passwordbox.custom.view.EditTextWithDecText
         android:id="@+id/et_account_description"
         style="@style/EditTextWithDecTextStyle"
         android:layout_marginTop="@dimen/input_text_edit_padding_edge"
@@ -24,7 +24,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ctb_title" />
 
-    <com.lizl.demo.passwordbox.custom.view.EditTextWithDecText
+    <com.lizl.passwordbox.custom.view.EditTextWithDecText
         android:id="@+id/et_account"
         style="@style/EditTextWithDecTextStyle"
         app:decText="@string/account"
@@ -33,7 +33,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/et_account_description" />
 
-    <com.lizl.demo.passwordbox.custom.view.EditTextWithDecText
+    <com.lizl.passwordbox.custom.view.EditTextWithDecText
         android:id="@+id/et_password"
         style="@style/EditTextWithDecTextStyle"
         app:decText="@string/password"
